@@ -55,6 +55,11 @@
   --color-primary-orange: #D97706;
   --color-primary-orange-hover: #B45309;
   
+  /* Purple Colors */
+  --color-primary-purple: #8B5CF6;
+  --color-primary-purple-hover: #7C3AED;
+  --color-purple-dark: #6D28D9;
+  
   /* Neutral Colors */
   --color-black: #000000;
   --color-white: #FFFFFF;
@@ -81,6 +86,8 @@
   body {
     @apply h-full bg-white text-black antialiased;
     font-family: var(--font-family-primary);
+    margin: 0;
+    padding: 0;
   }
   
   /* Headings */
@@ -144,6 +151,23 @@
   
   .hover\:bg-orange:hover {
     background-color: var(--color-primary-orange-hover);
+  }
+  
+  /* Purple color utilities */
+  .text-purple {
+    color: var(--color-primary-purple);
+  }
+  
+  .border-purple {
+    border-color: var(--color-primary-purple);
+  }
+  
+  .bg-purple {
+    background-color: var(--color-primary-purple);
+  }
+  
+  .hover\:bg-purple:hover {
+    background-color: var(--color-primary-purple-hover);
   }
   
   .hover\:text-white:hover {

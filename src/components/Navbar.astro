@@ -2,7 +2,7 @@
 // No props needed for this component
 ---
 
-<nav class="navbar">
+<nav class="navbar z-[1000]">
   <!-- Desktop Navigation -->
   <div class="navbar-desktop">
     <div class="liquidGlass-wrapper nav-glass">
@@ -42,32 +42,32 @@
       </div>
     </div>
   </div>
+</nav>
 
-  <!-- Mobile Fullscreen Menu -->
-  <div class="mobile-menu" id="mobile-menu">
-    <div class="liquidGlass-wrapper mobile-menu-glass">
-      <div class="liquidGlass-effect"></div>
-      <div class="liquidGlass-tint"></div>
-      <div class="liquidGlass-shine"></div>
-      <div class="liquidGlass-content mobile-menu-content">
-        <div class="mobile-menu-header">
-          <button class="close-btn" id="close-btn">Cerrar</button>
-        </div>
-        <div class="mobile-menu-links">
-          <a href="#galeria" class="mobile-link smooth-scroll">Galería</a>
-          <a href="#amenidades" class="mobile-link smooth-scroll">Amenidades</a>
-          <a href="#mapa" class="mobile-link smooth-scroll">Mapa</a>
-          <a href="#desarrollador" class="mobile-link smooth-scroll"
-            >Desarrollador</a
-          >
-          <a href="#contacto" class="mobile-link navbar-contact smooth-scroll"
-            >Contacto</a
-          >
-        </div>
+<!-- Mobile Fullscreen Menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <div class="liquidGlass-wrapper mobile-menu-glass">
+    <div class="liquidGlass-effect"></div>
+    <div class="liquidGlass-tint"></div>
+    <div class="liquidGlass-shine"></div>
+    <div class="liquidGlass-content mobile-menu-content">
+      <div class="mobile-menu-header">
+        <button class="close-btn" id="close-btn">Cerrar</button>
+      </div>
+      <div class="mobile-menu-links">
+        <a href="#galeria" class="mobile-link smooth-scroll">Galería</a>
+        <a href="#amenidades" class="mobile-link smooth-scroll">Amenidades</a>
+        <a href="#mapa" class="mobile-link smooth-scroll">Mapa</a>
+        <a href="#desarrollador" class="mobile-link smooth-scroll"
+          >Desarrollador</a
+        >
+        <a href="#contacto" class="mobile-link navbar-contact smooth-scroll"
+          >Contacto</a
+        >
       </div>
     </div>
   </div>
-</nav>
+</div>
 
 <svg style="display: none">
   <filter
@@ -258,8 +258,7 @@
   .mobile-menu {
     position: fixed;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
     width: 100vw;
     height: 100vh;
     height: 100dvh; /* For mobile browsers */
@@ -268,7 +267,7 @@
     transition:
       opacity 0.4s ease,
       visibility 0s linear 0.4s;
-    z-index: 999;
+    z-index: 9999;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -295,9 +294,14 @@
   }
 
   .mobile-menu-glass .liquidGlass-effect {
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
+    background: rgba(10, 10, 10, 0.9);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+  }
+
+  .mobile-menu-glass .liquidGlass-tint,
+  .mobile-menu-glass .liquidGlass-shine {
+    display: none;
   }
 
   .mobile-menu-content {
@@ -383,8 +387,8 @@
     }
 
     .navbar {
-      width: 90%;
-      max-width: 500px;
+      width: 95%;
+      max-width: none;
     }
 
     .mobile-nav-content {
@@ -395,8 +399,8 @@
 
   @media (max-width: 768px) {
     .navbar {
-      width: 90%;
-      max-width: 400px;
+      width: 95%;
+      max-width: none;
       top: 15px;
     }
 
@@ -412,7 +416,7 @@
 
   @media (max-width: 480px) {
     .navbar {
-      width: 90%;
+      width: 95%;
       max-width: none;
     }
 
