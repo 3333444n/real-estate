@@ -36,7 +36,7 @@ import Footer from "../components/Footer.astro";
     description={mockupData.description}
   />
 
-  <div id="galeria">
+  <div id="galeria" class="scroll-offset">
     <Gallery title="Galería" />
   </div>
 
@@ -50,11 +50,11 @@ import Footer from "../components/Footer.astro";
 
   <VirtualTour virtualTourUrl={mockupData.media.virtualTourUrl} />
 
-  <div id="mapa">
+  <div id="mapa" class="scroll-offset">
     <Map title="Ubicación" />
   </div>
 
-  <div id="desarrollador">
+  <div id="desarrollador" class="scroll-offset">
     <ImageTextSection
       developer={mockupData.developer}
       contact={mockupData.contact}
@@ -63,7 +63,7 @@ import Footer from "../components/Footer.astro";
     />
   </div>
 
-  <div id="contacto">
+  <div id="contacto" class="scroll-offset">
     <!-- Contact section anchor point -->
   </div>
 
