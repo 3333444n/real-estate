@@ -91,19 +91,183 @@ const imagePlaceholder = "/src/assets/images/img-placeholder.jpg";
       </h2>
     </div>
 
-    <!-- Cards Grid -->
-    <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8"
-    >
-      {
-        allAmenities.map((amenity) => (
-          <ImageCard
-            image={imagePlaceholder}
-            title={amenity.title}
-            description={amenity.description}
-          />
-        ))
-      }
+    <!-- Desktop & Tablet Masonry Grid (hidden on mobile) -->
+    <div class="hidden md:block">
+      <div id="masonry-container" class="masonry-grid">
+        {
+          allAmenities.map((amenity, index) => (
+            <div class="masonry-item mb-6">
+              <ImageCard
+                image={imagePlaceholder}
+                title={amenity.title}
+                description={amenity.description}
+                className="h-fit"
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Mobile Slider (visible only on mobile) -->
+    <div class="block md:hidden">
+      <div class="relative">
+        <div
+          id="mobile-slider"
+          class="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-4 pb-4"
+          style="scroll-padding-left: 1rem; scroll-padding-right: 1rem;"
+        >
+          {
+            allAmenities.map((amenity, index) => (
+              <div class="flex-none w-80 snap-start">
+                <ImageCard
+                  image={imagePlaceholder}
+                  title={amenity.title}
+                  description={amenity.description}
+                  className="h-full"
+                />
+              </div>
+            ))
+          }
+        </div>
+
+        <!-- Slider indicators -->
+        <div id="slider-dots" class="flex justify-center mt-6 space-x-2">
+          {
+            allAmenities.map((_, index) => (
+              <button
+                class="slider-dot w-2 h-2 rounded-full transition-colors duration-200 bg-gray-300"
+                data-index={index}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))
+          }
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  /* Masonry Grid Styles */
+  .masonry-grid {
+    column-gap: 1.5rem;
+  }
+
+  /* Tablet: 3 columns */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .masonry-grid {
+      column-count: 3;
+    }
+  }
+
+  /* Desktop: 4 columns */
+  @media (min-width: 1024px) {
+    .masonry-grid {
+      column-count: 4;
+    }
+  }
+
+  .masonry-item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Hide scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Smooth scroll behavior */
+  #mobile-slider {
+    scroll-behavior: smooth;
+  }
+</style>
+
+<script>
+  // Mobile slider functionality
+  document.addEventListener("DOMContentLoaded", () => {
+    const slider = document.getElementById("mobile-slider");
+    const dotsContainer = document.getElementById("slider-dots");
+    let dots = dotsContainer
+      ? dotsContainer.querySelectorAll(".slider-dot")
+      : [];
+
+    if (!slider || !dots.length) return;
+
+    // Helper to update dot classes
+    const setActiveDot = (activeIndex: number) => {
+      dots.forEach((dot, index) => {
+        if (index === activeIndex) {
+          dot.classList.add("bg-black");
+          dot.classList.remove("bg-gray-300");
+        } else {
+          dot.classList.remove("bg-black");
+          dot.classList.add("bg-gray-300");
+        }
+      });
+    };
+
+    // Update active dot based on scroll position
+    const updateActiveDot = () => {
+      const scrollLeft = slider.scrollLeft;
+      const firstChild = slider.children[0] as HTMLElement;
+      if (!firstChild) return;
+      const slideWidth = firstChild.offsetWidth + 16; // card width + gap
+      const activeIndex = Math.round(scrollLeft / slideWidth);
+      setActiveDot(activeIndex);
+    };
+
+    // Initialize first dot as active
+    setActiveDot(0);
+
+    // Add scroll event listener
+    slider.addEventListener("scroll", updateActiveDot);
+
+    // Add click handlers to dots
+    dots.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        const firstChild = slider.children[0] as HTMLElement;
+        if (!firstChild) return;
+        const slideWidth = firstChild.offsetWidth + 16; // card width + gap
+        slider.scrollTo({
+          left: index * slideWidth,
+          behavior: "smooth",
+        });
+        setActiveDot(index);
+      });
+    });
+
+    // Touch/swipe enhancements
+    let isDown = false;
+    let startX = 0;
+    let scrollLeftStart = 0;
+
+    slider.addEventListener("mousedown", (e) => {
+      isDown = true;
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeftStart = slider.scrollLeft;
+    });
+
+    slider.addEventListener("mouseleave", () => {
+      isDown = false;
+    });
+
+    slider.addEventListener("mouseup", () => {
+      isDown = false;
+    });
+
+    slider.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX) * 2;
+      slider.scrollLeft = scrollLeftStart - walk;
+    });
+  });
+</script>
