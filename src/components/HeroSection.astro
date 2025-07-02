@@ -1,6 +1,4 @@
 ---
-import heroImage from "../assets/images/img-placeholder.jpg";
-
 interface Props {
   propertyName: string;
   propertyType: string;
@@ -22,13 +20,14 @@ const { propertyName, propertyType, developer, location } = Astro.props;
 
 // Property type tags for the hero section
 const propertyTags = ["Lujo", "Para familias", "Para vivir", "Para reventa"];
+const heroImage = "/images/exterior1.JPG";
 ---
 
 <section class="relative">
   <!-- Hero Section -->
   <div
     class="relative h-screen bg-cover bg-center bg-no-repeat bg-grey-dark"
-    style={`background-image: url(${heroImage.src});`}
+    style={`background-image: url(${heroImage});`}
   >
     <!-- Overlay -->
     <div class="absolute inset-0 bg-overlay"></div>

@@ -56,10 +56,10 @@
   ],
   "media": {
     "images": [
-      "/src/assets/images/img-placeholder.jpg",
-      "/src/assets/images/img-placeholder.jpg",
-      "/src/assets/images/img-placeholder.jpg",
-      "/src/assets/images/img-placeholder.jpg"
+      "/images/bano.png",
+      "/images/cocina.png",
+      "/images/comedorSala.png",
+      "/images/exterior1.JPG"
     ],
     "virtualTourUrl": "",
     "videoUrl": ""
