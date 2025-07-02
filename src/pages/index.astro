@@ -1,6 +1,8 @@
 ---
+import type { MockupData } from "../data/types";
+import mockupDataJson from "../data/mockup.json";
+const mockupData = mockupDataJson as MockupData;
 import Layout from "../layouts/Layout.astro";
-import mockupData from "../data/mockup.json";
 import HeroSection from "../components/HeroSection.astro";
 import CardsTextSection from "../components/CardsTextSection.astro";
 import ImageTextSection from "../components/ImageTextSection.astro";
@@ -56,7 +58,7 @@ import Footer from "../components/Footer.astro";
     <ImageTextSection
       developer={mockupData.developer}
       contact={mockupData.contact}
-      heroImage={mockupData.media.images[0]}
+      heroImage={mockupData.developer.imageUrl}
       reverseOrder={false}
     />
   </div>

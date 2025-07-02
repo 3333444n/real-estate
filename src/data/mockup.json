@@ -5,9 +5,10 @@
   "status": "for_sale",
   "propertyType": "departamento",
   "developer": {
-    "name": "Grupo JA",
+    "name": "Grupo Constructor JS&M",
     "logoUrl": "/images/logos/grupo-ja.png",
-    "description": "Grupo JA is a leading developer with 20 years of experience creating innovative and high-quality living spaces in prime locations."
+    "imageUrl": "/images/img-placeholder.jpg",
+    "description": "Grupo Constructor JS&M es una empresa líder en el sector inmobiliario mexicano con más de 20 años de experiencia desarrollando proyectos residenciales de alta calidad en las zonas más exclusivas de la Ciudad de México. Nuestra cartera incluye más de 50 proyectos exitosos, desde departamentos de lujo hasta complejos residenciales integrales, caracterizados por su ubicación estratégica, acabados premium y amenidades de primer nivel. Trabajamos con los mejores profesionales del país para crear espacios habitacionales innovadores que combinan funcionalidad, diseño contemporáneo y sostenibilidad, asegurando que cada desarrollo sea tanto un excelente lugar para vivir como una inversión sólida para el futuro."
   },
   "location": {
     "address": "Calle OTE 150",
