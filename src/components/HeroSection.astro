@@ -14,9 +14,14 @@ interface Props {
     country: string;
     mapsLink: string;
   };
+  delivery: {
+    type: string;
+    yearBuilt: number;
+  };
 }
 
-const { propertyName, propertyType, developer, location } = Astro.props;
+const { propertyName, propertyType, developer, location, delivery } =
+  Astro.props;
 
 // Property type tags for the hero section
 const propertyTags = ["Lujo", "Para familias", "Para vivir", "Para reventa"];
@@ -47,7 +52,7 @@ const heroImage = "/images/exterior1.JPG";
 
           <!-- CTA Button -->
           <button
-            class="inline-flex items-center justify-between bg-transparent border-2 border-orange text-orange px-8 py-4 rounded-full text-lg font-regular hover:bg-orange hover:text-white transition-all duration-300 min-w-[280px]"
+            class="inline-flex items-center justify-between bg-white border-2 border-black text-black px-8 py-4 rounded-full text-lg font-regular hover:bg-orange hover:text-white transition-all duration-300 min-w-[280px]"
           >
             <span>Obtener consultoría</span>
             <svg
@@ -66,15 +71,20 @@ const heroImage = "/images/exterior1.JPG";
         </div>
       </div>
 
-      <!-- Property Tags -->
-      <div class="flex flex-wrap gap-3 mb-8">
-        {
-          propertyTags.map((tag) => (
-            <span class="bg-white bg-opacity-20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-regular border border-white border-opacity-30">
-              {tag}
-            </span>
-          ))
-        }
+      <!-- Pills Row at the bottom -->
+      <div class="flex flex-wrap gap-3 mb-4">
+        <span
+          class="bg-white text-black px-6 py-2 rounded-full text-sm font-regular shadow"
+          >{propertyType}</span
+        >
+        <span
+          class="bg-white text-black px-6 py-2 rounded-full text-sm font-regular shadow"
+          >{location.city}</span
+        >
+        <span
+          class="bg-white text-black px-6 py-2 rounded-full text-sm font-regular shadow"
+          >{delivery.type}</span
+        >
       </div>
     </div>
   </div>

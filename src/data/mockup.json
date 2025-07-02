@@ -33,7 +33,7 @@
     "isFurnished": false
   },
   "delivery": {
-    "type": "inmediata",
+    "type": "entrega inmediata",
     "yearBuilt": 2024
   },
   "amenities": [
