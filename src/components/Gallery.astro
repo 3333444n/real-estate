@@ -49,10 +49,10 @@ const items = [
         }
       </div>
 
-      <!-- Fullscreen Button Overlay -->
+      <!-- Fullscreen Button Overlay (Desktop Only) -->
       <button
         id="fullscreen-btn"
-        class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-white hover:bg-gray-100 text-black px-4 py-2 rounded-lg transition-all duration-300 font-medium opacity-0 group-hover:opacity-100 z-10"
+        class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-white hover:bg-gray-100 text-black px-4 py-2 rounded-lg transition-all duration-300 font-medium opacity-0 group-hover:opacity-100 z-10 hidden md:block"
       >
         Ver en pantalla completa
       </button>
@@ -109,6 +109,14 @@ const items = [
         }
       </div>
     </div>
+
+    <!-- Fullscreen Button Overlay (Mobile/Tablet Only, below gallery) -->
+    <button
+      id="fullscreen-btn-mobile"
+      class="block md:hidden mt-4 mb-4 w-4/5 mx-auto bg-white hover:bg-gray-100 text-black px-4 py-2 border border-black rounded-full transition-all duration-300 font-medium z-10"
+    >
+      Ver en pantalla completa
+    </button>
   </div>
 </section>
 
@@ -261,6 +269,9 @@ const items = [
     const galleryTrack = document.querySelector(".gallery-track");
     const galleryItems = document.querySelectorAll(".gallery-item");
     const fullscreenBtn = document.getElementById("fullscreen-btn");
+    const fullscreenBtnMobile = document.getElementById(
+      "fullscreen-btn-mobile"
+    );
     const modal = document.getElementById("fullscreen-modal");
     const modalImage = document.getElementById("modal-image");
     const closeModal = document.getElementById("close-modal");
@@ -280,6 +291,7 @@ const items = [
       !modalNext ||
       !imageCounter ||
       !fullscreenBtn ||
+      !fullscreenBtnMobile ||
       !galleryTrack ||
       !galleryContainer
     ) {
@@ -370,10 +382,16 @@ const items = [
     });
 
     // Event listeners for fullscreen button (ONLY way to open fullscreen)
-    fullscreenBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      showModal();
-    });
+    fullscreenBtn &&
+      fullscreenBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        showModal();
+      });
+    fullscreenBtnMobile &&
+      fullscreenBtnMobile.addEventListener("click", (e) => {
+        e.stopPropagation();
+        showModal();
+      });
 
     // Event listeners for modal controls
     closeModal.addEventListener("click", hideModal);
