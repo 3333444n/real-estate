@@ -22,14 +22,17 @@ const items = [
     <h2 class="text-3xl md:text-4xl font-semibold text-black mb-8 text-center">
       {title}
     </h2>
-    
+
     <!-- Gallery Container -->
     <div class="gallery-container relative group overflow-hidden">
       <!-- Gallery Track -->
-      <div class="gallery-track flex transition-transform duration-500 ease-in-out" style="transform: translateX(0%)">
+      <div
+        class="gallery-track flex transition-transform duration-500 ease-in-out"
+        style="transform: translateX(0%)"
+      >
         {
           items.map((item, index) => (
-            <div 
+            <div
               class="gallery-item flex-shrink-0 relative cursor-pointer"
               data-index={index}
               style="width: 85vw; height: 80vh; margin-right: 2vw;"
@@ -40,49 +43,68 @@ const items = [
                 class="w-full h-full object-cover rounded-lg"
                 loading="lazy"
               />
-              <!-- Overlay for hover effects -->
-              <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-all duration-300 rounded-lg"></div>
+              {/* Overlay for hover effects removed for debugging */}
             </div>
           ))
         }
       </div>
-      
+
       <!-- Fullscreen Button Overlay -->
-      <button 
+      <button
         id="fullscreen-btn"
         class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-white hover:bg-gray-100 text-black px-4 py-2 rounded-lg transition-all duration-300 font-medium opacity-0 group-hover:opacity-100 z-10"
       >
         Ver en pantalla completa
       </button>
-      
+
       <!-- Navigation Buttons (Desktop Only) -->
-      <button 
+      <button
         class="nav-btn nav-prev hidden md:flex absolute left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 z-10"
         aria-label="Imagen anterior"
       >
-        <svg class="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        <svg
+          class="w-5 h-5 text-gray-800"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"></path>
         </svg>
       </button>
-      
-      <button 
+
+      <button
         class="nav-btn nav-next hidden md:flex absolute right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 z-10"
         aria-label="Siguiente imagen"
       >
-        <svg class="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        <svg
+          class="w-5 h-5 text-gray-800"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"></path>
         </svg>
       </button>
-      
+
       <!-- Dots Indicator -->
-      <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
+      <div
+        class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-all duration-300"
+      >
         {
           items.map((_, index) => (
-            <button 
+            <button
               class="dot w-3 h-3 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 transition-all duration-300"
               data-index={index}
               aria-label={`Ir a imagen ${index + 1}`}
-            ></button>
+            />
           ))
         }
       </div>
@@ -91,55 +113,87 @@ const items = [
 </section>
 
 <!-- Fullscreen Modal -->
-<div id="fullscreen-modal" class="fixed inset-0 bg-black bg-opacity-95 z-[99999] hidden items-center justify-center">
+<div
+  id="fullscreen-modal"
+  class="fixed inset-0 bg-black bg-opacity-95 z-[99999] hidden items-center justify-center"
+>
   <div class="relative w-full h-full flex items-center justify-center p-4">
     <!-- Close Button -->
-    <button 
+    <button
       id="close-modal"
       class="absolute top-6 right-6 bg-white hover:bg-gray-100 rounded-full w-12 h-12 flex items-center justify-center z-10 transition-all duration-300"
       aria-label="Cerrar"
     >
       <!-- X Icon -->
-      <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      <svg
+        class="w-6 h-6 text-black"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"></path>
       </svg>
     </button>
-    
+
     <!-- Main Image -->
     <div class="relative max-w-[90vw] max-h-[90vh]">
-      <img 
+      <img
         id="modal-image"
         src=""
         alt=""
         class="max-w-full max-h-full object-contain rounded-lg"
       />
     </div>
-    
+
     <!-- Navigation in Modal -->
-    <button 
+    <button
       id="modal-prev"
       class="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white hover:bg-gray-100 rounded-full w-14 h-14 flex items-center justify-center transition-all duration-300"
       aria-label="Imagen anterior"
     >
       <!-- Left Arrow Icon -->
-      <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      <svg
+        class="w-6 h-6 text-black"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M15 19l-7-7 7-7"></path>
       </svg>
     </button>
-    
-    <button 
+
+    <button
       id="modal-next"
       class="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white hover:bg-gray-100 rounded-full w-14 h-14 flex items-center justify-center transition-all duration-300"
       aria-label="Siguiente imagen"
     >
       <!-- Right Arrow Icon -->
-      <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      <svg
+        class="w-6 h-6 text-black"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"></path>
       </svg>
     </button>
-    
+
     <!-- Image Counter -->
-    <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-white px-4 py-2 rounded-full">
+    <div
+      class="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-white px-4 py-2 rounded-full"
+    >
       <span id="image-counter">1 / {items.length}</span>
     </div>
   </div>
@@ -154,47 +208,47 @@ const items = [
     overflow: hidden;
     cursor: grab;
   }
-  
+
   .gallery-container.dragging {
     cursor: grabbing;
   }
-  
+
   .gallery-track {
     width: fit-content;
     padding-left: calc(50vw - 42.5vw);
   }
-  
+
   .gallery-item.active {
     transform: scale(1);
   }
-  
+
   .dot.active {
     background-color: white !important;
     opacity: 1;
   }
-  
+
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .gallery-container {
       height: 70vh;
     }
-    
+
     .gallery-item {
       width: 90vw !important;
       height: 70vh !important;
       margin-right: 5vw !important;
     }
-    
+
     .gallery-track {
       padding-left: calc(50vw - 45vw);
     }
   }
-  
+
   /* Smooth transitions for modal */
   #fullscreen-modal {
     transition: opacity 0.3s ease-in-out;
   }
-  
+
   #fullscreen-modal.show {
     display: flex !important;
     opacity: 1;
@@ -248,16 +302,17 @@ const items = [
       const margin = isMobile ? 5 : 2; // 5vw for mobile, 2vw for desktop
       const totalWidth = itemWidth + margin;
       const translateX = -index * totalWidth;
-      
+
       if (galleryTrack) {
-        (galleryTrack as HTMLElement).style.transform = `translateX(${translateX}vw)`;
+        (galleryTrack as HTMLElement).style.transform =
+          `translateX(${translateX}vw)`;
       }
-      
+
       // Update dots
       dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
+        dot.classList.toggle("active", i === index);
       });
-      
+
       currentImageIndex = index;
     }
 
@@ -352,32 +407,33 @@ const items = [
       const currentTransform = (galleryTrack as HTMLElement).style.transform;
       const match = currentTransform.match(/translateX\(([^)]+)\)/);
       initialTransform = match ? parseFloat(match[1]) : 0;
-      if (galleryContainer) galleryContainer.classList.add('dragging');
+      if (galleryContainer) galleryContainer.classList.add("dragging");
     }
 
     function handleDragMove(clientX: number) {
       if (!isDragging) return;
-      
+
       currentX = clientX;
       const dragDistance = Math.abs(currentX - startX);
-      
+
       // Only consider it a drag if moved beyond threshold
       if (dragDistance > dragThreshold) {
         hasDragged = true;
         const diffX = (currentX - startX) * 0.1; // Reduce sensitivity
         const newTransform = initialTransform + diffX;
-        
-        (galleryTrack as HTMLElement).style.transform = `translateX(${newTransform}vw)`;
+
+        (galleryTrack as HTMLElement).style.transform =
+          `translateX(${newTransform}vw)`;
       }
     }
 
     function handleDragEnd() {
       if (!isDragging) return;
-      
+
       if (hasDragged) {
         const diff = currentX - startX;
         const threshold = 50;
-        
+
         if (diff > threshold) {
           prevImage();
         } else if (diff < -threshold) {
@@ -387,10 +443,10 @@ const items = [
           updateGalleryPosition(currentImageIndex);
         }
       }
-      
+
       isDragging = false;
       hasDragged = false;
-      if (galleryContainer) galleryContainer.classList.remove('dragging');
+      if (galleryContainer) galleryContainer.classList.remove("dragging");
     }
 
     // Mouse events for desktop drag
@@ -432,7 +488,8 @@ const items = [
             updateModalImage(nextModalIndex);
             break;
           case "ArrowLeft":
-            const prevModalIndex = (currentImageIndex - 1 + totalImages) % totalImages;
+            const prevModalIndex =
+              (currentImageIndex - 1 + totalImages) % totalImages;
             updateModalImage(prevModalIndex);
             break;
         }
