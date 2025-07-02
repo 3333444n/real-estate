@@ -42,6 +42,10 @@ import Footer from "../components/Footer.astro";
     <CardsSection items={mockupData.amenities} title="Amenidades" />
   </div>
 
+  <div id="cercanias">
+    <CardsSection items={mockupData.nearbyLocations} title="Lugares Cercanos" />
+  </div>
+
   <VirtualTour virtualTourUrl={mockupData.media.virtualTourUrl} />
 
   <div id="mapa">

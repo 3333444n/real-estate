@@ -1,74 +1,18 @@
 ---
 import ImageCard from "./ImageCard.astro";
 
+interface Amenity {
+  title: string;
+  description: string;
+  imageUrl: string;
+}
+
 interface Props {
-  items: string[];
+  items: Amenity[];
   title: string;
 }
 
 const { items, title } = Astro.props;
-
-// Enhanced amenities mapping with proper titles and descriptions
-const amenitiesMapping: {
-  [key: string]: { title: string; description: string };
-} = {
-  "estacionamiento techado": {
-    title: "Covered Parking",
-    description: "Secure covered parking spaces for residents",
-  },
-  "terraza o rooftop": {
-    title: "Rooftop Terrace",
-    description: "Beautiful rooftop space with city views",
-  },
-  "bodega privada": {
-    title: "Private Storage",
-    description: "Personal storage spaces for each unit",
-  },
-  mascotas: {
-    title: "Pet Friendly",
-    description: "Welcome environment for your beloved pets",
-  },
-  "área de tendido": {
-    title: "Laundry Area",
-    description: "Dedicated spaces for laundry and drying",
-  },
-  "patio de servicio": {
-    title: "Service Patio",
-    description: "Functional service areas for maintenance",
-  },
-};
-
-// Additional amenities from the screenshots
-const additionalAmenities = [
-  {
-    title: "Fitness Centers",
-    description: "Gyms for ladies and gents, sports areas and yoga zones",
-  },
-  {
-    title: "Children's Areas",
-    description: "Indoor and outdoor children's playgrounds",
-  },
-  {
-    title: "Jogging Track",
-    description: "200 meters jogging track",
-  },
-  {
-    title: "Concierge Services",
-    description: "Butler, Concierge and Valet parking Services",
-  },
-];
-
-// Combine all amenities
-const allAmenities = [
-  ...items.map(
-    (item) =>
-      amenitiesMapping[item] || {
-        title: item,
-        description: `Enjoy our ${item} amenity`,
-      }
-  ),
-  ...additionalAmenities,
-];
 
 const imagePlaceholder = "/images/img-placeholder.jpg";
 ---
@@ -95,10 +39,10 @@ const imagePlaceholder = "/images/img-placeholder.jpg";
     <div class="hidden md:block">
       <div id="masonry-container" class="masonry-grid">
         {
-          allAmenities.map((amenity, index) => (
+          items.map((amenity, index) => (
             <div class="masonry-item mb-6">
               <ImageCard
-                image={imagePlaceholder}
+                image={amenity.imageUrl || imagePlaceholder}
                 title={amenity.title}
                 description={amenity.description}
                 className="h-fit"
@@ -118,10 +62,10 @@ const imagePlaceholder = "/images/img-placeholder.jpg";
           style="scroll-padding-left: 1rem; scroll-padding-right: 1rem;"
         >
           {
-            allAmenities.map((amenity, index) => (
+            items.map((amenity, index) => (
               <div class="flex-none w-80 snap-start">
                 <ImageCard
-                  image={imagePlaceholder}
+                  image={amenity.imageUrl || imagePlaceholder}
                   title={amenity.title}
                   description={amenity.description}
                   className="h-full"
@@ -134,7 +78,7 @@ const imagePlaceholder = "/images/img-placeholder.jpg";
         <!-- Slider indicators -->
         <div id="slider-dots" class="flex justify-center mt-6 space-x-2">
           {
-            allAmenities.map((_, index) => (
+            items.map((_, index) => (
               <button
                 class="slider-dot w-2 h-2 rounded-full transition-colors duration-200 bg-gray-300"
                 data-index={index}
