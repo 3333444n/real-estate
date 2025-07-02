@@ -1,0 +1,74 @@
+{
+  "id": "OTE150",
+  "slug": "ote-150-alvaro-obregon",
+  "propertyName": "OTE 150",
+  "status": "for_sale",
+  "propertyType": "departamento",
+  "developer": {
+    "name": "Grupo JA",
+    "logoUrl": "/images/logos/grupo-ja.png",
+    "description": "Grupo JA is a leading developer with 20 years of experience creating innovative and high-quality living spaces in prime locations."
+  },
+  "location": {
+    "address": "Calle OTE 150",
+    "neighborhood": "Álvaro Obregón",
+    "city": "Ciudad de México",
+    "country": "México",
+    "mapsLink": "https://maps.app.goo.gl/NuW..."
+  },
+  "pricing": {
+    "minPrice": 3300000,
+    "maxPrice": 3800000,
+    "currency": "MXN",
+    "commissionPercentage": 3.00
+  },
+  "dimensions": {
+    "minAreaM2": 73.00,
+    "maxAreaM2": 73.00
+  },
+  "features": {
+    "bedrooms": 2,
+    "bathrooms": 1,
+    "parkingSpaces": 1,
+    "isFurnished": false
+  },
+  "delivery": {
+    "type": "inmediata",
+    "yearBuilt": 2024
+  },
+  "amenities": [
+    "estacionamiento techado",
+    "terraza o rooftop",
+    "bodega privada",
+    "mascotas",
+    "área de tendido",
+    "patio de servicio"
+  ],
+  "nearbyLocations": [
+    "vía principal",
+    "mercado",
+    "escuela",
+    "estaciones",
+    "aeropuerto",
+    "supermercado",
+    "bancos",
+    "restaurantes"
+  ],
+  "media": {
+    "images": [
+      "/src/assets/images/img-placeholder.jpg",
+      "/src/assets/images/img-placeholder.jpg",
+      "/src/assets/images/img-placeholder.jpg",
+      "/src/assets/images/img-placeholder.jpg"
+    ],
+    "virtualTourUrl": "",
+    "videoUrl": ""
+  },
+  "contact": {
+    "agentName": "Juan Pérez",
+    "phone": "+52 55 1234 5678",
+    "email": "ventas@grupoja.com",
+    "website": ""
+  },
+  "description": "Descubre tu nuevo hogar en el corazón de Álvaro Obregón. OTE 150, un exclusivo desarrollo de Grupo JA, ofrece departamentos modernos y funcionales con acabados de lujo. Disfruta de la comodidad de sus amenidades como rooftop, estacionamiento techado y bodegas privadas. Su ubicación estratégica te conecta con las principales vías de acceso, mercados, escuelas y todo lo que necesitas para vivir plenamente."
+} 

@@ -1,0 +1,16 @@
+---
+interface Props {
+  virtualTourUrl: string;
+}
+
+const { virtualTourUrl } = Astro.props;
+---
+
+{
+  virtualTourUrl && (
+    <div>
+      <h3>Tour Virtual</h3>
+      <iframe src={virtualTourUrl} width="100%" height="400" />
+    </div>
+  )
+}

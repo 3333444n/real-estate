@@ -1,0 +1,114 @@
+---
+import ImageCard from "./ImageCard.astro";
+
+interface Props {
+  items: string[];
+  title: string;
+}
+
+const { items, title } = Astro.props;
+
+// Enhanced amenities mapping with proper titles and descriptions
+const amenitiesMapping: {
+  [key: string]: { title: string; description: string };
+} = {
+  "estacionamiento techado": {
+    title: "Covered Parking",
+    description: "Secure covered parking spaces for residents",
+  },
+  "terraza o rooftop": {
+    title: "Rooftop Terrace",
+    description: "Beautiful rooftop space with city views",
+  },
+  "bodega privada": {
+    title: "Private Storage",
+    description: "Personal storage spaces for each unit",
+  },
+  mascotas: {
+    title: "Pet Friendly",
+    description: "Welcome environment for your beloved pets",
+  },
+  "área de tendido": {
+    title: "Laundry Area",
+    description: "Dedicated spaces for laundry and drying",
+  },
+  "patio de servicio": {
+    title: "Service Patio",
+    description: "Functional service areas for maintenance",
+  },
+};
+
+// Additional amenities from the screenshots
+const additionalAmenities = [
+  {
+    title: "Fitness Centers",
+    description: "Gyms for ladies and gents, sports areas and yoga zones",
+  },
+  {
+    title: "Children's Areas",
+    description: "Indoor and outdoor children's playgrounds",
+  },
+  {
+    title: "Jogging Track",
+    description: "200 meters jogging track",
+  },
+  {
+    title: "Concierge Services",
+    description: "Butler, Concierge and Valet parking Services",
+  },
+];
+
+// Combine all amenities
+const allAmenities = [
+  ...items.map(
+    (item) =>
+      amenitiesMapping[item] || {
+        title: item,
+        description: `Enjoy our ${item} amenity`,
+      }
+  ),
+  ...additionalAmenities,
+];
+
+const imagePlaceholder = "/src/assets/images/img-placeholder.jpg";
+---
+
+<section class="relative py-16 lg:py-24 overflow-hidden">
+  <!-- Background Text -->
+  <div
+    class="absolute inset-0 flex items-center justify-center pointer-events-none"
+  >
+    <h2
+      class="text-3xl sm:text-5xl lg:text-6xl xl:text-[9rem] font-extralight text-grey-light/20 select-none whitespace-nowrap"
+    >
+      Explora todas las Amenidades
+    </h2>
+  </div>
+
+  <!-- Main Content -->
+  <div class="relative z-10 container px-4 sm:px-6 lg:px-8">
+    <!-- Section Header -->
+    <div class="text-center mb-12 lg:mb-16">
+      <h2
+        class="text-4xl sm:text-5xl lg:text-6xl font-semibold text-black mb-4"
+      >
+        {title}
+      </h2>
+    </div>
+
+    <!-- Cards Grid -->
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8"
+    >
+      {
+        allAmenities.map((amenity) => (
+          <ImageCard
+            image={imagePlaceholder}
+            title={amenity.title}
+            description={amenity.description}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,141 @@
+---
+import heroImage from "../assets/images/img-placeholder.jpg";
+
+interface Props {
+  propertyName: string;
+  propertyType: string;
+  developer: {
+    name: string;
+    logoUrl: string;
+    description: string;
+  };
+  location: {
+    address: string;
+    neighborhood: string;
+    city: string;
+    country: string;
+    mapsLink: string;
+  };
+}
+
+const { propertyName, propertyType, developer, location } = Astro.props;
+
+// Property type tags for the hero section
+const propertyTags = ["Lujo", "Para familias", "Para vivir", "Para reventa"];
+---
+
+<section class="relative">
+  <!-- Hero Section -->
+  <div
+    class="relative h-screen bg-cover bg-center bg-no-repeat bg-grey-dark"
+    style={`background-image: url(${heroImage.src});`}
+  >
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-overlay"></div>
+
+    <!-- Hero Content -->
+    <div
+      class="relative z-10 container mx-auto px-4 py-16 flex flex-col justify-between h-full"
+    >
+      <!-- Top Content -->
+      <div class="flex justify-between items-start">
+        <div>
+          <h1
+            class="text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-8 max-w-2xl"
+          >
+            {propertyName}
+          </h1>
+
+          <!-- CTA Button -->
+          <button
+            class="inline-flex items-center justify-between bg-transparent border-2 border-orange text-orange px-8 py-4 rounded-full text-lg font-regular hover:bg-orange hover:text-white transition-all duration-300 min-w-[280px]"
+          >
+            <span>Obtener consultoría</span>
+            <svg
+              class="w-5 h-5 ml-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Property Tags -->
+      <div class="flex flex-wrap gap-3 mb-8">
+        {
+          propertyTags.map((tag) => (
+            <span class="bg-white bg-opacity-20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-regular border border-white border-opacity-30">
+              {tag}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Location and Developer Info -->
+  <div class="bg-white py-8">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Location -->
+        <div class="flex items-center space-x-4">
+          <div
+            class="w-12 h-12 bg-grey-dark rounded-full flex items-center justify-center flex-shrink-0"
+          >
+            <svg
+              class="w-5 h-5 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+            </svg>
+          </div>
+          <div>
+            <p class="text-grey text-sm font-regular mb-1">Ubicación</p>
+            <h3 class="text-xl md:text-2xl font-semibold text-black">
+              {location.neighborhood}, {location.city}
+            </h3>
+          </div>
+        </div>
+
+        <!-- Developer -->
+        <div class="flex items-center space-x-4">
+          <div
+            class="w-12 h-12 bg-grey-dark rounded-full flex items-center justify-center flex-shrink-0"
+          >
+            <svg
+              class="w-5 h-5 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+            </svg>
+          </div>
+          <div>
+            <p class="text-grey text-sm font-regular mb-1">Desarrollador</p>
+            <h3 class="text-xl md:text-2xl font-semibold text-black">
+              {developer.name}
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

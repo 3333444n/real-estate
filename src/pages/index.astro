@@ -1,16 +1,62 @@
 ---
-import "../styles/global.css";
+import Layout from "../layouts/Layout.astro";
+import mockupData from "../data/mockup.json";
+import HeroSection from "../components/HeroSection.astro";
+import CardsTextSection from "../components/CardsTextSection.astro";
+import ImageTextSection from "../components/ImageTextSection.astro";
+import Gallery from "../components/Gallery.astro";
+import CardsSection from "../components/CardsSection.astro";
+import VirtualTour from "../components/VirtualTour.astro";
+import MapPlaceholder from "../components/MapPlaceholder.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
-  </head>
-  <body>
-    <h1>Astro</h1>
-  </body>
-</html>
+<Layout
+  title={`${mockupData.propertyName} - ${mockupData.location.neighborhood}`}
+>
+  <div id="home">
+    <HeroSection
+      propertyName={mockupData.propertyName}
+      propertyType={mockupData.propertyType}
+      developer={mockupData.developer}
+      location={mockupData.location}
+    />
+  </div>
+
+  <CardsTextSection
+    pricing={mockupData.pricing}
+    dimensions={mockupData.dimensions}
+    features={mockupData.features}
+    delivery={mockupData.delivery}
+    description={mockupData.description}
+  />
+
+  <div id="galeria">
+    <Gallery items={mockupData.media.images} title="Galería" />
+  </div>
+
+  <div id="amenidades">
+    <CardsSection items={mockupData.amenities} title="Amenidades" />
+  </div>
+
+  <VirtualTour virtualTourUrl={mockupData.media.virtualTourUrl} />
+
+  <!-- <div id="mapa">
+    <MapPlaceholder
+      propertyLocation={mockupData.location}
+      pointsOfInterest={mockupData.nearbyLocations}
+    />
+  </div> -->
+
+  <div id="desarrollador">
+    <ImageTextSection
+      developer={mockupData.developer}
+      contact={mockupData.contact}
+      heroImage={mockupData.media.images[0]}
+      reverseOrder={false}
+    />
+  </div>
+
+  <div id="contacto">
+    <!-- Contact section anchor point -->
+  </div>
+</Layout>

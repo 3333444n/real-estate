@@ -1,1 +1,218 @@
 @import "tailwindcss";
+
+/* Mori Font Family Declarations */
+@font-face {
+  font-family: 'Mori';
+  src: url('/fonts/PPMori-Extralight.otf') format('opentype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Mori';
+  src: url('/fonts/PPMori-ExtralightItalic.otf') format('opentype');
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Mori';
+  src: url('/fonts/PPMori-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Mori';
+  src: url('/fonts/PPMori-RegularItalic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Mori';
+  src: url('/fonts/PPMori-SemiBold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Mori';
+  src: url('/fonts/PPMori-SemiBoldItalic.otf') format('opentype');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* CSS Custom Properties for Design System */
+:root {
+  /* Brand Colors */
+  --color-primary-orange: #D97706;
+  --color-primary-orange-hover: #B45309;
+  
+  /* Neutral Colors */
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+  --color-grey-light: #D1D5DB;
+  --color-grey: #6B7280;
+  --color-grey-dark: #374151;
+  --color-grey-darker: #1F2937;
+  
+  /* Background Colors */
+  --color-bg-light: #F9FAFB;
+  --color-bg-white: #FFFFFF;
+  --color-bg-overlay: rgba(0, 0, 0, 0.2);
+  
+  /* Typography */
+  --font-family-primary: 'Mori', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+}
+
+/* Base styles for the application */
+@layer base {
+  html {
+    @apply h-full;
+  }
+  
+  body {
+    @apply h-full bg-white text-black antialiased;
+    font-family: var(--font-family-primary);
+  }
+  
+  /* Headings */
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-black font-semibold;
+    font-family: var(--font-family-primary);
+  }
+  
+  /* Paragraphs and text */
+  p {
+    @apply text-black;
+    font-family: var(--font-family-primary);
+  }
+  
+  /* Links */
+  a {
+    @apply text-black hover:text-gray-700 transition-colors;
+    font-family: var(--font-family-primary);
+  }
+}
+
+/* Custom color utilities for our design system */
+@layer utilities {
+  /* Grey color utilities */
+  .text-grey-light {
+    color: var(--color-grey-light);
+  }
+  
+  .text-grey {
+    color: var(--color-grey);
+  }
+  
+  .text-grey-dark {
+    color: var(--color-grey-dark);
+  }
+  
+  .bg-grey-light {
+    background-color: var(--color-bg-light);
+  }
+  
+  .bg-grey {
+    background-color: var(--color-grey-light);
+  }
+  
+  .bg-grey-dark {
+    background-color: var(--color-grey-darker);
+  }
+  
+  /* Orange color utilities */
+  .text-orange {
+    color: var(--color-primary-orange);
+  }
+  
+  .border-orange {
+    border-color: var(--color-primary-orange);
+  }
+  
+  .bg-orange {
+    background-color: var(--color-primary-orange);
+  }
+  
+  .hover\:bg-orange:hover {
+    background-color: var(--color-primary-orange-hover);
+  }
+  
+  .hover\:text-white:hover {
+    color: var(--color-white);
+  }
+  
+  /* Font weight utilities for Mori */
+  .font-extralight {
+    font-weight: 200;
+  }
+  
+  .font-regular {
+    font-weight: 400;
+  }
+  
+  .font-semibold {
+    font-weight: 600;
+  }
+  
+  /* Container utilities */
+  .container {
+    @apply max-w-7xl mx-auto;
+  }
+  
+  /* Background overlay utility */
+  .bg-overlay {
+    background-color: var(--color-bg-overlay);
+  }
+  
+  /* Grid utilities for masonry layout */
+  .grid-masonry {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-auto-rows: 200px;
+  }
+  
+  /* Card hover effects */
+  .card-hover-scale {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card-hover-scale:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  /* Background text utilities */
+  .bg-text {
+    position: absolute;
+    z-index: -1;
+    color: rgba(209, 213, 219, 0.15);
+    font-weight: 200;
+    pointer-events: none;
+    user-select: none;
+  }
+  
+  /* Aspect ratio utilities */
+  .aspect-card {
+    aspect-ratio: 4 / 3;
+  }
+  
+  .aspect-wide {
+    aspect-ratio: 16 / 9;
+  }
+  
+  /* Text gradient utilities */
+  .text-gradient-black {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}

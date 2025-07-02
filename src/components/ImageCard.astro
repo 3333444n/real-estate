@@ -1,0 +1,25 @@
+---
+interface Props {
+  image: string;
+  title: string;
+  description: string;
+  className?: string;
+}
+
+const { image, title, description, className = "" } = Astro.props;
+---
+
+<div class={`overflow-hidden rounded-lg bg-white group ${className}`}>
+  <div class="relative aspect-[4/3] overflow-hidden rounded-lg">
+    <img
+      src={image}
+      alt={title}
+      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+    />
+  </div>
+
+  <div class="p-4">
+    <h3 class="text-black font-semibold text-lg mb-2">{title}</h3>
+    <p class="text-gray-600 text-sm leading-relaxed">{description}</p>
+  </div>
+</div>
