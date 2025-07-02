@@ -44,8 +44,8 @@ const propertyData = {
   handover:
     delivery.type === "inmediata" ? "Inmediata" : delivery.yearBuilt.toString(),
   handoverUnit: "Entrega",
-  floors: "N/A", // This data is not in mockup.json, could be added
-  floorsUnit: "Pisos",
+  floors: features.bathrooms.toString(),
+  floorsUnit: "Baños",
   bedrooms: features.bedrooms.toString(),
   bedroomsUnit: "Recámaras",
   paymentPlan: `${pricing.commissionPercentage}% / Resto`,
