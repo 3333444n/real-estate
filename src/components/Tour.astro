@@ -15,17 +15,18 @@ const { title = "Tour Virtual 360°" } = Astro.props;
       </p>
     </div>
 
-    <div class="w-full lg:w-[90vw] xl:w-[1200px] mx-auto">
-      <div class="aspect-video rounded-lg overflow-hidden shadow-lg">
-        <iframe
-          src="/tour"
-          width="100%"
-          height="100%"
-          style="border:0;"
-          allowfullscreen=""
-          loading="lazy"
-          title="Tour Virtual 360° de la propiedad"></iframe>
-      </div>
+    <div
+      class="w-full lg:w-[90vw] xl:w-[1200px] mx-auto min-h-[70vh] md:min-h-0 md:aspect-video rounded-lg overflow-hidden shadow-lg"
+    >
+      <iframe
+        class="h-full w-full min-h-[70vh]"
+        src="/tour"
+        width="100%"
+        height="100%"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        title="Tour Virtual 360° de la propiedad"></iframe>
     </div>
 
     <!-- Fullscreen Button -->

@@ -11,11 +11,20 @@ const virtualTour = mockupData.virtualTour;
   <div class="relative w-full h-screen">
     <div id="panorama" class="w-full h-full"></div>
 
+    <!-- Custom scene name pill label -->
+    <div
+      id="scene-label"
+      class="fixed left-4 bg-transparent text-white rounded-full px-4 font-mori text-lg z-20
+        sm:left-1/2 sm:transform sm:-translate-x-1/2 sm:bottom-24 sm:w-max sm:text-center"
+    >
+      {virtualTour.scenes[0].title}
+    </div>
+
     {
       virtualTour && virtualTour.scenes && virtualTour.scenes.length > 0 && (
         <div
           id="thumbnail-strip"
-          class="fixed bottom-0 left-0 w-full bg-black bg-opacity-60 flex justify-center items-center py-2 z-10"
+          class="fixed bottom-0 left-0 w-full flex justify-center items-center py-2 z-10"
         >
           {virtualTour.scenes.map((scene: VirtualTourScene) => (
             <img
@@ -54,6 +63,15 @@ const virtualTour = mockupData.virtualTour;
       visibility: hidden !important;
       opacity: 0 !important;
     }
+    @media (max-width: 640px) {
+      #scene-label {
+        bottom: 5.5rem; /* Place above thumbnail strip */
+        left: 50%;
+        transform: translateX(-50%);
+        width: max-content;
+        text-align: center;
+      }
+    }
   </style>
 
   <link
@@ -79,7 +97,6 @@ const virtualTour = mockupData.virtualTour;
       const scenes = {};
       virtualTour.scenes.forEach((scene) => {
         scenes[scene.id] = {
-          title: scene.title,
           panorama: scene.panoramaUrl,
           hotSpots: scene.hotSpots || [],
         };
@@ -95,6 +112,7 @@ const virtualTour = mockupData.virtualTour;
           showControls: false,
           touchPan: true,
           hotSpotDebug: false,
+          showTitle: false,
         },
         scenes: scenes,
       });
@@ -105,8 +123,23 @@ const virtualTour = mockupData.virtualTour;
           const sceneId = this.getAttribute("data-scene");
           if (sceneId && scenes[sceneId]) {
             viewer.loadScene(sceneId);
+            updateSceneLabel(sceneId);
           }
         });
+      });
+
+      // Scene label update logic
+      const sceneLabel = document.getElementById("scene-label");
+      function updateSceneLabel(sceneId) {
+        const scene = virtualTour.scenes.find((s) => s.id === sceneId);
+        if (scene && sceneLabel) {
+          sceneLabel.textContent = scene.title;
+        }
+      }
+
+      // Update label when scene changes via viewer controls
+      viewer.on("scenechange", function (sceneId) {
+        updateSceneLabel(sceneId);
       });
 
       // Mobile gyroscope lock based on orientation
