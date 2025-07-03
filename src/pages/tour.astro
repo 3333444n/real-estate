@@ -1,0 +1,130 @@
+---
+import Layout from "../layouts/Layout.astro";
+import mockupData from "../data/mockup.json";
+import type { VirtualTourScene } from "../data/types";
+
+// Get virtual tour data from mockup
+const virtualTour = mockupData.virtualTour;
+---
+
+<Layout title="360 Virtual Tour - {mockupData.propertyName}">
+  <div class="relative w-full h-screen">
+    <div id="panorama" class="w-full h-full"></div>
+
+    {
+      virtualTour && virtualTour.scenes && virtualTour.scenes.length > 0 && (
+        <div
+          id="thumbnail-strip"
+          class="fixed bottom-0 left-0 w-full bg-black bg-opacity-60 flex justify-center items-center py-2 z-10"
+        >
+          {virtualTour.scenes.map((scene: VirtualTourScene) => (
+            <img
+              src={scene.thumbnailUrl}
+              class="w-20 h-11 object-cover border-2 border-white mx-2 cursor-pointer rounded transition-transform hover:scale-110 hover:border-gray-300"
+              alt={`${scene.title} Thumbnail`}
+              data-scene={scene.id}
+            />
+          ))}
+        </div>
+      )
+    }
+  </div>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    #panorama {
+      width: 100%;
+      height: 100%;
+    }
+
+    .pnlm-loading,
+    .pnlm-load-box,
+    .pnlm-lbox,
+    .pnlm-loading-box {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+  </style>
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"
+  ></script>
+
+  <script define:vars={{ virtualTour }}>
+    // Wait for DOM to be ready
+    document.addEventListener("DOMContentLoaded", function () {
+      if (
+        !virtualTour ||
+        !virtualTour.scenes ||
+        virtualTour.scenes.length === 0
+      ) {
+        console.error("No virtual tour data available");
+        return;
+      }
+
+      // Build scenes configuration
+      const scenes = {};
+      virtualTour.scenes.forEach((scene) => {
+        scenes[scene.id] = {
+          title: scene.title,
+          panorama: scene.panoramaUrl,
+          hotSpots: scene.hotSpots || [],
+        };
+      });
+
+      // Initialize viewer
+      const viewer = pannellum.viewer("panorama", {
+        default: {
+          firstScene: virtualTour.scenes[0].id,
+          autoLoad: true,
+          sceneFadeDuration: 1200,
+          hfov: 90,
+          showControls: false,
+          touchPan: true,
+          hotSpotDebug: false,
+        },
+        scenes: scenes,
+      });
+
+      // Custom thumbnail navigation
+      document.querySelectorAll(".thumbnail, [data-scene]").forEach((thumb) => {
+        thumb.addEventListener("click", function () {
+          const sceneId = this.getAttribute("data-scene");
+          if (sceneId && scenes[sceneId]) {
+            viewer.loadScene(sceneId);
+          }
+        });
+      });
+
+      // Mobile gyroscope lock based on orientation
+      function handleOrientation() {
+        if (window.innerHeight > window.innerWidth) {
+          // Portrait
+          viewer.setGyro(false);
+        } else {
+          // Landscape
+          viewer.setGyro(true);
+        }
+      }
+
+      window.addEventListener("orientationchange", handleOrientation);
+      window.addEventListener("resize", handleOrientation);
+
+      // Initial check
+      handleOrientation();
+    });
+  </script>
+</Layout>

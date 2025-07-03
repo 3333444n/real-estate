@@ -12,6 +12,28 @@ export interface Contact {
   website: string;
 }
 
+export interface HotSpot {
+  pitch: number;
+  yaw: number;
+  type: string;
+  text: string;
+  sceneId: string;
+}
+
+export interface VirtualTourScene {
+  id: string;
+  title: string;
+  panoramaUrl: string;
+  thumbnailUrl: string;
+  description: string;
+  hotSpots: HotSpot[];
+}
+
+export interface VirtualTour {
+  enabled: boolean;
+  scenes: VirtualTourScene[];
+}
+
 export interface MockupData {
   propertyName: string;
   propertyType: string;
@@ -24,6 +46,7 @@ export interface MockupData {
   amenities: any[];
   nearbyLocations: any[];
   media: any;
+  virtualTour: VirtualTour;
   contact: Contact;
   description: string;
 } 

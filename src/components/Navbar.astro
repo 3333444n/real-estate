@@ -11,12 +11,17 @@
       <div class="liquidGlass-shine"></div>
       <div class="liquidGlass-content">
         <div class="navbar-links">
-          <a href="#home" class="smooth-scroll">Inicio</a>
-          <a href="#galeria" class="smooth-scroll">Galería</a>
-          <a href="#amenidades" class="smooth-scroll">Amenidades</a>
-          <a href="#mapa" class="smooth-scroll">Mapa</a>
-          <a href="#desarrollador" class="smooth-scroll">Desarrollador</a>
-          <a href="#contacto" class="navbar-contact smooth-scroll">Contacto</a>
+          <a href="/index.html#home" class="smooth-scroll">Inicio</a>
+          <a href="/index.html#galeria" class="smooth-scroll">Galería</a>
+          <a href="/tour" class="smooth-scroll">Tour Virtual</a>
+          <a href="/index.html#amenidades" class="smooth-scroll">Amenidades</a>
+          <a href="/index.html#mapa" class="smooth-scroll">Mapa</a>
+          <a href="/index.html#desarrollador" class="smooth-scroll"
+            >Desarrollador</a
+          >
+          <a href="/index.html#contacto" class="navbar-contact smooth-scroll"
+            >Contacto</a
+          >
         </div>
       </div>
     </div>
@@ -30,7 +35,7 @@
       <div class="liquidGlass-shine"></div>
       <div class="liquidGlass-content mobile-nav-content">
         <div class="navbar-brand">
-          <a href="#home" class="smooth-scroll">Inicio</a>
+          <a href="/index.html#home" class="smooth-scroll">Inicio</a>
         </div>
         <button class="hamburger-btn" id="hamburger-btn">
           <span></span>
@@ -53,14 +58,20 @@
         <button class="close-btn" id="close-btn">Cerrar</button>
       </div>
       <div class="mobile-menu-links">
-        <a href="#galeria" class="mobile-link smooth-scroll">Galería</a>
-        <a href="#amenidades" class="mobile-link smooth-scroll">Amenidades</a>
-        <a href="#mapa" class="mobile-link smooth-scroll">Mapa</a>
-        <a href="#desarrollador" class="mobile-link smooth-scroll"
+        <a href="/index.html#galeria" class="mobile-link smooth-scroll"
+          >Galería</a
+        >
+        <a href="/tour" class="mobile-link smooth-scroll">Tour Virtual</a>
+        <a href="/index.html#amenidades" class="mobile-link smooth-scroll"
+          >Amenidades</a
+        >
+        <a href="/index.html#mapa" class="mobile-link smooth-scroll">Mapa</a>
+        <a href="/index.html#desarrollador" class="mobile-link smooth-scroll"
           >Desarrollador</a
         >
-        <a href="#contacto" class="mobile-link navbar-contact smooth-scroll"
-          >Contacto</a
+        <a
+          href="/index.html#contacto"
+          class="mobile-link navbar-contact smooth-scroll">Contacto</a
         >
       </div>
     </div>
@@ -201,6 +212,7 @@
     display: flex;
     gap: 2rem;
     align-items: center;
+    white-space: nowrap;
   }
 
   .navbar-links a {
@@ -365,6 +377,25 @@
 
   .mobile-link.navbar-contact {
     background: rgba(255, 255, 255, 0.25);
+    font-weight: 500;
+  }
+
+  .tour-link {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white !important;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+  }
+
+  .tour-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  }
+
+  .mobile-link.tour-link {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     font-weight: 500;
   }
 

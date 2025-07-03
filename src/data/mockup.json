@@ -121,6 +121,89 @@
     "virtualTourUrl": "",
     "videoUrl": ""
   },
+  "virtualTour": {
+    "enabled": true,
+    "scenes": [
+      {
+        "id": "sala-comedor",
+        "title": "Sala Comedor",
+        "panoramaUrl": "/images/comedorSala.png",
+        "thumbnailUrl": "/images/comedorSala.png",
+        "description": "Espaciosa sala comedor con acabados de lujo",
+        "hotSpots": [
+          {
+            "pitch": -2.5,
+            "yaw": 135,
+            "type": "scene",
+            "text": "Ir a la Cocina",
+            "sceneId": "cocina"
+          },
+          {
+            "pitch": -1,
+            "yaw": -45,
+            "type": "scene",
+            "text": "Ir al Baño",
+            "sceneId": "bano"
+          }
+        ]
+      },
+      {
+        "id": "cocina",
+        "title": "Cocina",
+        "panoramaUrl": "/images/cocina.png",
+        "thumbnailUrl": "/images/cocina.png",
+        "description": "Cocina equipada con electrodomésticos modernos",
+        "hotSpots": [
+          {
+            "pitch": -1,
+            "yaw": 150,
+            "type": "scene",
+            "text": "Ir a la Sala Comedor",
+            "sceneId": "sala-comedor"
+          },
+          {
+            "pitch": -1.5,
+            "yaw": -170,
+            "type": "scene",
+            "text": "Ir al Exterior",
+            "sceneId": "exterior"
+          }
+        ]
+      },
+      {
+        "id": "bano",
+        "title": "Baño",
+        "panoramaUrl": "/images/bano.png",
+        "thumbnailUrl": "/images/bano.png",
+        "description": "Baño completo con acabados premium",
+        "hotSpots": [
+          {
+            "pitch": 0,
+            "yaw": 110,
+            "type": "scene",
+            "text": "Volver a la Sala Comedor",
+            "sceneId": "sala-comedor"
+          }
+        ]
+      },
+      {
+        "id": "exterior",
+        "title": "Exterior",
+        "panoramaUrl": "/images/exterior1.JPG",
+        "thumbnailUrl": "/images/exterior1.JPG",
+        "description": "Vista exterior del edificio",
+        "hotSpots": [
+          {
+            "pitch": 0,
+            "yaw": 110,
+            "type": "scene",
+            "text": "Entrar a la Cocina",
+            "sceneId": "cocina"
+          }
+        ]
+      }
+    ]
+  },
   "contact": {
     "agentName": "Juan Pérez",
     "phone": "+52 55 1234 5678",
