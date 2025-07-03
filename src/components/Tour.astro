@@ -18,7 +18,7 @@ const { title = "Tour Virtual 360°" } = Astro.props;
     <div class="w-full lg:w-[90vw] xl:w-[1200px] mx-auto">
       <div class="aspect-video rounded-lg overflow-hidden shadow-lg">
         <iframe
-          src="/tour"
+          src="/tour?embed=true"
           width="100%"
           height="100%"
           style="border:0;"
@@ -32,7 +32,7 @@ const { title = "Tour Virtual 360°" } = Astro.props;
     <div class="text-center mt-6">
       <button
         id="tour-fullscreen-btn"
-        class="bg-white hover:bg-gray-100 text-black px-6 py-3 border border-black rounded-full transition-all duration-300 font-medium shadow-lg hover:shadow-xl"
+        class="bg-white hover:bg-gray-100 text-black px-6 py-3 border border-black rounded-full transition-all duration-300 font-medium"
       >
         Ver en pantalla completa
       </button>

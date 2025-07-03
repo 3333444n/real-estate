@@ -6,11 +6,13 @@ import type { VirtualTourScene } from "../data/types";
 // Get virtual tour data from mockup
 const virtualTour = mockupData.virtualTour;
 
-// Detect if in iframe (embed)
-let isEmbed = false;
-if (typeof window !== "undefined") {
-  isEmbed = window.self !== window.top;
-}
+// Check for the 'embed' query parameter on the server
+const isEmbed = Astro.url.searchParams.get("embed") === "false";
+
+// THIS IS THE DEBUGGING LINE
+console.log(
+  `[tour.astro page] Is it embedded? ${isEmbed}. Should the navbar show? ${!isEmbed}`
+);
 ---
 
 <Layout
