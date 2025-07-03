@@ -9,6 +9,7 @@ import ImageTextSection from "../components/ImageTextSection.astro";
 import Gallery from "../components/Gallery.astro";
 import CardsSection from "../components/CardsSection.astro";
 import VirtualTour from "../components/VirtualTour.astro";
+import Tour from "../components/Tour.astro";
 import Map from "../components/Map.astro";
 import CTA from "../components/CTA.astro";
 import Footer from "../components/Footer.astro";
@@ -49,6 +50,10 @@ import Footer from "../components/Footer.astro";
   </div>
 
   <VirtualTour virtualTourUrl={mockupData.media.virtualTourUrl} />
+
+  <div id="tour" class="scroll-offset">
+    <Tour title="Tour Virtual 360°" />
+  </div>
 
   <div id="mapa" class="scroll-offset">
     <Map title="Ubicación" />

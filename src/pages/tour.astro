@@ -5,9 +5,18 @@ import type { VirtualTourScene } from "../data/types";
 
 // Get virtual tour data from mockup
 const virtualTour = mockupData.virtualTour;
+
+// Detect if in iframe (embed)
+let isEmbed = false;
+if (typeof window !== "undefined") {
+  isEmbed = window.self !== window.top;
+}
 ---
 
-<Layout title="360 Virtual Tour - {mockupData.propertyName}">
+<Layout
+  title={`360 Virtual Tour - {mockupData.propertyName}`}
+  showNavbar={!isEmbed}
+>
   <div class="relative w-full h-screen">
     <div id="panorama" class="w-full h-full"></div>
 

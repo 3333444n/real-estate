@@ -1,0 +1,54 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = "Tour Virtual 360°" } = Astro.props;
+---
+
+<section class="py-16 bg-white">
+  <div class="container px-2 md:px-6">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-semibold text-black mb-4">{title}</h2>
+      <p class="text-grey-dark text-lg">
+        Explora la propiedad con nuestro tour virtual inmersivo
+      </p>
+    </div>
+
+    <div class="w-full lg:w-[90vw] xl:w-[1200px] mx-auto">
+      <div class="aspect-video rounded-lg overflow-hidden shadow-lg">
+        <iframe
+          src="/tour"
+          width="100%"
+          height="100%"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          title="Tour Virtual 360° de la propiedad"></iframe>
+      </div>
+    </div>
+
+    <!-- Fullscreen Button -->
+    <div class="text-center mt-6">
+      <button
+        id="tour-fullscreen-btn"
+        class="bg-white hover:bg-gray-100 text-black px-6 py-3 border border-black rounded-full transition-all duration-300 font-medium shadow-lg hover:shadow-xl"
+      >
+        Ver en pantalla completa
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const fullscreenBtn = document.getElementById("tour-fullscreen-btn");
+
+    if (fullscreenBtn) {
+      fullscreenBtn.addEventListener("click", function () {
+        // Open tour page in fullscreen
+        window.open("/tour", "_blank");
+      });
+    }
+  });
+</script>
