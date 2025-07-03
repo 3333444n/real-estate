@@ -5,10 +5,9 @@ import Footer from "../components/Footer.astro";
 
 export interface Props {
   title: string;
-  showNavbar?: boolean;
 }
 
-const { title, showNavbar = true } = Astro.props;
+const { title } = Astro.props;
 ---
 
 <!doctype html>
@@ -21,10 +20,10 @@ const { title, showNavbar = true } = Astro.props;
     <title>{title}</title>
   </head>
   <body class="min-h-screen flex flex-col">
-    {showNavbar && <Navbar />}
+    <Navbar />
     <main class="flex-grow">
       <slot />
     </main>
-    {showNavbar && <Footer />}
+    <Footer />
   </body>
 </html>

@@ -5,20 +5,9 @@ import type { VirtualTourScene } from "../data/types";
 
 // Get virtual tour data from mockup
 const virtualTour = mockupData.virtualTour;
-
-// Check for the 'embed' query parameter on the server
-const isEmbed = Astro.url.searchParams.get("embed") === "false";
-
-// THIS IS THE DEBUGGING LINE
-console.log(
-  `[tour.astro page] Is it embedded? ${isEmbed}. Should the navbar show? ${!isEmbed}`
-);
 ---
 
-<Layout
-  title={`360 Virtual Tour - {mockupData.propertyName}`}
-  showNavbar={!isEmbed}
->
+<Layout title={`360 Virtual Tour - ${mockupData.propertyName}`}>
   <div class="relative w-full h-screen">
     <div id="panorama" class="w-full h-full"></div>
 
@@ -139,3 +128,14 @@ console.log(
     });
   </script>
 </Layout>
+
+<script is:inline>
+  // This script checks if the page is loaded inside an iframe.
+  // window.self refers to the current window.
+  // window.top refers to the topmost window in the window hierarchy.
+  // They are only different if the page is in an iframe.
+  if (window.self !== window.top) {
+    // If we are in an iframe, add a class to the body.
+    document.body.classList.add("is-embedded");
+  }
+</script>

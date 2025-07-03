@@ -251,3 +251,12 @@
     scroll-margin-top: 60px;
   }
 }
+
+/*
+ * Hides the main navbar and footer when the page is embedded in an iframe.
+ * The 'is-embedded' class is added by a script on the tour page.
+*/
+body.is-embedded .main-navbar,
+body.is-embedded .main-footer {
+  display: none !important;
+}
