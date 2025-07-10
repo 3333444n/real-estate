@@ -200,8 +200,7 @@ const metaDescription = `Descubre ${totalProperties} propiedades en venta en ${s
   </section>
 
   <!-- Property data for JavaScript -->
-  <script type="application/json" id="properties-data">
-    {JSON.stringify(allProperties)}
+  <script type="application/json" id="properties-data" set:html={JSON.stringify(allProperties)}>
   </script>
 </Layout>
 

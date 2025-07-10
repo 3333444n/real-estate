@@ -2,15 +2,15 @@ import { Client } from '@notionhq/client';
 
 // Initialize Notion client
 export const notion = new Client({
-  auth: process.env.NOTION_TOKEN,
+  auth: import.meta.env.NOTION_TOKEN,
 });
 
 // Database IDs (to be provided separately)
 export const DATABASE_IDS = {
-  PROPERTIES: process.env.NOTION_PROPERTIES_DB_ID || '',
-  AMENITIES: process.env.NOTION_AMENITIES_DB_ID || '',
-  NEARBY_LOCATIONS: process.env.NOTION_NEARBY_LOCATIONS_DB_ID || '',
-  VIRTUAL_TOUR_SCENES: process.env.NOTION_VIRTUAL_TOUR_SCENES_DB_ID || '',
+  PROPERTIES: import.meta.env.NOTION_PROPERTIES_DB_ID || '',
+  AMENITIES: import.meta.env.NOTION_AMENITIES_DB_ID || '',
+  NEARBY_LOCATIONS: import.meta.env.NOTION_NEARBY_LOCATIONS_DB_ID || '',
+  VIRTUAL_TOUR_SCENES: import.meta.env.NOTION_VIRTUAL_TOUR_SCENES_DB_ID || '',
 } as const;
 
 // Helper function to extract plain text from Notion rich text
