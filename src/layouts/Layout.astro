@@ -9,6 +9,7 @@ export interface Props {
   ogImage?: string;
   ogTitle?: string;
   ogDescription?: string;
+  showNavbar?: boolean;
 }
 
 const { 
@@ -16,7 +17,8 @@ const {
   description = "Encuentra la propiedad de tus sueños en las mejores ubicaciones.",
   ogImage = "/images/img-placeholder.webp",
   ogTitle = title,
-  ogDescription = description
+  ogDescription = description,
+  showNavbar = true
 } = Astro.props;
 ---
 
@@ -46,7 +48,7 @@ const {
     <meta name="twitter:image" content={ogImage} />
   </head>
   <body class="min-h-screen flex flex-col">
-    <Navbar />
+    {showNavbar && <Navbar />}
     <main class="flex-grow">
       <slot />
     </main>

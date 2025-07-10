@@ -272,6 +272,7 @@ export async function getPropertyVirtualTourScenes(propertyId: string): Promise<
 async function transformPropertyData(page: any): Promise<MockupData> {
   const props = page.properties;
   const propertyId = page.id;
+  
 
   // Get related data
   const [amenities, nearbyLocations, virtualTourScenes] = await Promise.all([
@@ -281,63 +282,63 @@ async function transformPropertyData(page: any): Promise<MockupData> {
   ]);
 
   // Extract media images
-  const mediaImages = extractFiles(props.Images || props.Media);
+  const mediaImages = extractFiles(props.Media);
 
   return {
     id: propertyId,
     slug: extractPlainText(props.Slug?.rich_text || []) || `property-${propertyId}`,
-    propertyName: extractPlainText(props.Name?.title || props.PropertyName?.title || []),
+    propertyName: extractPlainText(props['Property Name']?.title || []),
     status: extractSelect(props.Status) || "for_sale",
-    propertyType: extractSelect(props.Type) || "departamento",
+    propertyType: extractSelect(props['Property Type']) || "departamento",
     developer: {
-      name: extractPlainText(props.DeveloperName?.rich_text || []) || "Unknown Developer",
-      logoUrl: extractFiles(props.DeveloperLogo)[0] || "/images/img-placeholder.webp",
-      imageUrl: extractFiles(props.DeveloperImage)[0] || "/images/img-placeholder.webp",
-      description: extractPlainText(props.DeveloperDescription?.rich_text || []) || ""
+      name: extractPlainText(props['Developer Name']?.rich_text || []) || "Unknown Developer",
+      logoUrl: extractFiles(props['Developer Logo URL'])[0] || "/images/img-placeholder.webp",
+      imageUrl: extractFiles(props['Developer Image'])[0] || "/images/img-placeholder.webp",
+      description: extractPlainText(props['Developer Description']?.rich_text || []) || ""
     },
     location: {
       address: extractPlainText(props.Address?.rich_text || []),
       neighborhood: extractPlainText(props.Neighborhood?.rich_text || []),
       city: extractPlainText(props.City?.rich_text || []) || "Ciudad de México",
       country: extractPlainText(props.Country?.rich_text || []) || "México",
-      mapsLink: extractUrl(props.MapsLink) || ""
+      mapsLink: extractUrl(props['Maps Link']) || ""
     },
     pricing: {
-      minPrice: extractNumber(props.MinPrice || props.Price),
-      maxPrice: extractNumber(props.MaxPrice) || extractNumber(props.MinPrice || props.Price),
+      minPrice: extractNumber(props['Min Price']),
+      maxPrice: extractNumber(props['Max Price']) || extractNumber(props['Min Price']),
       currency: extractSelect(props.Currency) || "MXN",
-      commissionPercentage: extractNumber(props.CommissionPercentage) || 3.0
+      commissionPercentage: extractNumber(props['Commission Percentage']) || 3.0
     },
     dimensions: {
-      minAreaM2: extractNumber(props.MinArea || props.Area),
-      maxAreaM2: extractNumber(props.MaxArea) || extractNumber(props.MinArea || props.Area)
+      minAreaM2: extractNumber(props['Min Area M2']),
+      maxAreaM2: extractNumber(props['Max Area M2']) || extractNumber(props['Min Area M2'])
     },
     features: {
       bedrooms: extractNumber(props.Bedrooms) || 0,
       bathrooms: extractNumber(props.Bathrooms) || 0,
-      parkingSpaces: extractNumber(props.ParkingSpaces) || 0,
-      isFurnished: extractBoolean(props.IsFurnished)
+      parkingSpaces: extractNumber(props['Parking Spaces']) || 0,
+      isFurnished: extractBoolean(props['Is Furnished'])
     },
     delivery: {
-      type: extractSelect(props.DeliveryType) || "entrega inmediata",
-      yearBuilt: extractNumber(props.YearBuilt) || new Date().getFullYear()
+      type: extractSelect(props['Delivery Type']) || "entrega inmediata",
+      yearBuilt: extractNumber(props['Year Built']) || new Date().getFullYear()
     },
     amenities,
     nearbyLocations,
     media: {
       images: mediaImages.length > 0 ? mediaImages : ["/images/img-placeholder.webp"],
-      virtualTourUrl: extractUrl(props.VirtualTourUrl) || "",
-      videoUrl: extractUrl(props.VideoUrl) || ""
+      virtualTourUrl: extractUrl(props['Virtual Tour URL']) || "",
+      videoUrl: extractUrl(props['Video URL']) || ""
     },
     virtualTour: {
       enabled: virtualTourScenes.length > 0,
       scenes: virtualTourScenes
     },
     contact: {
-      agentName: extractPlainText(props.AgentName?.rich_text || []) || "Agent",
-      phone: extractPhone(props.AgentPhone) || extractPlainText(props.AgentPhone?.rich_text || []),
-      email: extractEmail(props.AgentEmail) || extractPlainText(props.AgentEmail?.rich_text || []),
-      website: extractUrl(props.AgentWebsite) || ""
+      agentName: extractPlainText(props['Agent Name']?.rich_text || []) || "Agent",
+      phone: extractPhone(props['Agent Phone']) || extractPlainText(props['Agent Phone']?.rich_text || []),
+      email: extractEmail(props['Agent Email']) || extractPlainText(props['Agent Email']?.rich_text || []),
+      website: extractUrl(props['Agent Website']) || ""
     },
     description: extractPlainText(props.Description?.rich_text || []) || ""
   };
