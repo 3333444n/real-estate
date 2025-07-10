@@ -1,0 +1,149 @@
+---
+import type { MockupData } from '../data/types';
+
+interface Props {
+  property: MockupData;
+}
+
+const { property } = Astro.props;
+
+// Helper function to format price
+function formatPrice(price: number, currency: string = 'MXN'): string {
+  return new Intl.NumberFormat('es-MX', {
+    style: 'currency',
+    currency: currency,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(price);
+}
+
+// Helper function to format area
+function formatArea(area: number): string {
+  return `${area.toFixed(0)} m²`;
+}
+
+// Get property type display name
+function getPropertyTypeDisplay(type: string): string {
+  const typeMap: Record<string, string> = {
+    'departamento': 'Departamento',
+    'casa': 'Casa',
+    'terreno': 'Terreno',
+    'oficina': 'Oficina',
+  };
+  return typeMap[type] || type;
+}
+
+const primaryImage = property.media.images[0] || '/images/img-placeholder.webp';
+const priceRange = property.pricing.minPrice === property.pricing.maxPrice 
+  ? formatPrice(property.pricing.minPrice, property.pricing.currency)
+  : `${formatPrice(property.pricing.minPrice, property.pricing.currency)} - ${formatPrice(property.pricing.maxPrice, property.pricing.currency)}`;
+const areaRange = property.dimensions.minAreaM2 === property.dimensions.maxAreaM2
+  ? formatArea(property.dimensions.minAreaM2)
+  : `${formatArea(property.dimensions.minAreaM2)} - ${formatArea(property.dimensions.maxAreaM2)}`;
+---
+
+<article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group">
+  <!-- Property Image -->
+  <div class="relative overflow-hidden aspect-[4/3]">
+    <img 
+      src={primaryImage}
+      alt={`${property.propertyName} - ${property.location.neighborhood}`}
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+      loading="lazy"
+    />
+    
+    <!-- Property Type Badge -->
+    <div class="absolute top-3 left-3">
+      <span class="bg-black bg-opacity-80 text-white px-2 py-1 rounded-md text-sm font-medium">
+        {getPropertyTypeDisplay(property.propertyType)}
+      </span>
+    </div>
+    
+    <!-- Status Badge (if not for sale) -->
+    {property.status !== 'for_sale' && (
+      <div class="absolute top-3 right-3">
+        <span class="bg-orange-500 text-white px-2 py-1 rounded-md text-sm font-medium">
+          {property.status === 'sold' ? 'Vendido' : property.status === 'rented' ? 'Rentado' : 'No Disponible'}
+        </span>
+      </div>
+    )}
+  </div>
+
+  <!-- Property Content -->
+  <div class="p-4">
+    <!-- Property Name and Location -->
+    <div class="mb-3">
+      <h3 class="text-lg font-semibold text-black mb-1 line-clamp-1">
+        {property.propertyName}
+      </h3>
+      <p class="text-grey text-sm flex items-center">
+        <svg class="w-4 h-4 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+        </svg>
+        <span class="line-clamp-1">{property.location.neighborhood}, {property.location.city}</span>
+      </p>
+    </div>
+
+    <!-- Price Range -->
+    <div class="mb-3">
+      <p class="text-xl font-semibold text-black">
+        {priceRange}
+      </p>
+    </div>
+
+    <!-- Property Features -->
+    <div class="grid grid-cols-3 gap-2 mb-4 text-sm text-grey">
+      <!-- Bedrooms -->
+      <div class="flex items-center">
+        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10.5 3.75a6 6 0 0 0-6 6v4.5h12v-4.5a6 6 0 0 0-6-6ZM3 15.75h14v2.25H3v-2.25Z"/>
+        </svg>
+        <span>{property.features.bedrooms} rec</span>
+      </div>
+      
+      <!-- Bathrooms -->
+      <div class="flex items-center">
+        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm6.39-2.908a.75.75 0 01.766.027l3.5 2.25a.75.75 0 010 1.262l-3.5 2.25A.75.75 0 018 12.25v-4.5a.75.75 0 01.39-.658z" clip-rule="evenodd"></path>
+        </svg>
+        <span>{property.features.bathrooms} baño{property.features.bathrooms !== 1 ? 's' : ''}</span>
+      </div>
+      
+      <!-- Area -->
+      <div class="flex items-center">
+        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
+        </svg>
+        <span>{areaRange}</span>
+      </div>
+    </div>
+
+    <!-- Developer Info -->
+    <div class="flex items-center mb-4 text-sm text-grey">
+      <img 
+        src={property.developer.logoUrl}
+        alt={property.developer.name}
+        class="w-6 h-6 rounded-full mr-2 object-cover bg-gray-100"
+        loading="lazy"
+      />
+      <span class="line-clamp-1">{property.developer.name}</span>
+    </div>
+
+    <!-- View Details Button -->
+    <a 
+      href={`/${property.slug}`}
+      class="block w-full bg-black hover:bg-gray-800 text-white text-center py-2 px-4 rounded-md transition-colors duration-300 font-medium"
+    >
+      Ver Detalles
+    </a>
+  </div>
+</article>
+
+<style>
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

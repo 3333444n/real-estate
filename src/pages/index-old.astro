@@ -1,0 +1,73 @@
+---
+import type { MockupData } from "../data/types";
+import mockupDataJson from "../data/mockup.json";
+const mockupData = mockupDataJson as MockupData;
+import Layout from "../layouts/Layout.astro";
+import HeroSection from "../components/HeroSection.astro";
+import CardsTextSection from "../components/CardsTextSection.astro";
+import ImageTextSection from "../components/ImageTextSection.astro";
+import Gallery from "../components/Gallery.astro";
+import CardsSection from "../components/CardsSection.astro";
+import Tour from "../components/Tour.astro";
+import Map from "../components/Map.astro";
+import CTA from "../components/CTA.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title={`${mockupData.propertyName} - ${mockupData.location.neighborhood}`}
+>
+  <div id="home">
+    <HeroSection
+      propertyName={mockupData.propertyName}
+      propertyType={mockupData.propertyType}
+      developer={mockupData.developer}
+      location={mockupData.location}
+      delivery={mockupData.delivery}
+      pricing={mockupData.pricing}
+    />
+  </div>
+
+  <CardsTextSection
+    pricing={mockupData.pricing}
+    dimensions={mockupData.dimensions}
+    features={mockupData.features}
+    delivery={mockupData.delivery}
+    description={mockupData.description}
+  />
+
+  <div id="galeria" class="scroll-offset">
+    <Gallery title="Galería" />
+  </div>
+
+  <div id="amenidades">
+    <CardsSection items={mockupData.amenities} title="Amenidades" />
+  </div>
+
+  <div id="tour" class="scroll-offset">
+    <Tour title="Tour Virtual 360°" />
+  </div>
+
+  <div id="cercanias">
+    <CardsSection items={mockupData.nearbyLocations} title="Lugares Cercanos" />
+  </div>
+
+  <div id="mapa" class="scroll-offset">
+    <Map title="Ubicación" />
+  </div>
+
+  <div id="desarrollador" class="scroll-offset">
+    <ImageTextSection
+      developer={mockupData.developer}
+      contact={mockupData.contact}
+      heroImage={mockupData.developer.imageUrl}
+      reverseOrder={false}
+    />
+  </div>
+
+  <div id="contacto" class="scroll-offset">
+    <!-- Contact section anchor point -->
+  </div>
+
+  <CTA />
+</Layout>

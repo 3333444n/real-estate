@@ -1,13 +1,14 @@
 ---
 interface Props {
   title: string;
+  images?: string[];
 }
 
-const { title } = Astro.props;
+const { title, images } = Astro.props;
 
-const items = [
+const items = images && images.length > 0 ? images : [
   "/images/bano.webp",
-  "/images/broom1.webp",
+  "/images/broom1.webp", 
   "/images/broom2.webp",
   "/images/cocina.webp",
   "/images/comedorSala.webp",

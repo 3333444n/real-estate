@@ -87,13 +87,7 @@ export async function getAllProperties(): Promise<MockupData[]> {
 
   try {
     const response = await notion.databases.query({
-      database_id: DATABASE_IDS.PROPERTIES,
-      sorts: [
-        {
-          property: 'Created',
-          direction: 'descending'
-        }
-      ]
+      database_id: DATABASE_IDS.PROPERTIES
     });
 
     const properties = await Promise.all(
@@ -238,12 +232,6 @@ export async function getPropertyVirtualTourScenes(propertyId: string): Promise<
           contains: propertyId
         }
       },
-      sorts: [
-        {
-          property: 'Order',
-          direction: 'ascending'
-        }
-      ]
     });
 
     const scenes = response.results.map((page: any) => {

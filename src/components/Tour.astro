@@ -1,9 +1,12 @@
 ---
+import type { VirtualTour } from '../data/types';
+
 interface Props {
   title?: string;
+  virtualTour?: VirtualTour;
 }
 
-const { title = "Tour Virtual 360°" } = Astro.props;
+const { title = "Tour Virtual 360°", virtualTour } = Astro.props;
 ---
 
 <section class="py-16 bg-white">

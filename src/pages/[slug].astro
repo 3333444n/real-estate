@@ -1,0 +1,140 @@
+---
+import type { MockupData } from "../data/types";
+import { getAllProperties, getPropertyBySlug } from "../lib/notionData";
+import Layout from "../layouts/Layout.astro";
+import HeroSection from "../components/HeroSection.astro";
+import CardsTextSection from "../components/CardsTextSection.astro";
+import ImageTextSection from "../components/ImageTextSection.astro";
+import Gallery from "../components/Gallery.astro";
+import CardsSection from "../components/CardsSection.astro";
+import Tour from "../components/Tour.astro";
+import Map from "../components/Map.astro";
+import CTA from "../components/CTA.astro";
+import Footer from "../components/Footer.astro";
+
+export async function getStaticPaths() {
+  try {
+    const properties = await getAllProperties();
+    
+    return properties.map((property) => ({
+      params: { slug: property.slug },
+      props: { property }
+    }));
+  } catch (error) {
+    console.error('Error generating static paths:', error);
+    // Return empty array if there's an error fetching properties
+    return [];
+  }
+}
+
+interface Props {
+  property: MockupData;
+}
+
+const { property } = Astro.props;
+
+// Fallback handling for missing data
+const safeProperty = {
+  ...property,
+  propertyName: property.propertyName || "Property",
+  location: {
+    neighborhood: property.location?.neighborhood || "Location",
+    ...property.location
+  },
+  description: property.description || "Property description not available.",
+  amenities: property.amenities || [],
+  nearbyLocations: property.nearbyLocations || [],
+  media: {
+    images: property.media?.images?.length > 0 ? property.media.images : ["/images/img-placeholder.webp"],
+    ...property.media
+  },
+  developer: {
+    imageUrl: property.developer?.imageUrl || "/images/img-placeholder.webp",
+    ...property.developer
+  }
+};
+
+// SEO meta data
+const pageTitle = `${safeProperty.propertyName} | Real Estate`;
+const metaDescription = safeProperty.description.length > 160 
+  ? safeProperty.description.substring(0, 157) + "..." 
+  : safeProperty.description;
+const ogImage = safeProperty.media.images[0] || "/images/img-placeholder.webp";
+---
+
+<Layout
+  title={pageTitle}
+  description={metaDescription}
+  ogImage={ogImage}
+  ogTitle={pageTitle}
+  ogDescription={metaDescription}
+>
+  <div id="home">
+    <HeroSection
+      propertyName={safeProperty.propertyName}
+      propertyType={safeProperty.propertyType}
+      developer={safeProperty.developer}
+      location={safeProperty.location}
+      delivery={safeProperty.delivery}
+      pricing={safeProperty.pricing}
+    />
+  </div>
+
+  <CardsTextSection
+    pricing={safeProperty.pricing}
+    dimensions={safeProperty.dimensions}
+    features={safeProperty.features}
+    delivery={safeProperty.delivery}
+    description={safeProperty.description}
+  />
+
+  <div id="galeria" class="scroll-offset">
+    <Gallery 
+      title="Galería"
+      images={safeProperty.media.images}
+    />
+  </div>
+
+  {safeProperty.amenities.length > 0 && (
+    <div id="amenidades">
+      <CardsSection items={safeProperty.amenities} title="Amenidades" />
+    </div>
+  )}
+
+  {safeProperty.virtualTour.enabled && safeProperty.virtualTour.scenes.length > 0 && (
+    <div id="tour" class="scroll-offset">
+      <Tour 
+        title="Tour Virtual 360°"
+        virtualTour={safeProperty.virtualTour}
+      />
+    </div>
+  )}
+
+  {safeProperty.nearbyLocations.length > 0 && (
+    <div id="cercanias">
+      <CardsSection items={safeProperty.nearbyLocations} title="Lugares Cercanos" />
+    </div>
+  )}
+
+  <div id="mapa" class="scroll-offset">
+    <Map 
+      title="Ubicación"
+      location={safeProperty.location}
+    />
+  </div>
+
+  <div id="desarrollador" class="scroll-offset">
+    <ImageTextSection
+      developer={safeProperty.developer}
+      contact={safeProperty.contact}
+      heroImage={safeProperty.developer.imageUrl}
+      reverseOrder={false}
+    />
+  </div>
+
+  <div id="contacto" class="scroll-offset">
+    <!-- Contact section anchor point -->
+  </div>
+
+  <CTA contact={safeProperty.contact} />
+</Layout>

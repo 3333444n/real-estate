@@ -1,73 +1,643 @@
 ---
-import type { MockupData } from "../data/types";
-import mockupDataJson from "../data/mockup.json";
-const mockupData = mockupDataJson as MockupData;
-import Layout from "../layouts/Layout.astro";
-import HeroSection from "../components/HeroSection.astro";
-import CardsTextSection from "../components/CardsTextSection.astro";
-import ImageTextSection from "../components/ImageTextSection.astro";
-import Gallery from "../components/Gallery.astro";
-import CardsSection from "../components/CardsSection.astro";
-import Tour from "../components/Tour.astro";
-import Map from "../components/Map.astro";
-import CTA from "../components/CTA.astro";
-import Footer from "../components/Footer.astro";
+import { getAllProperties } from '../lib/notionData';
+import Layout from '../layouts/Layout.astro';
+import SearchBar from '../components/SearchBar.astro';
+import FilterSection from '../components/FilterSection.astro';
+import PropertyCard from '../components/PropertyCard.astro';
+import Pagination from '../components/Pagination.astro';
+
+// Fetch all properties at build time
+const allProperties = await getAllProperties();
+
+// Get unique values for meta data
+const totalProperties = allProperties.length;
+const locations = [...new Set(allProperties.map(p => p.location.neighborhood).filter(Boolean))];
+const sampleLocation = locations[0] || "Ciudad de México";
+
+// SEO data
+const pageTitle = "Propiedades en Venta | Encuentra tu Hogar Ideal";
+const metaDescription = `Descubre ${totalProperties} propiedades en venta en ${sampleLocation} y más ubicaciones. Encuentra tu hogar ideal con nuestro buscador avanzado de propiedades.`;
 ---
 
-<Layout
-  title={`${mockupData.propertyName} - ${mockupData.location.neighborhood}`}
+<Layout 
+  title={pageTitle}
+  description={metaDescription}
+  ogTitle={pageTitle}
+  ogDescription={metaDescription}
+  ogImage="/images/img-placeholder.webp"
 >
-  <div id="home">
-    <HeroSection
-      propertyName={mockupData.propertyName}
-      propertyType={mockupData.propertyType}
-      developer={mockupData.developer}
-      location={mockupData.location}
-      delivery={mockupData.delivery}
-      pricing={mockupData.pricing}
-    />
-  </div>
+  <!-- Hero Section with Search -->
+  <section class="bg-gradient-to-br from-gray-50 to-gray-100 py-16 md:py-20">
+    <div class="container mx-auto px-4 md:px-6">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-black mb-6 leading-tight">
+          Encuentra tu hogar<br />
+          <span class="text-grey">ideal</span>
+        </h1>
+        <p class="text-lg md:text-xl text-grey mb-8 max-w-2xl mx-auto">
+          Explora {totalProperties} propiedades disponibles en las mejores ubicaciones de la ciudad
+        </p>
+        
+        <!-- Search Bar -->
+        <div class="max-w-4xl mx-auto mb-8">
+          <SearchBar placeholder="Buscar por nombre, ubicación, desarrollador..." />
+        </div>
+        
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
+          <div class="text-center">
+            <div class="text-2xl md:text-3xl font-semibold text-black">{totalProperties}</div>
+            <div class="text-sm text-grey">Propiedades</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl md:text-3xl font-semibold text-black">{locations.length}</div>
+            <div class="text-sm text-grey">Ubicaciones</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl md:text-3xl font-semibold text-black">{[...new Set(allProperties.map(p => p.developer.name))].length}</div>
+            <div class="text-sm text-grey">Desarrolladores</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl md:text-3xl font-semibold text-black">{[...new Set(allProperties.map(p => p.propertyType))].length}</div>
+            <div class="text-sm text-grey">Tipos</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <CardsTextSection
-    pricing={mockupData.pricing}
-    dimensions={mockupData.dimensions}
-    features={mockupData.features}
-    delivery={mockupData.delivery}
-    description={mockupData.description}
-  />
+  <!-- Main Content Area -->
+  <section class="py-8 md:py-12">
+    <div class="container mx-auto px-4 md:px-6">
+      <!-- Mobile Filter Toggle -->
+      <div class="lg:hidden mb-6">
+        <button
+          id="mobile-filter-toggle"
+          class="flex items-center justify-center w-full bg-black text-white py-3 px-4 rounded-lg font-medium"
+        >
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd"></path>
+          </svg>
+          Filtros
+          <span id="active-filters-count" class="ml-2 bg-white text-black px-2 py-1 rounded-full text-xs hidden">0</span>
+        </button>
+      </div>
 
-  <div id="galeria" class="scroll-offset">
-    <Gallery title="Galería" />
-  </div>
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Filters Sidebar -->
+        <aside class="lg:w-80 flex-shrink-0">
+          <!-- Mobile Filter Overlay -->
+          <div
+            id="mobile-filter-overlay"
+            class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden hidden"
+          ></div>
+          
+          <!-- Filter Panel -->
+          <div
+            id="filter-panel"
+            class="filter-panel fixed lg:static inset-y-0 left-0 z-50 lg:z-auto w-80 lg:w-full bg-white lg:bg-transparent transform -translate-x-full lg:translate-x-0 transition-transform duration-300 lg:transition-none overflow-y-auto lg:overflow-visible h-full lg:h-auto"
+          >
+            <!-- Mobile Close Button -->
+            <div class="lg:hidden flex items-center justify-between p-4 border-b">
+              <h2 class="text-lg font-semibold text-black">Filtros</h2>
+              <button
+                id="close-mobile-filters"
+                class="p-2 hover:bg-gray-100 rounded-lg"
+              >
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
+              </button>
+            </div>
+            
+            <!-- Filter Content -->
+            <div class="p-4 lg:p-0">
+              <FilterSection properties={allProperties} />
+            </div>
+          </div>
+        </aside>
 
-  <div id="amenidades">
-    <CardsSection items={mockupData.amenities} title="Amenidades" />
-  </div>
+        <!-- Main Content -->
+        <main class="flex-1 min-w-0">
+          <!-- Results Header -->
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+            <div>
+              <h2 class="text-2xl font-semibold text-black mb-2">
+                <span id="results-title">Todas las propiedades</span>
+              </h2>
+              <p class="text-grey" id="results-subtitle">
+                Encontramos <span class="font-medium text-black" id="filtered-count">{totalProperties}</span> propiedades que coinciden con tu búsqueda
+              </p>
+            </div>
+            
+            <!-- Sort Options -->
+            <div class="flex items-center gap-2">
+              <label for="sort-select" class="text-sm text-grey">Ordenar por:</label>
+              <select
+                id="sort-select"
+                class="border border-gray-300 rounded-md px-3 py-2 text-sm bg-white text-black focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+              >
+                <option value="default">Relevancia</option>
+                <option value="price-asc">Precio: Menor a Mayor</option>
+                <option value="price-desc">Precio: Mayor a Menor</option>
+                <option value="area-asc">Área: Menor a Mayor</option>
+                <option value="area-desc">Área: Mayor a Menor</option>
+                <option value="bedrooms-desc">Más Recámaras</option>
+                <option value="newest">Más Recientes</option>
+              </select>
+            </div>
+          </div>
 
-  <div id="tour" class="scroll-offset">
-    <Tour title="Tour Virtual 360°" />
-  </div>
+          <!-- Loading State -->
+          <div id="loading-state" class="hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {Array.from({ length: 6 }).map(() => (
+                <div class="bg-gray-200 rounded-lg animate-pulse">
+                  <div class="aspect-[4/3] bg-gray-300 rounded-t-lg"></div>
+                  <div class="p-4 space-y-3">
+                    <div class="h-4 bg-gray-300 rounded w-3/4"></div>
+                    <div class="h-3 bg-gray-300 rounded w-1/2"></div>
+                    <div class="h-4 bg-gray-300 rounded w-2/3"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
 
-  <div id="cercanias">
-    <CardsSection items={mockupData.nearbyLocations} title="Lugares Cercanos" />
-  </div>
+          <!-- Property Grid -->
+          <div
+            id="property-results"
+            class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8"
+          >
+            {allProperties.map((property) => (
+              <PropertyCard property={property} />
+            ))}
+          </div>
 
-  <div id="mapa" class="scroll-offset">
-    <Map title="Ubicación" />
-  </div>
+          <!-- No Results State -->
+          <div id="no-results" class="text-center py-12 hidden">
+            <div class="max-w-md mx-auto">
+              <svg class="w-16 h-16 text-grey mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+              </svg>
+              <h3 class="text-lg font-medium text-black mb-2">No se encontraron propiedades</h3>
+              <p class="text-grey mb-4">Intenta ajustar tus filtros o realiza una nueva búsqueda</p>
+              <button
+                id="clear-all-filters-no-results"
+                class="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-md font-medium transition-colors duration-300"
+              >
+                Limpiar todos los filtros
+              </button>
+            </div>
+          </div>
 
-  <div id="desarrollador" class="scroll-offset">
-    <ImageTextSection
-      developer={mockupData.developer}
-      contact={mockupData.contact}
-      heroImage={mockupData.developer.imageUrl}
-      reverseOrder={false}
-    />
-  </div>
+          <!-- Pagination -->
+          <Pagination totalItems={totalProperties} itemsPerPage={12} />
+        </main>
+      </div>
+    </div>
+  </section>
 
-  <div id="contacto" class="scroll-offset">
-    <!-- Contact section anchor point -->
-  </div>
-
-  <CTA />
+  <!-- Property data for JavaScript -->
+  <script type="application/json" id="properties-data">
+    {JSON.stringify(allProperties)}
+  </script>
 </Layout>
+
+<!-- Main JavaScript for search, filtering, and interactions -->
+<script>
+  // Property management class
+  class PropertyManager {
+    private allProperties: any[] = [];
+    private filteredProperties: any[] = [];
+    private currentPage: number = 1;
+    private itemsPerPage: number = 12;
+    private currentFilters: any = {};
+    private currentSort: string = 'default';
+    private searchTerm: string = '';
+
+    constructor() {
+      this.init();
+    }
+
+    private init() {
+      // Load properties data
+      this.loadPropertiesData();
+      
+      // Initialize filtered properties
+      this.filteredProperties = [...this.allProperties];
+      
+      // Add event listeners
+      this.addEventListeners();
+      
+      // Initial render
+      this.renderProperties();
+      this.updateResultsInfo();
+    }
+
+    private loadPropertiesData() {
+      const dataScript = document.getElementById('properties-data');
+      if (dataScript) {
+        try {
+          this.allProperties = JSON.parse(dataScript.textContent || '[]');
+        } catch (error) {
+          console.error('Error parsing properties data:', error);
+          this.allProperties = [];
+        }
+      }
+    }
+
+    private addEventListeners() {
+      // Search functionality
+      window.addEventListener('propertySearch', this.handleSearch.bind(this));
+      
+      // Filter functionality
+      window.addEventListener('propertyFilter', this.handleFilter.bind(this));
+      
+      // Pagination
+      window.addEventListener('pageChange', this.handlePageChange.bind(this));
+      
+      // Sort functionality
+      const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
+      sortSelect?.addEventListener('change', this.handleSort.bind(this));
+      
+      // Mobile filter functionality
+      this.setupMobileFilters();
+    }
+
+    private setupMobileFilters() {
+      const mobileToggle = document.getElementById('mobile-filter-toggle');
+      const mobileOverlay = document.getElementById('mobile-filter-overlay');
+      const closeButton = document.getElementById('close-mobile-filters');
+      const filterPanel = document.getElementById('filter-panel');
+
+      mobileToggle?.addEventListener('click', () => {
+        filterPanel?.classList.remove('-translate-x-full');
+        mobileOverlay?.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      });
+
+      const closeFilters = () => {
+        filterPanel?.classList.add('-translate-x-full');
+        mobileOverlay?.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+      };
+
+      closeButton?.addEventListener('click', closeFilters);
+      mobileOverlay?.addEventListener('click', closeFilters);
+    }
+
+    private handleSearch(event: any) {
+      this.searchTerm = event.detail.searchTerm.toLowerCase();
+      this.applyFiltersAndSort();
+    }
+
+    private handleFilter(event: any) {
+      this.currentFilters = event.detail.filters;
+      this.applyFiltersAndSort();
+    }
+
+    private handleSort(event: any) {
+      this.currentSort = (event.target as HTMLSelectElement).value;
+      this.sortProperties();
+      this.renderProperties();
+    }
+
+    private handlePageChange(event: any) {
+      this.currentPage = event.detail.currentPage;
+      this.itemsPerPage = event.detail.itemsPerPage;
+      this.renderProperties();
+    }
+
+    private applyFiltersAndSort() {
+      // Start with all properties
+      let filtered = [...this.allProperties];
+
+      // Apply search filter
+      if (this.searchTerm) {
+        filtered = filtered.filter(property => {
+          return (
+            property.propertyName.toLowerCase().includes(this.searchTerm) ||
+            property.description.toLowerCase().includes(this.searchTerm) ||
+            property.location.neighborhood.toLowerCase().includes(this.searchTerm) ||
+            property.location.city.toLowerCase().includes(this.searchTerm) ||
+            property.developer.name.toLowerCase().includes(this.searchTerm)
+          );
+        });
+      }
+
+      // Apply filters
+      if (this.currentFilters.city) {
+        filtered = filtered.filter(p => p.location.city === this.currentFilters.city);
+      }
+
+      if (this.currentFilters.neighborhood) {
+        filtered = filtered.filter(p => p.location.neighborhood === this.currentFilters.neighborhood);
+      }
+
+      if (this.currentFilters.minPrice) {
+        filtered = filtered.filter(p => p.pricing.maxPrice >= this.currentFilters.minPrice);
+      }
+
+      if (this.currentFilters.maxPrice) {
+        filtered = filtered.filter(p => p.pricing.minPrice <= this.currentFilters.maxPrice);
+      }
+
+      if (this.currentFilters.bedrooms) {
+        const bedrooms = parseInt(this.currentFilters.bedrooms);
+        if (bedrooms === 4) {
+          filtered = filtered.filter(p => p.features.bedrooms >= 4);
+        } else {
+          filtered = filtered.filter(p => p.features.bedrooms === bedrooms);
+        }
+      }
+
+      if (this.currentFilters.bathrooms) {
+        const bathrooms = parseInt(this.currentFilters.bathrooms);
+        if (bathrooms === 4) {
+          filtered = filtered.filter(p => p.features.bathrooms >= 4);
+        } else {
+          filtered = filtered.filter(p => p.features.bathrooms === bathrooms);
+        }
+      }
+
+      if (this.currentFilters.propertyType && this.currentFilters.propertyType.length > 0) {
+        filtered = filtered.filter(p => this.currentFilters.propertyType.includes(p.propertyType));
+      }
+
+      if (this.currentFilters.amenities && this.currentFilters.amenities.length > 0) {
+        filtered = filtered.filter(p => {
+          const propertyAmenities = p.amenities.map((a: any) => a.title);
+          return this.currentFilters.amenities.some((amenity: string) => 
+            propertyAmenities.includes(amenity)
+          );
+        });
+      }
+
+      this.filteredProperties = filtered;
+      this.sortProperties();
+      this.currentPage = 1; // Reset to first page
+      this.renderProperties();
+      this.updateResultsInfo();
+      this.updateActiveFiltersCount();
+
+      // Update pagination
+      window.dispatchEvent(new CustomEvent('propertiesUpdated', {
+        detail: {
+          totalItems: this.allProperties.length,
+          filteredItems: this.filteredProperties.length
+        }
+      }));
+    }
+
+    private sortProperties() {
+      switch (this.currentSort) {
+        case 'price-asc':
+          this.filteredProperties.sort((a, b) => a.pricing.minPrice - b.pricing.minPrice);
+          break;
+        case 'price-desc':
+          this.filteredProperties.sort((a, b) => b.pricing.maxPrice - a.pricing.maxPrice);
+          break;
+        case 'area-asc':
+          this.filteredProperties.sort((a, b) => a.dimensions.minAreaM2 - b.dimensions.minAreaM2);
+          break;
+        case 'area-desc':
+          this.filteredProperties.sort((a, b) => b.dimensions.maxAreaM2 - a.dimensions.maxAreaM2);
+          break;
+        case 'bedrooms-desc':
+          this.filteredProperties.sort((a, b) => b.features.bedrooms - a.features.bedrooms);
+          break;
+        default:
+          // Keep original order for 'default' and 'newest'
+          break;
+      }
+    }
+
+    private renderProperties() {
+      const container = document.getElementById('property-results');
+      const noResults = document.getElementById('no-results');
+      
+      if (!container || !noResults) return;
+
+      // Calculate pagination
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      const paginatedProperties = this.filteredProperties.slice(startIndex, endIndex);
+
+      if (paginatedProperties.length === 0) {
+        container.style.display = 'none';
+        noResults.classList.remove('hidden');
+      } else {
+        container.style.display = 'grid';
+        noResults.classList.add('hidden');
+        
+        // Render property cards
+        container.innerHTML = paginatedProperties.map(property => this.renderPropertyCard(property)).join('');
+      }
+    }
+
+    private renderPropertyCard(property: any): string {
+      const formatPrice = (price: number, currency: string = 'MXN') => {
+        return new Intl.NumberFormat('es-MX', {
+          style: 'currency',
+          currency: currency,
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }).format(price);
+      };
+
+      const formatArea = (area: number) => `${area.toFixed(0)} m²`;
+      
+      const getPropertyTypeDisplay = (type: string) => {
+        const typeMap: Record<string, string> = {
+          'departamento': 'Departamento',
+          'casa': 'Casa',
+          'terreno': 'Terreno',
+          'oficina': 'Oficina',
+        };
+        return typeMap[type] || type;
+      };
+
+      const primaryImage = property.media.images[0] || '/images/img-placeholder.webp';
+      const priceRange = property.pricing.minPrice === property.pricing.maxPrice 
+        ? formatPrice(property.pricing.minPrice, property.pricing.currency)
+        : `${formatPrice(property.pricing.minPrice, property.pricing.currency)} - ${formatPrice(property.pricing.maxPrice, property.pricing.currency)}`;
+      const areaRange = property.dimensions.minAreaM2 === property.dimensions.maxAreaM2
+        ? formatArea(property.dimensions.minAreaM2)
+        : `${formatArea(property.dimensions.minAreaM2)} - ${formatArea(property.dimensions.maxAreaM2)}`;
+
+      return `
+        <article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group">
+          <div class="relative overflow-hidden aspect-[4/3]">
+            <img 
+              src="${primaryImage}"
+              alt="${property.propertyName} - ${property.location.neighborhood}"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+            />
+            <div class="absolute top-3 left-3">
+              <span class="bg-black bg-opacity-80 text-white px-2 py-1 rounded-md text-sm font-medium">
+                ${getPropertyTypeDisplay(property.propertyType)}
+              </span>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="mb-3">
+              <h3 class="text-lg font-semibold text-black mb-1 line-clamp-1">
+                ${property.propertyName}
+              </h3>
+              <p class="text-grey text-sm flex items-center">
+                <svg class="w-4 h-4 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="line-clamp-1">${property.location.neighborhood}, ${property.location.city}</span>
+              </p>
+            </div>
+            <div class="mb-3">
+              <p class="text-xl font-semibold text-black">
+                ${priceRange}
+              </p>
+            </div>
+            <div class="grid grid-cols-3 gap-2 mb-4 text-sm text-grey">
+              <div class="flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10.5 3.75a6 6 0 0 0-6 6v4.5h12v-4.5a6 6 0 0 0-6-6ZM3 15.75h14v2.25H3v-2.25Z"/>
+                </svg>
+                <span>${property.features.bedrooms} rec</span>
+              </div>
+              <div class="flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm6.39-2.908a.75.75 0 01.766.027l3.5 2.25a.75.75 0 010 1.262l-3.5 2.25A.75.75 0 018 12.25v-4.5a.75.75 0 01.39-.658z" clip-rule="evenodd"></path>
+                </svg>
+                <span>${property.features.bathrooms} baño${property.features.bathrooms !== 1 ? 's' : ''}</span>
+              </div>
+              <div class="flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
+                </svg>
+                <span>${areaRange}</span>
+              </div>
+            </div>
+            <div class="flex items-center mb-4 text-sm text-grey">
+              <img 
+                src="${property.developer.logoUrl}"
+                alt="${property.developer.name}"
+                class="w-6 h-6 rounded-full mr-2 object-cover bg-gray-100"
+                loading="lazy"
+              />
+              <span class="line-clamp-1">${property.developer.name}</span>
+            </div>
+            <a 
+              href="/${property.slug}"
+              class="block w-full bg-black hover:bg-gray-800 text-white text-center py-2 px-4 rounded-md transition-colors duration-300 font-medium"
+            >
+              Ver Detalles
+            </a>
+          </div>
+        </article>
+      `;
+    }
+
+    private updateResultsInfo() {
+      const filteredCount = document.getElementById('filtered-count');
+      const resultsTitle = document.getElementById('results-title');
+      const resultsSubtitle = document.getElementById('results-subtitle');
+
+      if (filteredCount) {
+        filteredCount.textContent = this.filteredProperties.length.toString();
+      }
+
+      if (resultsTitle) {
+        if (this.searchTerm || Object.keys(this.currentFilters).length > 0) {
+          resultsTitle.textContent = 'Resultados de búsqueda';
+        } else {
+          resultsTitle.textContent = 'Todas las propiedades';
+        }
+      }
+
+      if (resultsSubtitle) {
+        if (this.filteredProperties.length === 0) {
+          resultsSubtitle.innerHTML = 'No se encontraron propiedades con los criterios seleccionados';
+        } else if (this.filteredProperties.length === this.allProperties.length) {
+          resultsSubtitle.innerHTML = `Mostrando <span class="font-medium text-black">${this.filteredProperties.length}</span> propiedades disponibles`;
+        } else {
+          resultsSubtitle.innerHTML = `Encontramos <span class="font-medium text-black">${this.filteredProperties.length}</span> de ${this.allProperties.length} propiedades`;
+        }
+      }
+    }
+
+    private updateActiveFiltersCount() {
+      const activeFiltersCount = document.getElementById('active-filters-count');
+      if (!activeFiltersCount) return;
+
+      let count = 0;
+      
+      // Count active filters
+      if (this.searchTerm) count++;
+      if (this.currentFilters.city) count++;
+      if (this.currentFilters.neighborhood) count++;
+      if (this.currentFilters.bedrooms) count++;
+      if (this.currentFilters.bathrooms) count++;
+      if (this.currentFilters.propertyType && this.currentFilters.propertyType.length > 0) {
+        count += this.currentFilters.propertyType.length;
+      }
+      if (this.currentFilters.amenities && this.currentFilters.amenities.length > 0) {
+        count += this.currentFilters.amenities.length;
+      }
+      
+      // Check if price range is not default
+      if (this.currentFilters.minPrice > 0 || this.currentFilters.maxPrice < 999999999) {
+        count++;
+      }
+
+      if (count > 0) {
+        activeFiltersCount.textContent = count.toString();
+        activeFiltersCount.classList.remove('hidden');
+      } else {
+        activeFiltersCount.classList.add('hidden');
+      }
+    }
+  }
+
+  // Initialize when DOM is loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    (window as any).propertyManager = new PropertyManager();
+  });
+
+</script>
+
+<style>
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Loading animation */
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: .5;
+    }
+  }
+
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Smooth transitions */
+  .transition-transform {
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .transition-colors {
+    transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  }
+
+  .transition-shadow {
+    transition: box-shadow 0.3s ease-in-out;
+  }
+</style>

@@ -1,0 +1,454 @@
+---
+import type { MockupData } from '../data/types';
+
+interface Props {
+  properties: MockupData[];
+}
+
+const { properties } = Astro.props;
+
+// Extract unique values for filter options
+const neighborhoods = [...new Set(properties.map(p => p.location.neighborhood).filter(Boolean))].sort();
+const cities = [...new Set(properties.map(p => p.location.city).filter(Boolean))].sort();
+const propertyTypes = [...new Set(properties.map(p => p.propertyType).filter(Boolean))].sort();
+
+// Get all unique amenities
+const allAmenities = properties.flatMap(p => p.amenities.map(a => a.title));
+const popularAmenities = [...new Set(allAmenities)]
+  .map(amenity => ({
+    name: amenity,
+    count: allAmenities.filter(a => a === amenity).length
+  }))
+  .sort((a, b) => b.count - a.count)
+  .slice(0, 8) // Top 8 most common amenities
+  .map(a => a.name);
+
+// Get price range
+const prices = properties.flatMap(p => [p.pricing.minPrice, p.pricing.maxPrice]);
+const minPrice = Math.min(...prices);
+const maxPrice = Math.max(...prices);
+
+// Property type display mapping
+const propertyTypeMap: Record<string, string> = {
+  'departamento': 'Departamento',
+  'casa': 'Casa',
+  'terreno': 'Terreno',
+  'oficina': 'Oficina',
+};
+---
+
+<div class="bg-white rounded-lg shadow-md p-6">
+  <!-- Filter Header -->
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-xl font-semibold text-black">Filtros</h2>
+    <button
+      id="clear-all-filters"
+      class="text-grey hover:text-black text-sm font-medium transition-colors duration-300"
+    >
+      Limpiar Todo
+    </button>
+  </div>
+
+  <form id="property-filters" class="space-y-6">
+    <!-- Location Filters -->
+    <div class="space-y-4">
+      <h3 class="font-medium text-black border-b border-gray-200 pb-2">Ubicación</h3>
+      
+      <!-- City Filter -->
+      <div>
+        <label for="city-filter" class="block text-sm font-medium text-grey mb-2">Ciudad</label>
+        <select
+          id="city-filter"
+          name="city"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-black focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+        >
+          <option value="">Todas las ciudades</option>
+          {cities.map(city => (
+            <option value={city}>{city}</option>
+          ))}
+        </select>
+      </div>
+
+      <!-- Neighborhood Filter -->
+      <div>
+        <label for="neighborhood-filter" class="block text-sm font-medium text-grey mb-2">Colonia</label>
+        <select
+          id="neighborhood-filter"
+          name="neighborhood"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-black focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+        >
+          <option value="">Todas las colonias</option>
+          {neighborhoods.map(neighborhood => (
+            <option value={neighborhood}>{neighborhood}</option>
+          ))}
+        </select>
+      </div>
+    </div>
+
+    <!-- Price Range Filter -->
+    <div>
+      <h3 class="font-medium text-black border-b border-gray-200 pb-2 mb-4">Rango de Precio</h3>
+      
+      <div class="space-y-4">
+        <!-- Price Range Slider -->
+        <div class="px-2">
+          <div id="price-range-slider" class="relative">
+            <input
+              type="range"
+              id="min-price-range"
+              name="minPrice"
+              min={minPrice}
+              max={maxPrice}
+              value={minPrice}
+              class="range-slider range-slider-min"
+            />
+            <input
+              type="range"
+              id="max-price-range"
+              name="maxPrice"
+              min={minPrice}
+              max={maxPrice}
+              value={maxPrice}
+              class="range-slider range-slider-max"
+            />
+          </div>
+        </div>
+        
+        <!-- Price Input Fields -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="min-price-input" class="block text-sm text-grey mb-1">Precio mínimo</label>
+            <input
+              type="number"
+              id="min-price-input"
+              name="minPriceInput"
+              min={minPrice}
+              max={maxPrice}
+              value={minPrice}
+              class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+              placeholder="Mínimo"
+            />
+          </div>
+          <div>
+            <label for="max-price-input" class="block text-sm text-grey mb-1">Precio máximo</label>
+            <input
+              type="number"
+              id="max-price-input"
+              name="maxPriceInput"
+              min={minPrice}
+              max={maxPrice}
+              value={maxPrice}
+              class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+              placeholder="Máximo"
+            />
+          </div>
+        </div>
+        
+        <!-- Price Display -->
+        <div class="text-center text-sm text-grey">
+          <span id="price-display">
+            ${minPrice.toLocaleString()} - ${maxPrice.toLocaleString()} MXN
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Property Features -->
+    <div class="space-y-4">
+      <h3 class="font-medium text-black border-b border-gray-200 pb-2">Características</h3>
+      
+      <!-- Bedrooms -->
+      <div>
+        <label for="bedrooms-filter" class="block text-sm font-medium text-grey mb-2">Recámaras</label>
+        <select
+          id="bedrooms-filter"
+          name="bedrooms"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-black focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+        >
+          <option value="">Cualquier cantidad</option>
+          <option value="1">1 recámara</option>
+          <option value="2">2 recámaras</option>
+          <option value="3">3 recámaras</option>
+          <option value="4">4+ recámaras</option>
+        </select>
+      </div>
+
+      <!-- Bathrooms -->
+      <div>
+        <label for="bathrooms-filter" class="block text-sm font-medium text-grey mb-2">Baños</label>
+        <select
+          id="bathrooms-filter"
+          name="bathrooms"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-black focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+        >
+          <option value="">Cualquier cantidad</option>
+          <option value="1">1 baño</option>
+          <option value="2">2 baños</option>
+          <option value="3">3 baños</option>
+          <option value="4">4+ baños</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Property Type -->
+    <div>
+      <h3 class="font-medium text-black border-b border-gray-200 pb-2 mb-4">Tipo de Propiedad</h3>
+      <div class="space-y-2">
+        {propertyTypes.map(type => (
+          <label class="flex items-center cursor-pointer hover:bg-gray-50 rounded-md p-2 -m-2 transition-colors">
+            <input
+              type="checkbox"
+              name="propertyType"
+              value={type}
+              class="mr-3 h-4 w-4 text-black border-gray-300 rounded focus:ring-black focus:ring-2"
+            />
+            <span class="text-sm text-black">{propertyTypeMap[type] || type}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+
+    <!-- Popular Amenities -->
+    {popularAmenities.length > 0 && (
+      <div>
+        <h3 class="font-medium text-black border-b border-gray-200 pb-2 mb-4">Amenidades</h3>
+        <div class="space-y-2">
+          {popularAmenities.map(amenity => (
+            <label class="flex items-center cursor-pointer hover:bg-gray-50 rounded-md p-2 -m-2 transition-colors">
+              <input
+                type="checkbox"
+                name="amenities"
+                value={amenity}
+                class="mr-3 h-4 w-4 text-black border-gray-300 rounded focus:ring-black focus:ring-2"
+              />
+              <span class="text-sm text-black">{amenity}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Mobile Apply Button -->
+    <button
+      type="button"
+      id="apply-filters-mobile"
+      class="w-full bg-black hover:bg-gray-800 text-white py-3 px-4 rounded-md font-medium transition-colors duration-300 md:hidden"
+    >
+      Aplicar Filtros
+    </button>
+  </form>
+</div>
+
+<style>
+  /* Custom range slider styles */
+  .range-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: transparent;
+    outline: none;
+    position: absolute;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  .range-slider::-webkit-slider-track {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #e5e7eb;
+    height: 6px;
+    border-radius: 3px;
+  }
+
+  .range-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #000000;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    pointer-events: auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .range-slider::-moz-range-track {
+    background: #e5e7eb;
+    height: 6px;
+    border-radius: 3px;
+    border: none;
+  }
+
+  .range-slider::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #000000;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  #price-range-slider {
+    height: 20px;
+    position: relative;
+  }
+
+  .range-slider-min {
+    z-index: 1;
+  }
+
+  .range-slider-max {
+    z-index: 2;
+  }
+
+  /* Active range highlight */
+  #price-range-slider::before {
+    content: '';
+    position: absolute;
+    top: 7px;
+    height: 6px;
+    background: #000000;
+    border-radius: 3px;
+    z-index: 0;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('property-filters') as HTMLFormElement;
+    const clearAllButton = document.getElementById('clear-all-filters') as HTMLButtonElement;
+    const minPriceRange = document.getElementById('min-price-range') as HTMLInputElement;
+    const maxPriceRange = document.getElementById('max-price-range') as HTMLInputElement;
+    const minPriceInput = document.getElementById('min-price-input') as HTMLInputElement;
+    const maxPriceInput = document.getElementById('max-price-input') as HTMLInputElement;
+    const priceDisplay = document.getElementById('price-display') as HTMLSpanElement;
+    const applyMobileButton = document.getElementById('apply-filters-mobile') as HTMLButtonElement;
+
+    if (!form) return;
+
+    // Price range functionality
+    function updatePriceDisplay() {
+      const minVal = parseInt(minPriceRange.value);
+      const maxVal = parseInt(maxPriceRange.value);
+      
+      // Ensure min is not greater than max
+      if (minVal > maxVal) {
+        const target = (window.event as any)?.target;
+        if (target === minPriceRange) {
+          minPriceRange.value = maxVal.toString();
+        } else {
+          maxPriceRange.value = minVal.toString();
+        }
+      }
+      
+      const finalMin = Math.min(parseInt(minPriceRange.value), parseInt(maxPriceRange.value));
+      const finalMax = Math.max(parseInt(minPriceRange.value), parseInt(maxPriceRange.value));
+      
+      minPriceInput.value = finalMin.toString();
+      maxPriceInput.value = finalMax.toString();
+      
+      priceDisplay.textContent = `$${finalMin.toLocaleString()} - $${finalMax.toLocaleString()} MXN`;
+      
+      // Update the active range highlight
+      const rangeSlider = document.getElementById('price-range-slider');
+      if (rangeSlider) {
+        const min = parseInt(minPriceRange.min);
+        const max = parseInt(minPriceRange.max);
+        const leftPercent = ((finalMin - min) / (max - min)) * 100;
+        const rightPercent = ((finalMax - min) / (max - min)) * 100;
+        
+        (rangeSlider as any).style.setProperty('--left', `${leftPercent}%`);
+        (rangeSlider as any).style.setProperty('--right', `${rightPercent}%`);
+      }
+    }
+
+    // Price range event listeners
+    if (minPriceRange && maxPriceRange && minPriceInput && maxPriceInput) {
+      minPriceRange.addEventListener('input', updatePriceDisplay);
+      maxPriceRange.addEventListener('input', updatePriceDisplay);
+      
+      minPriceInput.addEventListener('change', function() {
+        minPriceRange.value = this.value;
+        updatePriceDisplay();
+        triggerFilterEvent();
+      });
+      
+      maxPriceInput.addEventListener('change', function() {
+        maxPriceRange.value = this.value;
+        updatePriceDisplay();
+        triggerFilterEvent();
+      });
+      
+      // Initialize price display
+      updatePriceDisplay();
+    }
+
+    // Trigger filter event when any filter changes
+    function triggerFilterEvent() {
+      const filterData = new FormData(form);
+      const filters: any = {};
+      
+      // Process form data
+      for (const [key, value] of filterData.entries()) {
+        if (value) {
+          if (key === 'propertyType' || key === 'amenities') {
+            if (!filters[key]) filters[key] = [];
+            filters[key].push(value);
+          } else {
+            filters[key] = value;
+          }
+        }
+      }
+      
+      // Add price range
+      filters.minPrice = parseInt(minPriceRange?.value || '0');
+      filters.maxPrice = parseInt(maxPriceRange?.value || '999999999');
+      
+      const filterEvent = new CustomEvent('propertyFilter', {
+        detail: { filters }
+      });
+      window.dispatchEvent(filterEvent);
+    }
+
+    // Add event listeners to all filter inputs
+    const filterInputs = form.querySelectorAll('select, input[type="checkbox"]');
+    filterInputs.forEach(input => {
+      input.addEventListener('change', triggerFilterEvent);
+    });
+
+    // Clear all filters
+    if (clearAllButton) {
+      clearAllButton.addEventListener('click', function() {
+        form.reset();
+        
+        // Reset price range to original values
+        if (minPriceRange && maxPriceRange) {
+          minPriceRange.value = minPriceRange.min;
+          maxPriceRange.value = maxPriceRange.max;
+          updatePriceDisplay();
+        }
+        
+        triggerFilterEvent();
+      });
+    }
+
+    // Mobile apply button
+    if (applyMobileButton) {
+      applyMobileButton.addEventListener('click', function() {
+        // On mobile, close filter panel if it's a modal/sidebar
+        const filterPanel = this.closest('.filter-panel');
+        if (filterPanel) {
+          filterPanel.classList.add('hidden');
+        }
+      });
+    }
+
+    // Initialize filters
+    triggerFilterEvent();
+  });
+</script>

@@ -1,0 +1,131 @@
+---
+interface Props {
+  placeholder?: string;
+}
+
+const { placeholder = "Buscar propiedades por nombre, ubicación o descripción..." } = Astro.props;
+---
+
+<div class="relative w-full max-w-2xl mx-auto">
+  <div class="relative">
+    <!-- Search Icon -->
+    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+      <svg class="h-5 w-5 text-grey" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+      </svg>
+    </div>
+    
+    <!-- Search Input -->
+    <input
+      type="text"
+      id="property-search"
+      name="search"
+      class="block w-full pl-12 pr-12 py-4 border border-gray-300 rounded-xl bg-white text-black placeholder-grey focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-300 text-lg"
+      placeholder={placeholder}
+      autocomplete="off"
+    />
+    
+    <!-- Clear Button -->
+    <button
+      type="button"
+      id="clear-search"
+      class="absolute inset-y-0 right-0 pr-4 flex items-center opacity-0 transition-opacity duration-300 hover:opacity-100"
+      aria-label="Limpiar búsqueda"
+    >
+      <svg class="h-5 w-5 text-grey hover:text-black" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+      </svg>
+    </button>
+  </div>
+  
+  <!-- Search Suggestions (for future enhancement) -->
+  <div id="search-suggestions" class="absolute z-10 w-full mt-2 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+    <!-- Suggestions will be populated by JavaScript -->
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('property-search') as HTMLInputElement;
+    const clearButton = document.getElementById('clear-search') as HTMLButtonElement;
+    
+    if (searchInput && clearButton) {
+      // Show/hide clear button based on input content
+      function toggleClearButton() {
+        if (searchInput.value.length > 0) {
+          clearButton.classList.remove('opacity-0');
+          clearButton.classList.add('opacity-100');
+        } else {
+          clearButton.classList.remove('opacity-100');
+          clearButton.classList.add('opacity-0');
+        }
+      }
+      
+      // Handle input changes
+      searchInput.addEventListener('input', function() {
+        toggleClearButton();
+        
+        // Trigger search event for property filtering
+        const searchEvent = new CustomEvent('propertySearch', {
+          detail: { searchTerm: searchInput.value.toLowerCase().trim() }
+        });
+        window.dispatchEvent(searchEvent);
+      });
+      
+      // Handle clear button click
+      clearButton.addEventListener('click', function() {
+        searchInput.value = '';
+        searchInput.focus();
+        toggleClearButton();
+        
+        // Trigger search event to clear results
+        const searchEvent = new CustomEvent('propertySearch', {
+          detail: { searchTerm: '' }
+        });
+        window.dispatchEvent(searchEvent);
+      });
+      
+      // Handle Enter key
+      searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          searchInput.blur();
+        }
+      });
+      
+      // Initialize clear button visibility
+      toggleClearButton();
+    }
+  });
+</script>
+
+<style>
+  /* Custom focus styles for better accessibility */
+  #property-search:focus {
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Smooth animations for search suggestions */
+  #search-suggestions {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  /* Custom scrollbar for suggestions */
+  #search-suggestions::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  #search-suggestions::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+  }
+  
+  #search-suggestions::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+  }
+  
+  #search-suggestions::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+  }
+</style>
