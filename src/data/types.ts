@@ -34,18 +34,71 @@ export interface VirtualTour {
   scenes: VirtualTourScene[];
 }
 
+export interface Location {
+  address: string;
+  neighborhood: string;
+  city: string;
+  country: string;
+  mapsLink: string;
+}
+
+export interface Pricing {
+  minPrice: number;
+  maxPrice: number;
+  currency: string;
+  commissionPercentage: number;
+}
+
+export interface Dimensions {
+  minAreaM2: number;
+  maxAreaM2: number;
+}
+
+export interface Features {
+  bedrooms: number;
+  bathrooms: number;
+  parkingSpaces: number;
+  isFurnished: boolean;
+}
+
+export interface Delivery {
+  type: string;
+  yearBuilt: number;
+}
+
+export interface Amenity {
+  title: string;
+  description: string;
+  imageUrl: string;
+}
+
+export interface NearbyLocation {
+  title: string;
+  description: string;
+  imageUrl: string;
+}
+
+export interface Media {
+  images: string[];
+  virtualTourUrl: string;
+  videoUrl: string;
+}
+
 export interface MockupData {
+  id: string;
+  slug: string;
   propertyName: string;
+  status: string;
   propertyType: string;
   developer: Developer;
-  location: any;
-  pricing: any;
-  dimensions: any;
-  features: any;
-  delivery: any;
-  amenities: any[];
-  nearbyLocations: any[];
-  media: any;
+  location: Location;
+  pricing: Pricing;
+  dimensions: Dimensions;
+  features: Features;
+  delivery: Delivery;
+  amenities: Amenity[];
+  nearbyLocations: NearbyLocation[];
+  media: Media;
   virtualTour: VirtualTour;
   contact: Contact;
   description: string;
