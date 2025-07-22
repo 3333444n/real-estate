@@ -19,7 +19,6 @@ const buildCache = new Map<string, any>();
 // Fallback data matching the existing mockup structure
 const fallbackData: MockupData = {
   id: "fallback",
-  propertyId: "PROP-000",
   slug: "fallback-property",
   propertyName: "Fallback Property",
   status: "for_sale",
@@ -34,14 +33,12 @@ const fallbackData: MockupData = {
     address: "Default Address",
     neighborhood: "Default Neighborhood",
     city: "Ciudad de México",
-    country: "México",
     mapsLink: "https://maps.google.com"
   },
   pricing: {
     minPrice: 1000000,
     maxPrice: 1500000,
-    currency: "MXN",
-    commissionPercentage: 3.00
+    currency: "MXN"
   },
   dimensions: {
     minAreaM2: 50.00,
@@ -99,7 +96,7 @@ export async function getAllProperties(): Promise<MockupData[]> {
           return await transformPropertyData(page);
         } catch (error) {
           console.error(`Error transforming property ${page.id}:`, error);
-          return { ...fallbackData, id: page.id, propertyId: `PROP-${page.id.substring(0, 8)}` };
+          return { ...fallbackData, id: page.id };
         }
       })
     );
@@ -142,7 +139,7 @@ export async function getPropertyBySlug(slug: string): Promise<MockupData | null
     return property;
   } catch (error) {
     console.error(`Error fetching property by slug ${slug}:`, error);
-    return { ...fallbackData, slug, propertyId: `PROP-${slug.toUpperCase()}` };
+    return { ...fallbackData, slug };
   }
 }
 
@@ -355,6 +352,18 @@ async function transformPropertyData(page: any): Promise<MockupData> {
     ? await downloadImages(galleryUrls, propertySlug, 'gallery')
     : ["/images/img-placeholder.webp"];
 
+  // Extract and download developer images
+  const developerLogoUrls = extractFiles(props['Developer Logo']);
+  const developerImageUrls = extractFiles(props['Developer Image']);
+  
+  const developerLogoImages = developerLogoUrls.length > 0 
+    ? await downloadImages(developerLogoUrls, propertySlug, 'developer')
+    : ["/images/img-placeholder.webp"];
+    
+  const developerMainImages = developerImageUrls.length > 0 
+    ? await downloadImages(developerImageUrls, propertySlug, 'developer')
+    : ["/images/img-placeholder.webp"];
+
   // Get related data (pass propertySlug for image downloading)
   const [amenities, nearbyLocations, virtualTourScenes] = await Promise.all([
     getPropertyAmenities(propertyId, propertySlug),
@@ -364,29 +373,26 @@ async function transformPropertyData(page: any): Promise<MockupData> {
 
   return {
     id: propertyId,
-    propertyId: extractPlainText(props.ID?.rich_text || props['Property ID']?.rich_text || []),
     slug: propertySlug,
     propertyName: extractPlainText(props['Property Name']?.title || []),
-    status: extractSelect(props.Status) || "for_sale",
+    status: "for_sale",
     propertyType: extractSelect(props['Property Type']) || "departamento",
     developer: {
       name: extractPlainText(props['Developer Name']?.rich_text || []) || "Unknown Developer",
-      logoUrl: extractFiles(props['Developer Logo URL'])[0] || "/images/img-placeholder.webp",
-      imageUrl: extractFiles(props['Developer Image'])[0] || "/images/img-placeholder.webp",
+      logoUrl: developerLogoImages[0],
+      imageUrl: developerMainImages[0],
       description: extractPlainText(props['Developer Description']?.rich_text || []) || ""
     },
     location: {
       address: extractPlainText(props.Address?.rich_text || []),
       neighborhood: extractPlainText(props.Neighborhood?.rich_text || []),
       city: extractPlainText(props.City?.rich_text || []) || "Ciudad de México",
-      country: extractPlainText(props.Country?.rich_text || []) || "México",
       mapsLink: extractPlainText(props['Maps Link']?.rich_text || []) || extractUrl(props['Maps Link']) || ""
     },
     pricing: {
       minPrice: extractNumber(props['Min Price']),
       maxPrice: extractNumber(props['Max Price']) || extractNumber(props['Min Price']),
-      currency: extractSelect(props.Currency) || "MXN",
-      commissionPercentage: extractNumber(props['Commission Percentage']) || 3.0
+      currency: extractSelect(props.Currency) || "MXN"
     },
     dimensions: {
       minAreaM2: extractNumber(props['Min Area M2']),

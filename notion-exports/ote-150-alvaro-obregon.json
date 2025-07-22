@@ -1,28 +1,25 @@
 {
   "id": "22cb3205-99cb-8182-a58d-d7c5fab5959e",
-  "propertyId": "",
   "slug": "ote-150-alvaro-obregon",
   "propertyName": "OTE 150, 163",
   "status": "for_sale",
-  "propertyType": "departamento",
+  "propertyType": "Departamento",
   "developer": {
     "name": "Grupo Constructor JS&M",
-    "logoUrl": "/images/img-placeholder.webp",
-    "imageUrl": "/images/img-placeholder.webp",
+    "logoUrl": "/images/notion/ote-150-alvaro-obregon-developer-1.svg",
+    "imageUrl": "/images/notion/ote-150-alvaro-obregon-developer-1.webp",
     "description": "Grupo Constructor JS&M es una empresa líder en el sector inmobiliario mexicano con más de 20 años de experiencia desarrollando proyectos residenciales de alta calidad en las zonas más exclusivas de la Ciudad de México."
   },
   "location": {
     "address": "Calle OTE 150",
     "neighborhood": "Álvaro Obregón",
     "city": "Ciudad de México",
-    "country": "México",
     "mapsLink": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.555383341075!2d-99.10401232445183!3d19.4316073818476!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1fc002ca1ac3d%3A0x7703fc1361ea4e8!2sCalle%20Ote.%20150%20163%2C%20Moctezuma%202da%20Secc%2C%20Venustiano%20Carranza%2C%2015530%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1sen!2smx!4v1753143587486!5m2!1sen!2smx\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>"
   },
   "pricing": {
     "minPrice": 3300000,
     "maxPrice": 3800000,
-    "currency": "MXN",
-    "commissionPercentage": 3
+    "currency": "MXN"
   },
   "dimensions": {
     "minAreaM2": 73,

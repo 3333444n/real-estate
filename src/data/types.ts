@@ -38,7 +38,6 @@ export interface Location {
   address: string;
   neighborhood: string;
   city: string;
-  country: string;
   mapsLink: string;
 }
 
@@ -46,7 +45,6 @@ export interface Pricing {
   minPrice: number;
   maxPrice: number;
   currency: string;
-  commissionPercentage: number;
 }
 
 export interface Dimensions {
@@ -87,7 +85,6 @@ export interface Media {
 
 export interface MockupData {
   id: string;
-  propertyId: string;
   slug: string;
   propertyName: string;
   status: string;
