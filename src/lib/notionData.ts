@@ -10,7 +10,7 @@ import {
   extractPhone, 
   extractFiles 
 } from './notion';
-import { downloadImages, downloadSceneImages, downloadNearbyImages, downloadAmenityImages } from './imageDownloader';
+import { downloadImages, downloadSceneImages, downloadNearbyImages, downloadAmenityImages, downloadDeveloperImages } from './imageDownloader';
 import type { MockupData } from '../data/types';
 
 // Build-time cache to avoid redundant API calls
@@ -389,16 +389,16 @@ async function transformPropertyData(page: any): Promise<MockupData> {
     ? await downloadImages(galleryUrls, propertySlug, 'gallery')
     : ["/images/img-placeholder.webp"];
 
-  // Extract and download developer images
+  // Extract and download developer images with separate naming
   const developerLogoUrls = extractFiles(props['Developer Logo']);
   const developerImageUrls = extractFiles(props['Developer Image']);
   
   const developerLogoImages = developerLogoUrls.length > 0 
-    ? await downloadImages(developerLogoUrls, propertySlug, 'developer')
+    ? await downloadDeveloperImages(developerLogoUrls, propertySlug, 'logo')
     : ["/images/img-placeholder.webp"];
     
   const developerMainImages = developerImageUrls.length > 0 
-    ? await downloadImages(developerImageUrls, propertySlug, 'developer')
+    ? await downloadDeveloperImages(developerImageUrls, propertySlug, 'image')
     : ["/images/img-placeholder.webp"];
 
   // Get related data (pass propertySlug for image downloading)

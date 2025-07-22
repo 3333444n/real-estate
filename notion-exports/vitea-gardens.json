@@ -5,8 +5,8 @@
   "propertyType": "Departamento",
   "developer": {
     "name": "Urbania",
-    "logoUrl": "/images/img-placeholder.webp",
-    "imageUrl": "/images/img-placeholder.webp",
+    "logoUrl": "/images/notion/vitea-gardens-developer-1.webp",
+    "imageUrl": "/images/notion/vitea-gardens-developer-1.webp",
     "description": "Urbania son chidos"
   },
   "location": {
@@ -16,7 +16,7 @@
     "mapsLink": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3733.289994810372!2d-100.34604472442226!3d20.65777768090036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d35d7bf51aaf2f%3A0x72667fb06301018f!2sVitea%20Gardens!5e0!3m2!1sen!2smx!4v1753143556143!5m2!1sen!2smx\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>"
   },
   "pricing": {
-    "minPrice": 3000000,
+    "minPrice": 3200000,
     "maxPrice": 3500000,
     "currency": "MXN"
   },
@@ -34,43 +34,36 @@
     "type": "entrega inmediata",
     "yearBuilt": 2023
   },
-  "amenities": [
-    {
-      "title": "Mascotas",
-      "description": "Política pet-friendly que permite vivir con tus mascotas en un ambiente cómodo y seguro para toda la familia.",
-      "amenity": "",
-      "imageUrl": "/images/img-placeholder.webp"
-    },
-    {
-      "title": "Patio de Servicio",
-      "description": "Patio de servicio privado para actividades domésticas, con conexiones para lavadora y secadora.",
-      "amenity": "",
-      "imageUrl": "/images/img-placeholder.webp"
-    },
-    {
-      "title": "Estacionamiento Techado",
-      "description": "Estacionamiento privado y techado para proteger tu vehículo de las inclemencias del clima, con acceso directo al edificio.",
-      "amenity": "",
-      "imageUrl": "/images/img-placeholder.webp"
-    },
-    {
-      "title": "Terraza o Rooftop",
-      "description": "Espaciosa terraza en la azotea con vistas panorámicas de la ciudad, perfecta para eventos sociales y momentos de relajación.",
-      "amenity": "",
-      "imageUrl": "/images/img-placeholder.webp"
-    },
-    {
-      "title": "Bodega Privada",
-      "description": "Bodega individual para almacenar tus pertenencias personales, con acceso seguro y conveniente desde tu departamento.",
-      "amenity": "",
-      "imageUrl": "/images/img-placeholder.webp"
-    }
-  ],
+  "amenities": [],
   "nearbyLocations": [],
   "media": {
-    "heroImage": "/images/img-placeholder.webp",
+    "heroImage": "/images/notion/vitea-gardens-hero-1.webp",
     "images": [
-      "/images/img-placeholder.webp"
+      "/images/notion/vitea-gardens-gallery-1.webp",
+      "/images/notion/vitea-gardens-gallery-2.webp",
+      "/images/notion/vitea-gardens-gallery-3.webp",
+      "/images/notion/vitea-gardens-gallery-4.webp",
+      "/images/notion/vitea-gardens-gallery-5.webp",
+      "/images/notion/vitea-gardens-gallery-6.webp",
+      "/images/notion/vitea-gardens-gallery-7.webp",
+      "/images/notion/vitea-gardens-gallery-8.webp",
+      "/images/notion/vitea-gardens-gallery-9.webp",
+      "/images/notion/vitea-gardens-gallery-10.webp",
+      "/images/notion/vitea-gardens-gallery-11.webp",
+      "/images/notion/vitea-gardens-gallery-12.webp",
+      "/images/notion/vitea-gardens-gallery-13.webp",
+      "/images/notion/vitea-gardens-gallery-14.webp",
+      "/images/notion/vitea-gardens-gallery-15.webp",
+      "/images/notion/vitea-gardens-gallery-16.webp",
+      "/images/notion/vitea-gardens-gallery-17.webp",
+      "/images/notion/vitea-gardens-gallery-18.webp",
+      "/images/notion/vitea-gardens-gallery-19.webp",
+      "/images/notion/vitea-gardens-gallery-20.webp",
+      "/images/notion/vitea-gardens-gallery-21.webp",
+      "/images/notion/vitea-gardens-gallery-22.webp",
+      "/images/notion/vitea-gardens-gallery-23.webp",
+      "/images/notion/vitea-gardens-gallery-24.webp",
+      "/images/notion/vitea-gardens-gallery-25.webp"
     ],
     "virtualTourUrl": "",
     "videoUrl": "",
@@ -86,5 +79,5 @@
     "email": "rafatorres@gmail.com",
     "website": "rafatorres.com"
   },
-  "description": "Una pequeña descripción de Vitea Gardens"
+  "description": "Imagina tu rutina diaria en un espectacular desarrollo departamental donde se combina la naturaleza del nuevo corredor del Querétaro moderno junto con un enfoque arquitectónico excepcional, que ofrece una vista inigualable a la ciudad o la reserva natural, que te ofrece + de 20 amenidades premium tipo resort, y que está pensado en crear experiencias únicas y satisfacción en cada detalle de tu día a día.\n\nUbicada en la zona del Refugio, Vitea es un concepto que ofrece un estilo de vida tipo Resort en un entorno residencial, enfocado en proporcionar lujo, comodidad, privacidad y seguridad a sus residentes. "
 }

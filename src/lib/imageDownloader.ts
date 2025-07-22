@@ -148,3 +148,24 @@ export async function downloadAmenityImages(urls: string[], propertySlug: string
   
   return localPaths;
 }
+
+/**
+ * Download developer images with separate naming for logo vs main image
+ */
+export async function downloadDeveloperImages(urls: string[], propertySlug: string, type: 'logo' | 'image'): Promise<string[]> {
+  const localPaths: string[] = [];
+  
+  for (let i = 0; i < urls.length; i++) {
+    try {
+      const extension = path.extname(new URL(urls[i]).pathname) || '.webp';
+      const filename = `${propertySlug}-developer-${type}-${i + 1}${extension}`;
+      const localPath = await downloadImage(urls[i], filename);
+      localPaths.push(localPath);
+    } catch (error) {
+      console.error(`❌ Failed to download developer ${type} image ${i + 1}:`, error);
+      localPaths.push('/images/img-placeholder.webp'); // Fallback
+    }
+  }
+  
+  return localPaths;
+}
