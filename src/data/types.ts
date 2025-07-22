@@ -67,6 +67,7 @@ export interface Delivery {
 export interface Amenity {
   title: string;
   description: string;
+  amenity: string;
   imageUrl: string;
 }
 

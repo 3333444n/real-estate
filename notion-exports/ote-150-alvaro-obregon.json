@@ -37,32 +37,38 @@
   "amenities": [
     {
       "title": "Área de Tendido",
-      "description": "Zona dedicada para el tendido de ropa con instalaciones modernas y espacios bien iluminados para el cuidado de tu ropa.",
+      "description": "",
+      "amenity": "",
       "imageUrl": "/images/img-placeholder.webp"
     },
     {
       "title": "Mascotas",
       "description": "Política pet-friendly que permite vivir con tus mascotas en un ambiente cómodo y seguro para toda la familia.",
+      "amenity": "",
       "imageUrl": "/images/img-placeholder.webp"
     },
     {
       "title": "Patio de Servicio",
       "description": "Patio de servicio privado para actividades domésticas, con conexiones para lavadora y secadora.",
+      "amenity": "",
       "imageUrl": "/images/img-placeholder.webp"
     },
     {
       "title": "Estacionamiento Techado",
       "description": "Estacionamiento privado y techado para proteger tu vehículo de las inclemencias del clima, con acceso directo al edificio.",
+      "amenity": "",
       "imageUrl": "/images/img-placeholder.webp"
     },
     {
       "title": "Terraza o Rooftop",
       "description": "Espaciosa terraza en la azotea con vistas panorámicas de la ciudad, perfecta para eventos sociales y momentos de relajación.",
+      "amenity": "",
       "imageUrl": "/images/img-placeholder.webp"
     },
     {
       "title": "Bodega Privada",
       "description": "Bodega individual para almacenar tus pertenencias personales, con acceso seguro y conveniente desde tu departamento.",
+      "amenity": "",
       "imageUrl": "/images/img-placeholder.webp"
     }
   ],

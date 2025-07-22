@@ -185,6 +185,7 @@ export async function getPropertyAmenities(propertyId: string, propertySlug: str
         return {
           title,
           description: extractPlainText(page.properties.Description?.rich_text || []),
+          amenity: extractSelect(page.properties.Amenity) || '',
           imageUrl: localImages[0]
         };
       })
