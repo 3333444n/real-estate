@@ -105,3 +105,45 @@ export async function downloadSceneImages(urls: string[], propertySlug: string, 
   
   return localPaths;
 }
+
+/**
+ * Download nearby location images with unique filenames per location
+ */
+export async function downloadNearbyImages(urls: string[], propertySlug: string, locationSlug: string, locationIndex: number): Promise<string[]> {
+  const localPaths: string[] = [];
+  
+  for (let i = 0; i < urls.length; i++) {
+    try {
+      const extension = path.extname(new URL(urls[i]).pathname) || '.webp';
+      const filename = `${propertySlug}-nearby-${locationSlug}-${i + 1}${extension}`;
+      const localPath = await downloadImage(urls[i], filename);
+      localPaths.push(localPath);
+    } catch (error) {
+      console.error(`❌ Failed to download nearby image ${i + 1} for ${locationSlug}:`, error);
+      localPaths.push('/images/img-placeholder.webp'); // Fallback
+    }
+  }
+  
+  return localPaths;
+}
+
+/**
+ * Download amenity images with unique filenames per amenity
+ */
+export async function downloadAmenityImages(urls: string[], propertySlug: string, amenitySlug: string, amenityIndex: number): Promise<string[]> {
+  const localPaths: string[] = [];
+  
+  for (let i = 0; i < urls.length; i++) {
+    try {
+      const extension = path.extname(new URL(urls[i]).pathname) || '.webp';
+      const filename = `${propertySlug}-amenity-${amenitySlug}-${i + 1}${extension}`;
+      const localPath = await downloadImage(urls[i], filename);
+      localPaths.push(localPath);
+    } catch (error) {
+      console.error(`❌ Failed to download amenity image ${i + 1} for ${amenitySlug}:`, error);
+      localPaths.push('/images/img-placeholder.webp'); // Fallback
+    }
+  }
+  
+  return localPaths;
+}

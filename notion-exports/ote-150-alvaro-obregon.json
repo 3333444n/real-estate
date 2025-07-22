@@ -74,23 +74,37 @@
   ],
   "nearbyLocations": [
     {
+      "title": "Aeropuerto Internacional de la Ciudad de México",
+      "description": "",
+      "category": "Transporte",
+      "distance": "",
+      "imageUrl": "/images/notion/ote-150-alvaro-obregon-nearby-aeropuerto-internacional-de-la-ciudad-de-mxico-1.webp"
+    },
+    {
+      "title": "Encuentro Oceanía",
+      "description": "",
+      "category": "Centro Comercial",
+      "distance": "",
+      "imageUrl": "/images/notion/ote-150-alvaro-obregon-nearby-encuentro-oceana-1.webp"
+    },
+    {
       "title": "Escuela",
       "description": "Instituciones educativas cercanas que ofrecen educación de calidad para todos los niveles académicos.",
-      "category": "Escuelas",
+      "category": "Escuela",
       "distance": "10 minutos en carro",
       "imageUrl": "/images/img-placeholder.webp"
     },
     {
-      "title": "Vía Principal",
+      "title": "Circuito Interior",
       "description": "Acceso directo a las principales avenidas y calles de la ciudad, facilitando la movilidad y conectividad urbana.",
-      "category": "Vías de Transporte",
+      "category": "Vía de Transporte",
       "distance": "",
-      "imageUrl": "/images/img-placeholder.webp"
+      "imageUrl": "/images/notion/ote-150-alvaro-obregon-nearby-circuito-interior-1.webp"
     },
     {
       "title": "Mercado",
       "description": "Mercado local a pocos pasos con productos frescos, artesanías y todo lo necesario para el día a día.",
-      "category": "Centros Comerciales",
+      "category": "Mercado",
       "distance": "",
       "imageUrl": "/images/img-placeholder.webp"
     }

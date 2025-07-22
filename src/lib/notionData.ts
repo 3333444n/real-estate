@@ -10,7 +10,7 @@ import {
   extractPhone, 
   extractFiles 
 } from './notion';
-import { downloadImages, downloadSceneImages } from './imageDownloader';
+import { downloadImages, downloadSceneImages, downloadNearbyImages, downloadAmenityImages } from './imageDownloader';
 import type { MockupData } from '../data/types';
 
 // Build-time cache to avoid redundant API calls
@@ -167,21 +167,28 @@ export async function getPropertyAmenities(propertyId: string, propertySlug: str
 
     const amenities = await Promise.all(
       response.results.map(async (page: any, index: number) => {
-        const imageUrls = extractFiles(page.properties.Image);
-        const localImages = imageUrls.length > 0 
-          ? await downloadImages(imageUrls, propertySlug, 'amenity')
-          : ["/images/img-placeholder.webp"];
-
-        // Find the title property (in Notion, there's usually one property with type "title")
+        // Find the title property first to generate unique filename
         const titleProperty = Object.entries(page.properties).find(([key, prop]: [string, any]) => 
           prop.type === 'title'
         );
         
         let title = 'Amenity';
+        let amenitySlug = `amenity-${index}`;
         if (titleProperty) {
           const [propertyName, propertyValue] = titleProperty;
           title = extractPlainText((propertyValue as any).title || []);
+          // Generate amenity-specific slug for unique filenames
+          amenitySlug = title.toLowerCase()
+            .replace(/\s+/g, '-')
+            .replace(/[^a-z0-9\-]/g, '')
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '') || `amenity-${index}`;
         }
+
+        const imageUrls = extractFiles(page.properties.Image);
+        const localImages = imageUrls.length > 0 
+          ? await downloadAmenityImages(imageUrls, propertySlug, amenitySlug, index)
+          : ["/images/img-placeholder.webp"];
         
         return {
           title,
@@ -226,21 +233,28 @@ export async function getPropertyNearbyLocations(propertyId: string, propertySlu
 
     const locations = await Promise.all(
       response.results.map(async (page: any, index: number) => {
-        const imageUrls = extractFiles(page.properties.Image);
-        const localImages = imageUrls.length > 0 
-          ? await downloadImages(imageUrls, propertySlug, 'nearby')
-          : ["/images/img-placeholder.webp"];
-
-        // Find the title property (same approach as amenities)
+        // Find the title property first to generate unique filename
         const titleProperty = Object.entries(page.properties).find(([key, prop]: [string, any]) => 
           prop.type === 'title'
         );
         
         let title = 'Location';
+        let locationSlug = `location-${index}`;
         if (titleProperty) {
           const [propertyName, propertyValue] = titleProperty;
           title = extractPlainText((propertyValue as any).title || []);
+          // Generate location-specific slug for unique filenames
+          locationSlug = title.toLowerCase()
+            .replace(/\s+/g, '-')
+            .replace(/[^a-z0-9\-]/g, '')
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '') || `location-${index}`;
         }
+
+        const imageUrls = extractFiles(page.properties.Image);
+        const localImages = imageUrls.length > 0 
+          ? await downloadNearbyImages(imageUrls, propertySlug, locationSlug, index)
+          : ["/images/img-placeholder.webp"];
         
         return {
           title,

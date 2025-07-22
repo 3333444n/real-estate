@@ -7,11 +7,14 @@ interface Props {
 }
 
 const { image, title, description, className = "" } = Astro.props;
+
+// Check if this is a placeholder image
+const isPlaceholder = !image || image.includes('img-placeholder');
+const shouldShowGradient = isPlaceholder;
 ---
 
 <div class={`overflow-hidden rounded-lg ${className}`}>
-  <div class={`relative aspect-[4/3] rounded-lg ${image ? 'bg-cover bg-center' : 'bg-gradient-to-br from-purple-400 to-purple-600'}`} style={image ? `background-image: url('${image}')` : ''}>
-    <div class="absolute inset-0 bg-black bg-opacity-20 rounded-lg"></div>
+  <div class={`relative aspect-[4/3] rounded-lg ${shouldShowGradient ? 'bg-gradient-to-br from-purple-400 to-purple-600' : 'bg-cover bg-center'}`} style={shouldShowGradient ? '' : `background-image: url('${image}')`}>
     <div class="relative z-10 p-6 h-full flex flex-col justify-end">
       <h3 class="text-white font-semibold text-xl mb-2">{title}</h3>
     </div>
