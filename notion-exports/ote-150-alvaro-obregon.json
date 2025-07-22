@@ -74,6 +74,13 @@
   ],
   "nearbyLocations": [
     {
+      "title": "Deportivo Moctezuma",
+      "description": "",
+      "category": "Entretenimiento",
+      "distance": "",
+      "imageUrl": "/images/notion/ote-150-alvaro-obregon-nearby-deportivo-moctezuma-1.webp"
+    },
+    {
       "title": "Aeropuerto Internacional de la Ciudad de México",
       "description": "",
       "category": "Transporte",
@@ -92,7 +99,7 @@
       "description": "Instituciones educativas cercanas que ofrecen educación de calidad para todos los niveles académicos.",
       "category": "Escuela",
       "distance": "10 minutos en carro",
-      "imageUrl": "/images/img-placeholder.webp"
+      "imageUrl": "/images/notion/ote-150-alvaro-obregon-nearby-escuela-1.webp"
     },
     {
       "title": "Circuito Interior",
@@ -102,11 +109,11 @@
       "imageUrl": "/images/notion/ote-150-alvaro-obregon-nearby-circuito-interior-1.webp"
     },
     {
-      "title": "Mercado",
+      "title": "Mercado Moctezuma",
       "description": "Mercado local a pocos pasos con productos frescos, artesanías y todo lo necesario para el día a día.",
       "category": "Mercado",
       "distance": "",
-      "imageUrl": "/images/img-placeholder.webp"
+      "imageUrl": "/images/notion/ote-150-alvaro-obregon-nearby-mercado-moctezuma-1.webp"
     }
   ],
   "media": {
@@ -142,18 +149,11 @@
         "description": "",
         "hotSpots": [
           {
-            "pitch": -2.5,
-            "yaw": 135,
+            "pitch": 0,
+            "yaw": -180,
             "type": "scene",
-            "text": "Ir a la Cocina",
-            "sceneId": "cocina"
-          },
-          {
-            "pitch": -1,
-            "yaw": -45,
-            "type": "scene",
-            "text": "Ir al Baño",
-            "sceneId": "bano"
+            "text": "Ir a la Sala",
+            "sceneId": "sala"
           }
         ]
       },
@@ -173,18 +173,11 @@
         "description": "",
         "hotSpots": [
           {
-            "pitch": -2.5,
-            "yaw": 135,
+            "pitch": 0,
+            "yaw": -185,
             "type": "scene",
-            "text": "Ir a la Cocina",
-            "sceneId": "cocina"
-          },
-          {
-            "pitch": -1,
-            "yaw": -45,
-            "type": "scene",
-            "text": "Ir al Baño",
-            "sceneId": "bano"
+            "text": "Ir a la Sala",
+            "sceneId": "sala"
           }
         ]
       },
