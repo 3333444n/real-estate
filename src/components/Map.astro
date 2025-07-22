@@ -8,9 +8,18 @@ interface Props {
 
 const { title = "Ubicación", location } = Astro.props;
 
+// Extract the src URL from the iframe HTML string
+const extractIframeSrc = (iframeHtml: string): string => {
+  if (!iframeHtml) return "";
+  
+  // Match src="..." or src='...' from iframe HTML
+  const srcMatch = iframeHtml.match(/src=["']([^"']+)["']/);
+  return srcMatch ? srcMatch[1] : "";
+};
+
 // Use location.mapsLink if available, otherwise fallback to default
 const mapSrc = location?.mapsLink && location.mapsLink.includes('embed') 
-  ? location.mapsLink
+  ? extractIframeSrc(location.mapsLink) || location.mapsLink
   : "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.555383341075!2d-99.10401232445186!3d19.431607381847602!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1fc002ca1ac3d%3A0x7703fc1361ea4e8!2sCalle%20Ote.%20150%20163%2C%20Moctezuma%202da%20Secc%2C%20Venustiano%20Carranza%2C%2015530%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1sen!2smx!4v1751436931455!5m2!1sen!2smx";
 ---
 
