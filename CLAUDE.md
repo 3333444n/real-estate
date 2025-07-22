@@ -157,13 +157,20 @@ The application automatically downloads and manages images from Notion with uniq
 **Key Features:**
 - **Unique Naming**: Each amenity and nearby location generates a unique slug from its title to ensure separate image files
 - **Automatic Downloads**: All images are downloaded during build time to `public/images/notion/`
-- **Cache Management**: Nearby locations cache is cleared on each build to fetch new images automatically
+- **Force Download System**: Nearby location images are automatically re-downloaded on each build to ensure new Notion images appear immediately
+- **Cache Management**: Property data cache is cleared for nearby locations, and image downloads are forced to bypass file existence checks
 - **Fallback Support**: Missing images fall back to `/images/img-placeholder.webp`
 
 **Adding New Images:**
 1. Upload images to the appropriate Notion database (Amenities, Nearby Locations, etc.)
-2. Run `npm run build` - new images will be automatically downloaded with unique filenames
-3. No manual cache clearing required for nearby locations and amenities due to debug cache clearing
+2. Run `npm run build` or deploy to Vercel - new images will be automatically downloaded with unique filenames
+3. **Nearby location images use force-download** on every build to ensure new images from Notion appear immediately on the website
+4. No manual cache clearing required - the system handles this automatically
+
+**Recent Image System Updates (July 2025):**
+- **Fixed nearby location image caching**: Images are now force-downloaded on every build
+- **Enhanced downloadImage() function**: Added `forceDownload` parameter to bypass existing file checks
+- **Improved Vercel deployment**: New Notion images now appear immediately after deployment without manual intervention
 
 **Image Processing Functions:**
 - `downloadImages()` - General image downloading with basic naming

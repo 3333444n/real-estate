@@ -74,24 +74,31 @@
   ],
   "nearbyLocations": [
     {
+      "title": "Terminal TAPO",
+      "description": "",
+      "category": "Transporte",
+      "distance": "5 minutos en carro",
+      "imageUrl": "/images/notion/ote-150-alvaro-obregon-nearby-terminal-tapo-1.webp"
+    },
+    {
       "title": "Deportivo Moctezuma",
       "description": "",
       "category": "Entretenimiento",
-      "distance": "",
+      "distance": "5 minutos caminando",
       "imageUrl": "/images/notion/ote-150-alvaro-obregon-nearby-deportivo-moctezuma-1.webp"
     },
     {
       "title": "Aeropuerto Internacional de la Ciudad de México",
       "description": "",
       "category": "Transporte",
-      "distance": "",
+      "distance": "10 minutos en carro",
       "imageUrl": "/images/notion/ote-150-alvaro-obregon-nearby-aeropuerto-internacional-de-la-ciudad-de-mxico-1.webp"
     },
     {
       "title": "Encuentro Oceanía",
       "description": "",
       "category": "Centro Comercial",
-      "distance": "",
+      "distance": "15 minutos caminando",
       "imageUrl": "/images/notion/ote-150-alvaro-obregon-nearby-encuentro-oceana-1.webp"
     },
     {
@@ -105,14 +112,14 @@
       "title": "Circuito Interior",
       "description": "Acceso directo a las principales avenidas y calles de la ciudad, facilitando la movilidad y conectividad urbana.",
       "category": "Vía de Transporte",
-      "distance": "",
+      "distance": "10 minutos en carro",
       "imageUrl": "/images/notion/ote-150-alvaro-obregon-nearby-circuito-interior-1.webp"
     },
     {
       "title": "Mercado Moctezuma",
       "description": "Mercado local a pocos pasos con productos frescos, artesanías y todo lo necesario para el día a día.",
       "category": "Mercado",
-      "distance": "",
+      "distance": "5 minutos caminando",
       "imageUrl": "/images/notion/ote-150-alvaro-obregon-nearby-mercado-moctezuma-1.webp"
     }
   ],

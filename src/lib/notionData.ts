@@ -253,7 +253,7 @@ export async function getPropertyNearbyLocations(propertyId: string, propertySlu
 
         const imageUrls = extractFiles(page.properties.Image);
         const localImages = imageUrls.length > 0 
-          ? await downloadNearbyImages(imageUrls, propertySlug, locationSlug, index)
+          ? await downloadNearbyImages(imageUrls, propertySlug, locationSlug, index, true)
           : ["/images/img-placeholder.webp"];
         
         return {

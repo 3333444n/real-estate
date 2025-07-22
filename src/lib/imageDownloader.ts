@@ -16,11 +16,12 @@ if (!fs.existsSync(imagesDir)) {
 /**
  * Download an image from a URL and save it locally
  */
-export async function downloadImage(url: string, filename: string): Promise<string> {
+export async function downloadImage(url: string, filename: string, forceDownload: boolean = false): Promise<string> {
   return new Promise((resolve, reject) => {
-    // Skip if already downloaded
     const localPath = path.join(imagesDir, filename);
-    if (fs.existsSync(localPath)) {
+    
+    // Skip if already downloaded and force download is not requested
+    if (!forceDownload && fs.existsSync(localPath)) {
       resolve(`/images/notion/${filename}`);
       return;
     }
@@ -68,13 +69,13 @@ export function generateFilename(url: string, propertySlug: string, type: 'galle
 /**
  * Download multiple images and return local paths
  */
-export async function downloadImages(urls: string[], propertySlug: string, type: 'gallery' | 'tour' | 'amenity' | 'nearby' | 'developer' | 'hero'): Promise<string[]> {
+export async function downloadImages(urls: string[], propertySlug: string, type: 'gallery' | 'tour' | 'amenity' | 'nearby' | 'developer' | 'hero', forceDownload: boolean = false): Promise<string[]> {
   const localPaths: string[] = [];
   
   for (let i = 0; i < urls.length; i++) {
     try {
       const filename = generateFilename(urls[i], propertySlug, type, i + 1);
-      const localPath = await downloadImage(urls[i], filename);
+      const localPath = await downloadImage(urls[i], filename, forceDownload);
       localPaths.push(localPath);
     } catch (error) {
       console.error(`❌ Failed to download image ${i + 1}:`, error);
@@ -109,14 +110,14 @@ export async function downloadSceneImages(urls: string[], propertySlug: string, 
 /**
  * Download nearby location images with unique filenames per location
  */
-export async function downloadNearbyImages(urls: string[], propertySlug: string, locationSlug: string, locationIndex: number): Promise<string[]> {
+export async function downloadNearbyImages(urls: string[], propertySlug: string, locationSlug: string, locationIndex: number, forceDownload: boolean = false): Promise<string[]> {
   const localPaths: string[] = [];
   
   for (let i = 0; i < urls.length; i++) {
     try {
       const extension = path.extname(new URL(urls[i]).pathname) || '.webp';
       const filename = `${propertySlug}-nearby-${locationSlug}-${i + 1}${extension}`;
-      const localPath = await downloadImage(urls[i], filename);
+      const localPath = await downloadImage(urls[i], filename, forceDownload);
       localPaths.push(localPath);
     } catch (error) {
       console.error(`❌ Failed to download nearby image ${i + 1} for ${locationSlug}:`, error);
