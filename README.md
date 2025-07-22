@@ -86,23 +86,19 @@ The project uses four interconnected Notion databases:
 
 ### Properties Database (Main)
 - **Property Name** (Title)
-- **ID** (Rich Text) - Custom property identifier (e.g., "PROP-1")
 - **Slug** (Rich Text) - URL-friendly identifier
-- **Status** (Select) - for_sale, sold, off_market
 - **Property Type** (Select) - departamento, casa, etc.
 - **Developer Name** (Rich Text)
-- **Developer Logo URL** (Files)
-- **Developer Image** (Files)
+- **Developer Logo** (Files) - SVG/PNG logo (automatically downloaded during build)
+- **Developer Image** (Files) - Developer main image (automatically downloaded during build)
 - **Developer Description** (Rich Text)
 - **Address** (Rich Text)
 - **Neighborhood** (Rich Text)
 - **City** (Rich Text)
-- **Country** (Rich Text)
 - **Maps Link** (Rich Text) - Google Maps iframe embed code
 - **Min Price** (Number)
 - **Max Price** (Number)
 - **Currency** (Select)
-- **Commission Percentage** (Number)
 - **Min Area M2** (Number)
 - **Max Area M2** (Number)
 - **Bedrooms** (Number)
@@ -121,6 +117,14 @@ The project uses four interconnected Notion databases:
 - **Agent Website** (URL)
 - **Description** (Rich Text)
 
+### ⚠️ **Database Changes (January 2025)**
+The following properties have been **removed** from the Notion database structure:
+- ~~**ID** (Rich Text)~~ - No longer used (Notion's internal UUID is used instead)
+- ~~**Status** (Select)~~ - All properties assumed to be "for_sale"
+- ~~**Country** (Rich Text)~~ - Mexico assumed for all properties
+- ~~**Commission Percentage** (Number)~~ - Not needed in current implementation
+- ~~**Developer Logo URL** (Files)~~ - Replaced with **Developer Logo** media property
+
 ### Related Databases
 - **Amenities**: Connected via Property relation (page titles auto-fetched)
 - **Nearby Locations**: Connected via Property relation (page titles auto-fetched)
@@ -129,6 +133,7 @@ The project uses four interconnected Notion databases:
 ### 📸 **Automatic Image Management**
 The integration automatically downloads all images from Notion during build time:
 - **Gallery images** → `public/images/notion/{slug}-gallery-{index}.webp`
+- **Developer images** → `public/images/notion/{slug}-developer-{index}.{ext}` (SVG/WebP)
 - **Amenity images** → `public/images/notion/{slug}-amenity-{index}.webp`
 - **Nearby location images** → `public/images/notion/{slug}-nearby-{index}.webp`
 - **Virtual tour images** → `public/images/notion/{slug}-tour-{index}.webp`

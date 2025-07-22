@@ -73,6 +73,8 @@ export interface Amenity {
 export interface NearbyLocation {
   title: string;
   description: string;
+  category: string;
+  distance: string;
   imageUrl: string;
 }
 

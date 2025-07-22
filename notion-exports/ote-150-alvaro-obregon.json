@@ -70,16 +70,22 @@
     {
       "title": "Escuela",
       "description": "Instituciones educativas cercanas que ofrecen educación de calidad para todos los niveles académicos.",
+      "category": "Escuelas",
+      "distance": "10 minutos en carro",
       "imageUrl": "/images/img-placeholder.webp"
     },
     {
       "title": "Vía Principal",
       "description": "Acceso directo a las principales avenidas y calles de la ciudad, facilitando la movilidad y conectividad urbana.",
+      "category": "Vías de Transporte",
+      "distance": "",
       "imageUrl": "/images/img-placeholder.webp"
     },
     {
       "title": "Mercado",
       "description": "Mercado local a pocos pasos con productos frescos, artesanías y todo lo necesario para el día a día.",
+      "category": "Centros Comerciales",
+      "distance": "",
       "imageUrl": "/images/img-placeholder.webp"
     }
   ],

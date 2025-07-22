@@ -63,6 +63,14 @@ The application integrates with Notion as a headless CMS using four databases:
 - **Nearby Locations Database** - Points of interest linked via relation
 - **Virtual Tour Scenes Database** - 360° tour scenes with hotspot JSON data
 
+**Recent Updates (2025-01):**
+- Removed `country` property (Mexico assumed for all properties)
+- Removed `status` property (no longer needed in database)
+- Removed `propertyId` field (using Notion's internal UUID as primary identifier)
+- Removed `commissionPercentage` property (not used in current database)
+- Updated developer media handling: now uses `Developer Logo` and `Developer Image` media properties instead of URL fields
+- All developer images are automatically downloaded during build process like gallery images
+
 **Key Files:**
 - `src/lib/notion.ts` - Notion client setup and helper functions
 - `src/lib/notionData.ts` - Data fetching, transformation, and caching with automatic image downloads

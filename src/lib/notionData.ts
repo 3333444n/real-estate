@@ -243,6 +243,8 @@ export async function getPropertyNearbyLocations(propertyId: string, propertySlu
         return {
           title,
           description: extractPlainText(page.properties.Description?.rich_text || []),
+          category: extractSelect(page.properties.Category) || '',
+          distance: extractPlainText(page.properties.Distance?.rich_text || []),
           imageUrl: localImages[0]
         };
       })
