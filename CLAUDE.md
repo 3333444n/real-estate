@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | `npm run dev` | Start development server at `localhost:4321` |
 | `npm run build` | Build production site to `./dist/` |
 | `npm run preview` | Preview production build locally |
+| `node export-properties.js` | Export Notion data to JSON files for testing |
 
 ## Project Architecture
 
@@ -53,6 +54,38 @@ The virtual tour uses Pannellum.js library with custom configuration:
 - Smooth scrolling behavior enabled globally
 - Responsive design with mobile-first approach
 
+### Notion Integration
+
+The application integrates with Notion as a headless CMS using four databases:
+
+- **Properties Database** (main) - Contains all property information
+- **Amenities Database** - Property amenities linked via relation
+- **Nearby Locations Database** - Points of interest linked via relation
+- **Virtual Tour Scenes Database** - 360° tour scenes with hotspot JSON data
+
+**Key Files:**
+- `src/lib/notion.ts` - Notion client setup and helper functions
+- `src/lib/notionData.ts` - Data fetching, transformation, and caching
+- `src/pages/api/export-properties.ts` - API endpoint for data export
+
+**Testing Notion Data:**
+To verify and inspect Notion integration:
+
+1. Start development server: `npm run dev`
+2. Run export script: `node export-properties.js`
+3. Check exported files in `notion-exports/` directory
+
+The export script creates:
+- Individual JSON files for each property (`{slug}.json`)
+- Summary file with data quality analysis (`summary.json`)
+- Console output showing missing fields and data issues
+
+**Data Flow:**
+1. `[slug].astro` calls `getAllProperties()` during `getStaticPaths()`
+2. `notionData.ts` fetches from Notion databases and transforms data
+3. Build cache prevents redundant API calls
+4. Fallback data ensures site works if Notion is unavailable
+
 ### Key Technical Notes
 
 - Uses Astro's island architecture for performance
@@ -60,3 +93,5 @@ The virtual tour uses Pannellum.js library with custom configuration:
 - Virtual tour scenes are dynamically loaded from JSON data
 - Navbar hides when tour page is embedded in iframe
 - All images optimized with WebP format in `public/images/`
+- Properties generated at build time with static paths
+- Notion API calls are cached during build process

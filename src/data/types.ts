@@ -82,10 +82,12 @@ export interface Media {
   images: string[];
   virtualTourUrl: string;
   videoUrl: string;
+  threeSixtyImages: string[];
 }
 
 export interface MockupData {
   id: string;
+  propertyId: string;
   slug: string;
   propertyName: string;
   status: string;
