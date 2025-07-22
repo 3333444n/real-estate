@@ -5,7 +5,7 @@
  * This runs during Vercel's build process to guarantee images are available
  */
 
-import { getAllProperties } from '../src/lib/notionData.js';
+import { getAllProperties } from '../src/lib/notionData.ts';
 
 console.log('🚀 Pre-build: Downloading all Notion images...');
 
