@@ -60,7 +60,7 @@ export async function downloadImage(url: string, filename: string): Promise<stri
 /**
  * Generate a filename from a URL
  */
-export function generateFilename(url: string, propertySlug: string, type: 'gallery' | 'tour' | 'amenity' | 'nearby', index: number): string {
+export function generateFilename(url: string, propertySlug: string, type: 'gallery' | 'tour' | 'amenity' | 'nearby' | 'developer', index: number): string {
   const extension = path.extname(new URL(url).pathname) || '.webp';
   return `${propertySlug}-${type}-${index}${extension}`;
 }
@@ -68,7 +68,7 @@ export function generateFilename(url: string, propertySlug: string, type: 'galle
 /**
  * Download multiple images and return local paths
  */
-export async function downloadImages(urls: string[], propertySlug: string, type: 'gallery' | 'tour' | 'amenity' | 'nearby'): Promise<string[]> {
+export async function downloadImages(urls: string[], propertySlug: string, type: 'gallery' | 'tour' | 'amenity' | 'nearby' | 'developer'): Promise<string[]> {
   const localPaths: string[] = [];
   
   for (let i = 0; i < urls.length; i++) {
@@ -78,6 +78,27 @@ export async function downloadImages(urls: string[], propertySlug: string, type:
       localPaths.push(localPath);
     } catch (error) {
       console.error(`❌ Failed to download image ${i + 1}:`, error);
+      localPaths.push('/images/img-placeholder.webp'); // Fallback
+    }
+  }
+  
+  return localPaths;
+}
+
+/**
+ * Download scene-specific images with unique filenames per scene
+ */
+export async function downloadSceneImages(urls: string[], propertySlug: string, sceneId: string): Promise<string[]> {
+  const localPaths: string[] = [];
+  
+  for (let i = 0; i < urls.length; i++) {
+    try {
+      const extension = path.extname(new URL(urls[i]).pathname) || '.webp';
+      const filename = `${propertySlug}-tour-${sceneId}-${i + 1}${extension}`;
+      const localPath = await downloadImage(urls[i], filename);
+      localPaths.push(localPath);
+    } catch (error) {
+      console.error(`❌ Failed to download scene image ${i + 1} for ${sceneId}:`, error);
       localPaths.push('/images/img-placeholder.webp'); // Fallback
     }
   }

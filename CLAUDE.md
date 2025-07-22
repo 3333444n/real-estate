@@ -10,6 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | `npm run build` | Build production site to `./dist/` |
 | `npm run preview` | Preview production build locally |
 | `node export-properties.js` | Export Notion data to JSON files for testing |
+| `node check-virtual-tours.js` | Check which properties have virtual tours and hotspot data |
 
 ## Project Architecture
 
@@ -41,11 +42,21 @@ This is an Astro-based real estate property showcase application with integrated
 
 ### Virtual Tour Implementation
 
-The virtual tour uses Pannellum.js library with custom configuration:
+The virtual tour system integrates Notion CMS with Pannellum.js for dynamic 360° experiences:
+
+**Frontend Components:**
+- `src/pages/tour.astro` - Standalone 360° virtual tour page using Pannellum.js
+- `src/components/Tour.astro` - Virtual tour embed component (iframe wrapper)
 - Scene-based navigation with hotspots
-- Thumbnail strip for scene switching
+- Thumbnail strip for scene switching  
 - Mobile gyroscope support with orientation-based toggling
 - Iframe embed detection for removing navbar when embedded
+
+**Notion Database Integration:**
+- **Virtual Tour Scenes Database** stores individual scenes per property
+- Each scene has unique 360° panorama image, title, and scene order
+- Hotspots defined as JSON text field supporting multiple navigation points per scene
+- Automatic image downloading creates unique filenames: `{property-slug}-tour-{scene-id}-1.webp`
 
 ### Styling
 
@@ -63,6 +74,24 @@ The application integrates with Notion as a headless CMS using four databases:
 - **Nearby Locations Database** - Points of interest linked via relation
 - **Virtual Tour Scenes Database** - 360° tour scenes with hotspot JSON data
 
+**Virtual Tour Scenes Database Structure:**
+- **Scene Title** (Title) - Display name for the scene (e.g., "Comedor", "Sala")
+- **360-img** (Files) - 360° panorama image for the scene
+- **Scene Order** (Number) - Display order for scene navigation
+- **Property** (Relation) - Links scene to main property
+- **Hotspots** (Text) - JSON array containing navigation hotspots:
+  ```json
+  [
+    {
+      "pitch": -2.5,
+      "yaw": 135,
+      "type": "scene",
+      "text": "Ir a la Cocina",
+      "sceneId": "cocina"
+    }
+  ]
+  ```
+
 **Recent Updates (2025-01):**
 - Removed `country` property (Mexico assumed for all properties)
 - Removed `status` property (no longer needed in database)
@@ -70,6 +99,8 @@ The application integrates with Notion as a headless CMS using four databases:
 - Removed `commissionPercentage` property (not used in current database)
 - Updated developer media handling: now uses `Developer Logo` and `Developer Image` media properties instead of URL fields
 - All developer images are automatically downloaded during build process like gallery images
+- **Amenities database structure**: Added `amenity` select field to capture amenity types (e.g., "Area de Tendido")
+- **Nearby Locations database structure**: Added `category` select field and `distance` text field for better location categorization
 
 **Key Files:**
 - `src/lib/notion.ts` - Notion client setup and helper functions
@@ -83,20 +114,29 @@ To verify and inspect Notion integration:
 1. Start development server: `npm run dev`
 2. Run export script: `node export-properties.js`
 3. Check exported files in `notion-exports/` directory
+4. Verify virtual tours: `node check-virtual-tours.js`
 
 The export script creates:
 - Individual JSON files for each property (`{slug}.json`)
-- Summary file with data quality analysis (`summary.json`)
+- Summary file with data quality analysis (`summary.json`) 
 - Downloaded images in `public/images/notion/` directory
 - Console output showing missing fields and data issues
+
+**Virtual Tour Testing:**
+The `check-virtual-tours.js` utility provides:
+- List of properties with virtual tour scenes
+- Scene details (ID, title, panorama URL, hotspot count)
+- Quick overview for debugging tour functionality
 
 **Data Flow:**
 1. `[slug].astro` calls `getAllProperties()` during `getStaticPaths()`
 2. `notionData.ts` fetches from Notion databases and transforms data
 3. `imageDownloader.ts` downloads all Notion images to local storage during build
 4. Relation data (amenities, nearby locations, virtual tour scenes) fetched with page titles
-5. Build cache prevents redundant API calls
-6. Fallback data ensures site works if Notion is unavailable
+5. **Virtual tour scenes** downloaded with unique filenames per scene
+6. **Hotspot JSON parsing** converts text fields to JavaScript objects
+7. Build cache prevents redundant API calls
+8. Fallback data ensures site works if Notion is unavailable
 
 ### Key Technical Notes
 

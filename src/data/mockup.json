@@ -113,13 +113,11 @@
   ],
   "media": {
     "images": [
-      "/images/bano.webp",
-      "/images/cocina.webp",
-      "/images/comedorSala.webp",
-      "/images/exterior1.webp"
+      "/images/img-placeholder.webp"
     ],
     "virtualTourUrl": "",
-    "videoUrl": ""
+    "videoUrl": "",
+    "threeSixtyImages": []
   },
   "virtualTour": {
     "enabled": true,
@@ -127,8 +125,8 @@
       {
         "id": "sala-comedor",
         "title": "Sala Comedor",
-        "panoramaUrl": "/images/comedorSala.webp",
-        "thumbnailUrl": "/images/comedorSala.webp",
+        "panoramaUrl": "/images/img-placeholder.webp",
+        "thumbnailUrl": "/images/img-placeholder.webp",
         "description": "Espaciosa sala comedor con acabados de lujo",
         "hotSpots": [
           {
@@ -150,8 +148,8 @@
       {
         "id": "cocina",
         "title": "Cocina",
-        "panoramaUrl": "/images/cocina.webp",
-        "thumbnailUrl": "/images/cocina.webp",
+        "panoramaUrl": "/images/img-placeholder.webp",
+        "thumbnailUrl": "/images/img-placeholder.webp",
         "description": "Cocina equipada con electrodomésticos modernos",
         "hotSpots": [
           {
@@ -173,8 +171,8 @@
       {
         "id": "bano",
         "title": "Baño",
-        "panoramaUrl": "/images/bano.webp",
-        "thumbnailUrl": "/images/bano.webp",
+        "panoramaUrl": "/images/img-placeholder.webp",
+        "thumbnailUrl": "/images/img-placeholder.webp",
         "description": "Baño completo con acabados premium",
         "hotSpots": [
           {
@@ -189,8 +187,8 @@
       {
         "id": "exterior",
         "title": "Exterior",
-        "panoramaUrl": "/images/exterior1.webp",
-        "thumbnailUrl": "/images/exterior1.webp",
+        "panoramaUrl": "/images/img-placeholder.webp",
+        "thumbnailUrl": "/images/img-placeholder.webp",
         "description": "Vista exterior del edificio",
         "hotSpots": [
           {

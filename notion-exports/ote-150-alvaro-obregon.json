@@ -112,35 +112,73 @@
     "enabled": true,
     "scenes": [
       {
-        "id": "",
-        "title": "Cocina",
-        "panoramaUrl": "/images/img-placeholder.webp",
-        "thumbnailUrl": "/images/img-placeholder.webp",
-        "description": "Cocina equipada con electrodomésticos modernos",
+        "id": "sala",
+        "title": "Sala",
+        "panoramaUrl": "/images/notion/ote-150-alvaro-obregon-tour-sala-1.webp",
+        "thumbnailUrl": "/images/notion/ote-150-alvaro-obregon-tour-sala-1.webp",
+        "description": "",
         "hotSpots": []
       },
       {
-        "id": "",
-        "title": "Exterior",
-        "panoramaUrl": "/images/img-placeholder.webp",
-        "thumbnailUrl": "/images/img-placeholder.webp",
-        "description": "Vista exterior del edificio",
+        "id": "comedor",
+        "title": "Comedor",
+        "panoramaUrl": "/images/notion/ote-150-alvaro-obregon-tour-comedor-1.webp",
+        "thumbnailUrl": "/images/notion/ote-150-alvaro-obregon-tour-comedor-1.webp",
+        "description": "",
+        "hotSpots": [
+          {
+            "pitch": -2.5,
+            "yaw": 135,
+            "type": "scene",
+            "text": "Ir a la Cocina",
+            "sceneId": "cocina"
+          },
+          {
+            "pitch": -1,
+            "yaw": -45,
+            "type": "scene",
+            "text": "Ir al Baño",
+            "sceneId": "bano"
+          }
+        ]
+      },
+      {
+        "id": "habitacion1",
+        "title": "Habitacion1",
+        "panoramaUrl": "/images/notion/ote-150-alvaro-obregon-tour-habitacion1-1.webp",
+        "thumbnailUrl": "/images/notion/ote-150-alvaro-obregon-tour-habitacion1-1.webp",
+        "description": "",
         "hotSpots": []
       },
       {
-        "id": "",
-        "title": "Sala Comedor",
-        "panoramaUrl": "/images/img-placeholder.webp",
-        "thumbnailUrl": "/images/img-placeholder.webp",
-        "description": "Espaciosa sala comedor con acabados de lujo",
-        "hotSpots": []
-      },
-      {
-        "id": "",
+        "id": "bao",
         "title": "Baño",
-        "panoramaUrl": "/images/img-placeholder.webp",
-        "thumbnailUrl": "/images/img-placeholder.webp",
-        "description": "Baño completo con acabados premium",
+        "panoramaUrl": "/images/notion/ote-150-alvaro-obregon-tour-bao-1.webp",
+        "thumbnailUrl": "/images/notion/ote-150-alvaro-obregon-tour-bao-1.webp",
+        "description": "",
+        "hotSpots": [
+          {
+            "pitch": -2.5,
+            "yaw": 135,
+            "type": "scene",
+            "text": "Ir a la Cocina",
+            "sceneId": "cocina"
+          },
+          {
+            "pitch": -1,
+            "yaw": -45,
+            "type": "scene",
+            "text": "Ir al Baño",
+            "sceneId": "bano"
+          }
+        ]
+      },
+      {
+        "id": "habitacion2",
+        "title": "Habitacion2",
+        "panoramaUrl": "/images/notion/ote-150-alvaro-obregon-tour-habitacion2-1.webp",
+        "thumbnailUrl": "/images/notion/ote-150-alvaro-obregon-tour-habitacion2-1.webp",
+        "description": "",
         "hotSpots": []
       }
     ]

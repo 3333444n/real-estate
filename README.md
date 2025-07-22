@@ -125,10 +125,36 @@ The following properties have been **removed** from the Notion database structur
 - ~~**Commission Percentage** (Number)~~ - Not needed in current implementation
 - ~~**Developer Logo URL** (Files)~~ - Replaced with **Developer Logo** media property
 
-### Related Databases
-- **Amenities**: Connected via Property relation (page titles auto-fetched)
-- **Nearby Locations**: Connected via Property relation (page titles auto-fetched)
-- **Virtual Tour Scenes**: Connected via Property relation with hotspot JSON data (page titles auto-fetched)
+### Amenities Database
+- **Amenity** (Select) - Amenity type (e.g., "Area de Tendido", "Gymnasium", etc.)
+- **Description** (Rich Text) - Detailed amenity description
+- **Image** (Files) - Amenity images (automatically downloaded during build)
+- **Property** (Relation) - Links to Properties database
+
+### Nearby Locations Database  
+- **Category** (Select) - Location category (e.g., "Escuelas", "Hospitales", etc.)
+- **Description** (Rich Text) - Location description
+- **Distance** (Rich Text) - Distance and travel method (e.g., "10 minutos en carro")
+- **Image** (Files) - Location images (automatically downloaded during build)
+- **Property** (Relation) - Links to Properties database
+
+### Virtual Tour Scenes Database
+- **Scene Title** (Title) - Display name for the scene (e.g., "Comedor", "Sala")  
+- **360-img** (Files) - 360° panorama image for the scene
+- **Scene Order** (Number) - Display order for scene navigation
+- **Property** (Relation) - Links scene to main property
+- **Hotspots** (Text) - JSON array containing navigation hotspots:
+  ```json
+  [
+    {
+      "pitch": -2.5,
+      "yaw": 135, 
+      "type": "scene",
+      "text": "Ir a la Cocina",
+      "sceneId": "cocina"
+    }
+  ]
+  ```
 
 ### 📸 **Automatic Image Management**
 The integration automatically downloads all images from Notion during build time:
@@ -136,7 +162,7 @@ The integration automatically downloads all images from Notion during build time
 - **Developer images** → `public/images/notion/{slug}-developer-{index}.{ext}` (SVG/WebP)
 - **Amenity images** → `public/images/notion/{slug}-amenity-{index}.webp`
 - **Nearby location images** → `public/images/notion/{slug}-nearby-{index}.webp`
-- **Virtual tour images** → `public/images/notion/{slug}-tour-{index}.webp`
+- **Virtual tour images** → `public/images/notion/{slug}-tour-{scene-id}-{index}.webp`
 
 This ensures all images are locally hosted and won't break due to Notion URL expiration.
 
@@ -149,6 +175,7 @@ This ensures all images are locally hosted and won't break due to Notion URL exp
 | `npm run build` | Build production site to `./dist/` |
 | `npm run preview` | Preview build locally |
 | `node export-properties.js` | Export Notion data to JSON files |
+| `node check-virtual-tours.js` | Check virtual tour availability and details |
 
 ## 🔍 Testing Notion Integration
 
@@ -164,12 +191,23 @@ To verify your Notion integration and export property data:
    node export-properties.js
    ```
 
-This will:
+3. **Check virtual tour data (optional):**
+   ```bash
+   node check-virtual-tours.js
+   ```
+
+The export will:
 - Fetch all properties from your Notion databases
 - Download all images locally to `public/images/notion/`
 - Create individual JSON files for each property in `notion-exports/`
 - Generate a summary with data quality analysis
 - Show which properties have missing required fields
+
+The virtual tour checker will:
+- Show which properties have virtual tours enabled
+- List all scenes per property with details
+- Display hotspot counts per scene
+- Help debug virtual tour functionality
 
 ### Export Output
 

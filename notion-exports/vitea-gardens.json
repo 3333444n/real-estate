@@ -91,41 +91,8 @@
     "threeSixtyImages": []
   },
   "virtualTour": {
-    "enabled": true,
-    "scenes": [
-      {
-        "id": "",
-        "title": "Cocina",
-        "panoramaUrl": "/images/img-placeholder.webp",
-        "thumbnailUrl": "/images/img-placeholder.webp",
-        "description": "Cocina equipada con electrodomésticos modernos",
-        "hotSpots": []
-      },
-      {
-        "id": "",
-        "title": "Exterior",
-        "panoramaUrl": "/images/img-placeholder.webp",
-        "thumbnailUrl": "/images/img-placeholder.webp",
-        "description": "Vista exterior del edificio",
-        "hotSpots": []
-      },
-      {
-        "id": "",
-        "title": "Sala Comedor",
-        "panoramaUrl": "/images/img-placeholder.webp",
-        "thumbnailUrl": "/images/img-placeholder.webp",
-        "description": "Espaciosa sala comedor con acabados de lujo",
-        "hotSpots": []
-      },
-      {
-        "id": "",
-        "title": "Baño",
-        "panoramaUrl": "/images/img-placeholder.webp",
-        "thumbnailUrl": "/images/img-placeholder.webp",
-        "description": "Baño completo con acabados premium",
-        "hotSpots": []
-      }
-    ]
+    "enabled": false,
+    "scenes": []
   },
   "contact": {
     "agentName": "Rafael Torres",

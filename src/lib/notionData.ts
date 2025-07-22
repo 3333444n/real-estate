@@ -10,7 +10,7 @@ import {
   extractPhone, 
   extractFiles 
 } from './notion';
-import { downloadImages } from './imageDownloader';
+import { downloadImages, downloadSceneImages } from './imageDownloader';
 import type { MockupData } from '../data/types';
 
 // Build-time cache to avoid redundant API calls
@@ -265,7 +265,6 @@ export async function getPropertyNearbyLocations(propertyId: string, propertySlu
 export async function getPropertyVirtualTourScenes(propertyId: string, propertySlug: string): Promise<any[]> {
   const cacheKey = `scenes_${propertyId}`;
   
-  
   if (buildCache.has(cacheKey)) {
     return buildCache.get(cacheKey);
   }
@@ -279,59 +278,74 @@ export async function getPropertyVirtualTourScenes(propertyId: string, propertyS
           contains: propertyId
         }
       },
+      sorts: [
+        {
+          property: 'Scene Order',
+          direction: 'ascending'
+        }
+      ]
     });
 
     const scenes = await Promise.all(
       response.results.map(async (page: any, index: number) => {
         const props = page.properties;
         
-        // Parse hotspots from JSON string if available
+        // Parse hotspots from JSON text field
         let hotSpots = [];
         try {
           const hotspotsJson = extractPlainText(props.Hotspots?.rich_text || []);
-          if (hotspotsJson) {
+          if (hotspotsJson && hotspotsJson.trim()) {
             hotSpots = JSON.parse(hotspotsJson);
           }
         } catch (error) {
-          console.error('Error parsing hotspots JSON:', error);
+          console.error(`Error parsing hotspots JSON for scene ${page.id}:`, error);
+          hotSpots = [];
         }
 
-        // Download panorama and thumbnail images
-        const panoramaUrls = extractFiles(props.PanoramaImage);
-        const thumbnailUrls = extractFiles(props.ThumbnailImage);
-        
-        const panoramaImages = panoramaUrls.length > 0 
-          ? await downloadImages(panoramaUrls, propertySlug, 'tour')
-          : ["/images/img-placeholder.webp"];
-          
-        const thumbnailImages = thumbnailUrls.length > 0 
-          ? await downloadImages(thumbnailUrls, propertySlug, 'tour')
-          : ["/images/img-placeholder.webp"];
-
-        // Find the title property (same approach as amenities)
+        // Get the scene title for unique filename
         const titleProperty = Object.entries(props).find(([key, prop]: [string, any]) => 
           prop.type === 'title'
         );
         
         let title = 'Scene';
+        let sceneIdFromTitle = 'scene';
         if (titleProperty) {
           const [propertyName, propertyValue] = titleProperty;
           title = extractPlainText((propertyValue as any).title || []);
+          // Generate scene ID from title for unique filenames
+          sceneIdFromTitle = title.toLowerCase()
+            .replace(/\s+/g, '-')
+            .replace(/[^a-z0-9\-]/g, '')
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '');
         }
 
+        // Download 360-img with scene-specific filename
+        const panoramaUrls = extractFiles(props['360-img']);
+        
+        const panoramaImages = panoramaUrls.length > 0 
+          ? await downloadSceneImages(panoramaUrls, propertySlug, sceneIdFromTitle)
+          : ["/images/img-placeholder.webp"];
+
+        // Use the ID from Notion or generate from title
+        const finalSceneId = extractPlainText(props['Scene ID']?.rich_text || []) || sceneIdFromTitle;
+
         return {
-          id: extractPlainText(props.SceneId?.rich_text || []),
+          id: finalSceneId,
           title,
           panoramaUrl: panoramaImages[0],
-          thumbnailUrl: thumbnailImages[0],
-          description: extractPlainText(props.Description?.rich_text || []),
+          thumbnailUrl: panoramaImages[0], // Use same image as both panorama and thumbnail
+          description: extractPlainText(props.Description?.rich_text || []) || '',
           hotSpots
         };
       })
     );
 
-    buildCache.set(cacheKey, scenes);
-    return scenes;
+    // Filter out scenes without valid panorama images
+    const validScenes = scenes.filter(scene => scene.panoramaUrl !== "/images/img-placeholder.webp");
+
+    buildCache.set(cacheKey, validScenes);
+    return validScenes;
   } catch (error) {
     console.error(`Error fetching virtual tour scenes for property ${propertyId}:`, error);
     return [];
@@ -429,6 +443,30 @@ async function transformPropertyData(page: any): Promise<MockupData> {
     },
     description: extractPlainText(props.Description?.rich_text || []) || ""
   };
+}
+
+/**
+ * Get all properties that have virtual tour scenes
+ */
+export async function getPropertiesWithVirtualTours(): Promise<MockupData[]> {
+  const cacheKey = 'properties_with_tours';
+  
+  if (buildCache.has(cacheKey)) {
+    return buildCache.get(cacheKey);
+  }
+
+  try {
+    const allProperties = await getAllProperties();
+    const propertiesWithTours = allProperties.filter(property => 
+      property.virtualTour.enabled && property.virtualTour.scenes.length > 0
+    );
+
+    buildCache.set(cacheKey, propertiesWithTours);
+    return propertiesWithTours;
+  } catch (error) {
+    console.error('Error fetching properties with virtual tours:', error);
+    return [];
+  }
 }
 
 /**
