@@ -21,7 +21,6 @@ const fallbackData: MockupData = {
   id: "fallback",
   slug: "fallback-property",
   propertyName: "Fallback Property",
-  status: "for_sale",
   propertyType: "departamento",
   developer: {
     name: "Default Developer",
@@ -375,7 +374,6 @@ async function transformPropertyData(page: any): Promise<MockupData> {
     id: propertyId,
     slug: propertySlug,
     propertyName: extractPlainText(props['Property Name']?.title || []),
-    status: "for_sale",
     propertyType: extractSelect(props['Property Type']) || "departamento",
     developer: {
       name: extractPlainText(props['Developer Name']?.rich_text || []) || "Unknown Developer",

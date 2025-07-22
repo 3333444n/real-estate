@@ -87,7 +87,6 @@ export interface MockupData {
   id: string;
   slug: string;
   propertyName: string;
-  status: string;
   propertyType: string;
   developer: Developer;
   location: Location;

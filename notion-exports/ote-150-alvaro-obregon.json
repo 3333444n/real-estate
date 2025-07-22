@@ -2,7 +2,6 @@
   "id": "22cb3205-99cb-8182-a58d-d7c5fab5959e",
   "slug": "ote-150-alvaro-obregon",
   "propertyName": "OTE 150, 163",
-  "status": "for_sale",
   "propertyType": "Departamento",
   "developer": {
     "name": "Grupo Constructor JS&M",
@@ -33,7 +32,7 @@
   },
   "delivery": {
     "type": "entrega inmediata",
-    "yearBuilt": 2024
+    "yearBuilt": 2025
   },
   "amenities": [
     {
