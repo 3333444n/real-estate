@@ -1,0 +1,186 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getAllProperties, getPropertyBySlug } from "../../lib/notionData";
+import type { VirtualTourScene } from "../../data/types";
+
+export async function getStaticPaths() {
+  const properties = await getAllProperties();
+  const propertiesWithTours = properties.filter(p =>
+    p.virtualTour.enabled && p.virtualTour.scenes.length > 0
+  );
+
+  return propertiesWithTours.map(property => ({
+    params: { slug: property.slug },
+    props: { property }
+  }));
+}
+
+const { property } = Astro.props;
+const virtualTour = property.virtualTour;
+---
+
+<Layout title={`360 Virtual Tour - ${property.propertyName}`}>
+  <div class="relative w-full h-screen">
+    <div id="panorama" class="w-full h-full"></div>
+
+    <!-- Custom scene name pill label -->
+    <div
+      id="scene-label"
+      class="fixed left-4 bg-transparent text-white rounded-full px-4 font-mori text-lg z-20
+        sm:left-1/2 sm:transform sm:-translate-x-1/2 sm:bottom-24 sm:w-max sm:text-center"
+    >
+      {virtualTour.scenes[0].title}
+    </div>
+
+    {
+      virtualTour && virtualTour.scenes && virtualTour.scenes.length > 0 && (
+        <div
+          id="thumbnail-strip"
+          class="fixed bottom-0 left-0 w-full flex justify-center items-center py-2 z-10"
+        >
+          {virtualTour.scenes.map((scene: VirtualTourScene) => (
+            <img
+              src={scene.thumbnailUrl}
+              class="w-20 h-11 object-cover border-2 border-white mx-2 cursor-pointer rounded transition-transform hover:scale-110 hover:border-gray-300"
+              alt={`${scene.title} Thumbnail`}
+              data-scene={scene.id}
+            />
+          ))}
+        </div>
+      )
+    }
+  </div>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    #panorama {
+      width: 100%;
+      height: 100%;
+    }
+
+    .pnlm-loading,
+    .pnlm-load-box,
+    .pnlm-lbox,
+    .pnlm-loading-box {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+    @media (max-width: 640px) {
+      #scene-label {
+        bottom: 5.5rem; /* Place above thumbnail strip */
+        left: 50%;
+        transform: translateX(-50%);
+        width: max-content;
+        text-align: center;
+      }
+    }
+  </style>
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"
+  ></script>
+
+  <script define:vars={{ virtualTour }}>
+    // Wait for DOM to be ready
+    document.addEventListener("DOMContentLoaded", function () {
+      if (
+        !virtualTour ||
+        !virtualTour.scenes ||
+        virtualTour.scenes.length === 0
+      ) {
+        console.error("No virtual tour data available");
+        return;
+      }
+
+      // Build scenes configuration
+      const scenes = {};
+      virtualTour.scenes.forEach((scene) => {
+        scenes[scene.id] = {
+          panorama: scene.panoramaUrl,
+          hotSpots: scene.hotSpots || [],
+        };
+      });
+
+      // Initialize viewer
+      const viewer = pannellum.viewer("panorama", {
+        default: {
+          firstScene: virtualTour.scenes[0].id,
+          autoLoad: true,
+          sceneFadeDuration: 1200,
+          hfov: 90,
+          showControls: false,
+          touchPan: true,
+          hotSpotDebug: false,
+          showTitle: false,
+        },
+        scenes: scenes,
+      });
+
+      // Custom thumbnail navigation
+      document.querySelectorAll(".thumbnail, [data-scene]").forEach((thumb) => {
+        thumb.addEventListener("click", function () {
+          const sceneId = this.getAttribute("data-scene");
+          if (sceneId && scenes[sceneId]) {
+            viewer.loadScene(sceneId);
+            updateSceneLabel(sceneId);
+          }
+        });
+      });
+
+      // Scene label update logic
+      const sceneLabel = document.getElementById("scene-label");
+      function updateSceneLabel(sceneId) {
+        const scene = virtualTour.scenes.find((s) => s.id === sceneId);
+        if (scene && sceneLabel) {
+          sceneLabel.textContent = scene.title;
+        }
+      }
+
+      // Update label when scene changes via viewer controls
+      viewer.on("scenechange", function (sceneId) {
+        updateSceneLabel(sceneId);
+      });
+
+      // Mobile gyroscope lock based on orientation
+      function handleOrientation() {
+        if (window.innerHeight > window.innerWidth) {
+          // Portrait
+          viewer.setGyro(false);
+        } else {
+          // Landscape
+          viewer.setGyro(true);
+        }
+      }
+
+      window.addEventListener("orientationchange", handleOrientation);
+      window.addEventListener("resize", handleOrientation);
+
+      // Initial check
+      handleOrientation();
+    });
+  </script>
+</Layout>
+
+<script is:inline>
+  // This script checks if the page is loaded inside an iframe.
+  // window.self refers to the current window.
+  // window.top refers to the topmost window in the window hierarchy.
+  // They are only different if the page is in an iframe.
+  if (window.self !== window.top) {
+    // If we are in an iframe, add a class to the body.
+    document.body.classList.add("is-embedded");
+  }
+</script>

@@ -3,10 +3,11 @@ import type { VirtualTour } from '../data/types';
 
 interface Props {
   title?: string;
+  propertySlug?: string;
   virtualTour?: VirtualTour;
 }
 
-const { title = "Tour Virtual 360°", virtualTour } = Astro.props;
+const { title = "Tour Virtual 360°", propertySlug, virtualTour } = Astro.props;
 ---
 
 <section class="py-16 bg-white">
@@ -18,29 +19,38 @@ const { title = "Tour Virtual 360°", virtualTour } = Astro.props;
       </p>
     </div>
 
-    <div
-      class="w-full lg:w-[90vw] xl:w-[1200px] mx-auto min-h-[70vh] md:min-h-0 md:aspect-video rounded-lg overflow-hidden shadow-lg"
-    >
-      <iframe
-        class="h-full w-full min-h-[70vh]"
-        src="/tour"
-        width="100%"
-        height="100%"
-        style="border:0;"
-        allowfullscreen=""
-        loading="lazy"
-        title="Tour Virtual 360° de la propiedad"></iframe>
-    </div>
+    {propertySlug ? (
+      <div
+        class="w-full lg:w-[90vw] xl:w-[1200px] mx-auto min-h-[70vh] md:min-h-0 md:aspect-video rounded-lg overflow-hidden shadow-lg"
+      >
+        <iframe
+          class="h-full w-full min-h-[70vh]"
+          src={`/tour/${propertySlug}`}
+          width="100%"
+          height="100%"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          title="Tour Virtual 360° de la propiedad"></iframe>
+      </div>
+    ) : (
+      <div class="w-full lg:w-[90vw] xl:w-[1200px] mx-auto min-h-[70vh] md:min-h-0 md:aspect-video rounded-lg overflow-hidden shadow-lg flex items-center justify-center bg-gray-100">
+        <p class="text-gray-600 text-lg">Tour virtual no disponible</p>
+      </div>
+    )}
 
     <!-- Fullscreen Button -->
-    <div class="text-center mt-6">
-      <button
-        id="tour-fullscreen-btn"
-        class="bg-white hover:bg-gray-100 text-black px-6 py-3 border border-black rounded-full transition-all duration-300 font-medium"
-      >
-        Ver en pantalla completa
-      </button>
-    </div>
+    {propertySlug && (
+      <div class="text-center mt-6">
+        <button
+          id="tour-fullscreen-btn"
+          class="bg-white hover:bg-gray-100 text-black px-6 py-3 border border-black rounded-full transition-all duration-300 font-medium"
+          data-property-slug={propertySlug}
+        >
+          Ver en pantalla completa
+        </button>
+      </div>
+    )}
   </div>
 </section>
 
@@ -50,8 +60,11 @@ const { title = "Tour Virtual 360°", virtualTour } = Astro.props;
 
     if (fullscreenBtn) {
       fullscreenBtn.addEventListener("click", function () {
-        // Open tour page in fullscreen
-        window.open("/tour", "_blank");
+        const propertySlug = this.getAttribute("data-property-slug");
+        if (propertySlug) {
+          // Open tour page in fullscreen
+          window.open(`/tour/${propertySlug}`, "_blank");
+        }
       });
     }
   });
