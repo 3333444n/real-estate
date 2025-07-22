@@ -96,6 +96,7 @@
     }
   ],
   "media": {
+    "heroImage": "/images/notion/ote-150-alvaro-obregon-hero-1.webp",
     "images": [
       "/images/notion/ote-150-alvaro-obregon-gallery-1.webp",
       "/images/notion/ote-150-alvaro-obregon-gallery-2.webp",
@@ -143,10 +144,10 @@
         ]
       },
       {
-        "id": "habitacion1",
-        "title": "Habitacion1",
-        "panoramaUrl": "/images/notion/ote-150-alvaro-obregon-tour-habitacion1-1.webp",
-        "thumbnailUrl": "/images/notion/ote-150-alvaro-obregon-tour-habitacion1-1.webp",
+        "id": "habitacion-1",
+        "title": "Habitacion 1",
+        "panoramaUrl": "/images/notion/ote-150-alvaro-obregon-tour-habitacion-1-1.webp",
+        "thumbnailUrl": "/images/notion/ote-150-alvaro-obregon-tour-habitacion-1-1.webp",
         "description": "",
         "hotSpots": []
       },
@@ -174,10 +175,10 @@
         ]
       },
       {
-        "id": "habitacion2",
-        "title": "Habitacion2",
-        "panoramaUrl": "/images/notion/ote-150-alvaro-obregon-tour-habitacion2-1.webp",
-        "thumbnailUrl": "/images/notion/ote-150-alvaro-obregon-tour-habitacion2-1.webp",
+        "id": "habitacion-2",
+        "title": "Habitacion 2",
+        "panoramaUrl": "/images/notion/ote-150-alvaro-obregon-tour-habitacion-2-1.webp",
+        "thumbnailUrl": "/images/notion/ote-150-alvaro-obregon-tour-habitacion-2-1.webp",
         "description": "",
         "hotSpots": []
       }

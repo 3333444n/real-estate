@@ -83,6 +83,7 @@
     }
   ],
   "media": {
+    "heroImage": "/images/img-placeholder.webp",
     "images": [
       "/images/img-placeholder.webp"
     ],

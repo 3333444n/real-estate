@@ -80,6 +80,7 @@ export interface NearbyLocation {
 }
 
 export interface Media {
+  heroImage: string;
   images: string[];
   virtualTourUrl: string;
   videoUrl: string;

@@ -60,7 +60,7 @@ export async function downloadImage(url: string, filename: string): Promise<stri
 /**
  * Generate a filename from a URL
  */
-export function generateFilename(url: string, propertySlug: string, type: 'gallery' | 'tour' | 'amenity' | 'nearby' | 'developer', index: number): string {
+export function generateFilename(url: string, propertySlug: string, type: 'gallery' | 'tour' | 'amenity' | 'nearby' | 'developer' | 'hero', index: number): string {
   const extension = path.extname(new URL(url).pathname) || '.webp';
   return `${propertySlug}-${type}-${index}${extension}`;
 }
@@ -68,7 +68,7 @@ export function generateFilename(url: string, propertySlug: string, type: 'galle
 /**
  * Download multiple images and return local paths
  */
-export async function downloadImages(urls: string[], propertySlug: string, type: 'gallery' | 'tour' | 'amenity' | 'nearby' | 'developer'): Promise<string[]> {
+export async function downloadImages(urls: string[], propertySlug: string, type: 'gallery' | 'tour' | 'amenity' | 'nearby' | 'developer' | 'hero'): Promise<string[]> {
   const localPaths: string[] = [];
   
   for (let i = 0; i < urls.length; i++) {

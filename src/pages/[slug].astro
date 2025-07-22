@@ -45,6 +45,7 @@ const safeProperty = {
   amenities: property.amenities || [],
   nearbyLocations: property.nearbyLocations || [],
   media: {
+    heroImage: property.media?.heroImage || "/images/img-placeholder.webp",
     images: property.media?.images?.length > 0 ? property.media.images : ["/images/img-placeholder.webp"],
     ...property.media
   },
@@ -73,6 +74,7 @@ const ogImage = safeProperty.media.images[0] || "/images/img-placeholder.webp";
     <HeroSection
       propertyName={safeProperty.propertyName}
       propertyType={safeProperty.propertyType}
+      heroImage={safeProperty.media.heroImage}
       developer={safeProperty.developer}
       location={safeProperty.location}
       delivery={safeProperty.delivery}

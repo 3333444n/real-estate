@@ -56,6 +56,7 @@ const fallbackData: MockupData = {
   amenities: [],
   nearbyLocations: [],
   media: {
+    heroImage: "/images/img-placeholder.webp",
     images: ["/images/img-placeholder.webp"],
     virtualTourUrl: "",
     videoUrl: "",
@@ -360,7 +361,13 @@ async function transformPropertyData(page: any): Promise<MockupData> {
   const propertyId = page.id;
   const propertySlug = extractPlainText(props.Slug?.rich_text || []) || `property-${propertyId}`;
 
-  // Extract gallery images first to get URLs
+  // Extract hero image
+  const heroImageUrls = extractFiles(props['hero-image']);
+  const heroImages = heroImageUrls.length > 0 
+    ? await downloadImages(heroImageUrls, propertySlug, 'hero')
+    : ["/images/img-placeholder.webp"];
+
+  // Extract gallery images
   const galleryUrls = extractFiles(props.gallery || props.Media);
 
   // Download gallery images
@@ -426,6 +433,7 @@ async function transformPropertyData(page: any): Promise<MockupData> {
     amenities,
     nearbyLocations,
     media: {
+      heroImage: heroImages[0],
       images: galleryImages.length > 0 ? galleryImages : ["/images/img-placeholder.webp"],
       virtualTourUrl: extractUrl(props['Virtual Tour URL']) || "",
       videoUrl: extractUrl(props['Video URL']) || "",

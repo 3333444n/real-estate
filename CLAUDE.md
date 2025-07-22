@@ -27,7 +27,7 @@ This is an Astro-based real estate property showcase application with integrated
 
 **Component Organization:**
 - `src/components/` - Reusable UI components for different sections
-  - `HeroSection.astro` - Property hero with pricing and details
+  - `HeroSection.astro` - Property hero with dynamic hero image, pricing and details
   - `Gallery.astro` - Property image gallery
   - `Tour.astro` - Virtual tour embed component
   - `CardsSection.astro` - Generic card grid layout
@@ -38,7 +38,7 @@ This is an Astro-based real estate property showcase application with integrated
 
 - `src/data/mockup.json` - Central data source for all property information
 - `src/data/types.ts` - TypeScript interfaces for data structures
-- Data includes: property details, pricing, developer info, virtual tour configuration, amenities, and contact information
+- Data includes: property details, pricing, developer info, hero images, virtual tour configuration, amenities, and contact information
 
 ### Virtual Tour Implementation
 
@@ -99,6 +99,8 @@ The application integrates with Notion as a headless CMS using four databases:
 - Removed `commissionPercentage` property (not used in current database)
 - Updated developer media handling: now uses `Developer Logo` and `Developer Image` media properties instead of URL fields
 - All developer images are automatically downloaded during build process like gallery images
+- **Added hero image support**: Properties now have a `hero-image` field that displays as the main background in HeroSection component
+- **Hero image downloading**: Hero images are automatically downloaded to `{property-slug}-hero-1.webp` format
 - **Amenities database structure**: Added `amenity` select field to capture amenity types (e.g., "Area de Tendido")
 - **Nearby Locations database structure**: Added `category` select field and `distance` text field for better location categorization
 
@@ -132,11 +134,12 @@ The `check-virtual-tours.js` utility provides:
 1. `[slug].astro` calls `getAllProperties()` during `getStaticPaths()`
 2. `notionData.ts` fetches from Notion databases and transforms data
 3. `imageDownloader.ts` downloads all Notion images to local storage during build
-4. Relation data (amenities, nearby locations, virtual tour scenes) fetched with page titles
-5. **Virtual tour scenes** downloaded with unique filenames per scene
-6. **Hotspot JSON parsing** converts text fields to JavaScript objects
-7. Build cache prevents redundant API calls
-8. Fallback data ensures site works if Notion is unavailable
+4. **Hero images** downloaded from `hero-image` field with `{property-slug}-hero-1.webp` naming
+5. Relation data (amenities, nearby locations, virtual tour scenes) fetched with page titles
+6. **Virtual tour scenes** downloaded with unique filenames per scene
+7. **Hotspot JSON parsing** converts text fields to JavaScript objects
+8. Build cache prevents redundant API calls
+9. Fallback data ensures site works if Notion is unavailable
 
 ### Key Technical Notes
 

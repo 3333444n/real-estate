@@ -8,6 +8,7 @@ A modern real estate website built with Astro featuring dynamic property listing
 - **360° Virtual Tours**: Interactive panoramic tours using Pannellum.js with hotspots
 - **Responsive Design**: Mobile-first approach with TailwindCSS v4
 - **SEO Optimized**: Dynamic meta tags and structured data for each property
+- **Dynamic Hero Images**: Each property features a unique hero background from Notion CMS
 - **Notion Integration**: Full CMS capabilities with multiple databases for properties, amenities, and locations
 - **Image Gallery**: Optimized WebP images with responsive layouts
 - **Interactive Maps**: Location integration with Google Maps
@@ -92,6 +93,7 @@ The project uses four interconnected Notion databases:
 - **Developer Logo** (Files) - SVG/PNG logo (automatically downloaded during build)
 - **Developer Image** (Files) - Developer main image (automatically downloaded during build)
 - **Developer Description** (Rich Text)
+- **hero-image** (Files) - Main hero background image for property page (automatically downloaded during build)
 - **Address** (Rich Text)
 - **Neighborhood** (Rich Text)
 - **City** (Rich Text)
@@ -158,6 +160,7 @@ The following properties have been **removed** from the Notion database structur
 
 ### 📸 **Automatic Image Management**
 The integration automatically downloads all images from Notion during build time:
+- **Hero images** → `public/images/notion/{slug}-hero-{index}.webp`
 - **Gallery images** → `public/images/notion/{slug}-gallery-{index}.webp`
 - **Developer images** → `public/images/notion/{slug}-developer-{index}.{ext}` (SVG/WebP)
 - **Amenity images** → `public/images/notion/{slug}-amenity-{index}.webp`
@@ -251,7 +254,7 @@ Example summary structure:
 
 Each property page (`/[slug]`) includes:
 
-1. **Hero Section** - Property name, pricing, developer info, location
+1. **Hero Section** - Dynamic hero image background, property name, pricing, developer info, location
 2. **Features Section** - Pricing, dimensions, features, delivery info
 3. **Gallery** - Property images with lightbox
 4. **Amenities** - Property amenities (if available)

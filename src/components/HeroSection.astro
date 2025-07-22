@@ -2,6 +2,7 @@
 interface Props {
   propertyName: string;
   propertyType: string;
+  heroImage: string;
   developer: {
     name: string;
     logoUrl: string;
@@ -27,12 +28,11 @@ interface Props {
   };
 }
 
-const { propertyName, propertyType, developer, location, delivery, pricing } =
+const { propertyName, propertyType, heroImage, developer, location, delivery, pricing } =
   Astro.props;
 
 // Property type tags for the hero section
 const propertyTags = ["Lujo", "Para familias", "Para vivir", "Para reventa"];
-const heroImage = "/images/exterior1.webp";
 
 // Format price with currency and commas
 const formattedPrice = `${pricing.currency} ${pricing.minPrice.toLocaleString()}`;
