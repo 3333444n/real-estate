@@ -103,6 +103,7 @@ The application integrates with Notion as a headless CMS using four databases:
 - **Hero image downloading**: Hero images are automatically downloaded to `{property-slug}-hero-1.webp` format
 - **Amenities database structure**: Added `amenity` select field to capture amenity types (e.g., "Area de Tendido")
 - **Nearby Locations database structure**: Added `category` select field and `distance` text field for better location categorization
+- **Image handling improvements**: Each amenity and nearby location now gets uniquely named images to prevent conflicts
 
 **Key Files:**
 - `src/lib/notion.ts` - Notion client setup and helper functions
@@ -140,6 +141,35 @@ The `check-virtual-tours.js` utility provides:
 7. **Hotspot JSON parsing** converts text fields to JavaScript objects
 8. Build cache prevents redundant API calls
 9. Fallback data ensures site works if Notion is unavailable
+
+### Image Handling System
+
+The application automatically downloads and manages images from Notion with unique naming conventions to prevent conflicts:
+
+**Image Types and Naming Patterns:**
+- **Gallery Images**: `{property-slug}-gallery-{index}.webp`
+- **Hero Images**: `{property-slug}-hero-{index}.webp`  
+- **Developer Images**: `{property-slug}-developer-{index}.webp`
+- **Amenity Images**: `{property-slug}-amenity-{amenity-slug}-{index}.webp`
+- **Nearby Location Images**: `{property-slug}-nearby-{location-slug}-{index}.webp`
+- **Virtual Tour Scenes**: `{property-slug}-tour-{scene-slug}-{index}.webp`
+
+**Key Features:**
+- **Unique Naming**: Each amenity and nearby location generates a unique slug from its title to ensure separate image files
+- **Automatic Downloads**: All images are downloaded during build time to `public/images/notion/`
+- **Cache Management**: Nearby locations cache is cleared on each build to fetch new images automatically
+- **Fallback Support**: Missing images fall back to `/images/img-placeholder.webp`
+
+**Adding New Images:**
+1. Upload images to the appropriate Notion database (Amenities, Nearby Locations, etc.)
+2. Run `npm run build` - new images will be automatically downloaded with unique filenames
+3. No manual cache clearing required for nearby locations and amenities due to debug cache clearing
+
+**Image Processing Functions:**
+- `downloadImages()` - General image downloading with basic naming
+- `downloadAmenityImages()` - Downloads amenity images with unique amenity-based naming
+- `downloadNearbyImages()` - Downloads nearby location images with unique location-based naming  
+- `downloadSceneImages()` - Downloads virtual tour scene images with scene-specific naming
 
 ### Key Technical Notes
 

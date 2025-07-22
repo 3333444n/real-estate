@@ -159,15 +159,28 @@ The following properties have been **removed** from the Notion database structur
   ```
 
 ### 📸 **Automatic Image Management**
-The integration automatically downloads all images from Notion during build time:
-- **Hero images** → `public/images/notion/{slug}-hero-{index}.webp`
-- **Gallery images** → `public/images/notion/{slug}-gallery-{index}.webp`
-- **Developer images** → `public/images/notion/{slug}-developer-{index}.{ext}` (SVG/WebP)
-- **Amenity images** → `public/images/notion/{slug}-amenity-{index}.webp`
-- **Nearby location images** → `public/images/notion/{slug}-nearby-{index}.webp`
-- **Virtual tour images** → `public/images/notion/{slug}-tour-{scene-id}-{index}.webp`
+The integration automatically downloads all images from Notion during build time with unique naming to prevent conflicts:
 
-This ensures all images are locally hosted and won't break due to Notion URL expiration.
+**Image Types and Naming Patterns:**
+- **Hero images** → `{property-slug}-hero-{index}.webp`
+- **Gallery images** → `{property-slug}-gallery-{index}.webp`
+- **Developer images** → `{property-slug}-developer-{index}.{ext}` (SVG/WebP)
+- **Amenity images** → `{property-slug}-amenity-{amenity-slug}-{index}.webp`
+- **Nearby location images** → `{property-slug}-nearby-{location-slug}-{index}.webp`
+- **Virtual tour images** → `{property-slug}-tour-{scene-slug}-{index}.webp`
+
+**Key Features:**
+- **Unique Naming**: Each amenity and nearby location generates a unique slug from its title to ensure separate image files
+- **Automatic Downloads**: All images are downloaded during build time to `public/images/notion/`
+- **Cache Management**: Nearby locations and amenities automatically fetch new images on each build
+- **Fallback Support**: Missing images fall back to placeholder image
+
+**Adding New Images:**
+1. Upload images to the appropriate Notion database (Amenities, Nearby Locations, etc.)
+2. Run `npm run build` - new images will be automatically downloaded with unique filenames
+3. No manual cache clearing required
+
+This ensures all images are locally hosted, won't break due to Notion URL expiration, and each location/amenity has its own unique image.
 
 ## 🧞 Commands
 
