@@ -16,7 +16,7 @@
     "neighborhood": "Álvaro Obregón",
     "city": "Ciudad de México",
     "country": "México",
-    "mapsLink": ""
+    "mapsLink": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.555383341075!2d-99.10401232445183!3d19.4316073818476!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1fc002ca1ac3d%3A0x7703fc1361ea4e8!2sCalle%20Ote.%20150%20163%2C%20Moctezuma%202da%20Secc%2C%20Venustiano%20Carranza%2C%2015530%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1sen!2smx!4v1753143587486!5m2!1sen!2smx\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>"
   },
   "pricing": {
     "minPrice": 3300000,

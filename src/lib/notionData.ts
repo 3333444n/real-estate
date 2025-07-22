@@ -380,7 +380,7 @@ async function transformPropertyData(page: any): Promise<MockupData> {
       neighborhood: extractPlainText(props.Neighborhood?.rich_text || []),
       city: extractPlainText(props.City?.rich_text || []) || "Ciudad de México",
       country: extractPlainText(props.Country?.rich_text || []) || "México",
-      mapsLink: extractUrl(props['Maps Link']) || ""
+      mapsLink: extractPlainText(props['Maps Link']?.rich_text || []) || extractUrl(props['Maps Link']) || ""
     },
     pricing: {
       minPrice: extractNumber(props['Min Price']),

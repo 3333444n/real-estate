@@ -65,7 +65,8 @@ The application integrates with Notion as a headless CMS using four databases:
 
 **Key Files:**
 - `src/lib/notion.ts` - Notion client setup and helper functions
-- `src/lib/notionData.ts` - Data fetching, transformation, and caching
+- `src/lib/notionData.ts` - Data fetching, transformation, and caching with automatic image downloads
+- `src/lib/imageDownloader.ts` - Handles downloading Notion images to local storage
 - `src/pages/api/export-properties.ts` - API endpoint for data export
 
 **Testing Notion Data:**
@@ -78,13 +79,16 @@ To verify and inspect Notion integration:
 The export script creates:
 - Individual JSON files for each property (`{slug}.json`)
 - Summary file with data quality analysis (`summary.json`)
+- Downloaded images in `public/images/notion/` directory
 - Console output showing missing fields and data issues
 
 **Data Flow:**
 1. `[slug].astro` calls `getAllProperties()` during `getStaticPaths()`
 2. `notionData.ts` fetches from Notion databases and transforms data
-3. Build cache prevents redundant API calls
-4. Fallback data ensures site works if Notion is unavailable
+3. `imageDownloader.ts` downloads all Notion images to local storage during build
+4. Relation data (amenities, nearby locations, virtual tour scenes) fetched with page titles
+5. Build cache prevents redundant API calls
+6. Fallback data ensures site works if Notion is unavailable
 
 ### Key Technical Notes
 
@@ -93,5 +97,8 @@ The export script creates:
 - Virtual tour scenes are dynamically loaded from JSON data
 - Navbar hides when tour page is embedded in iframe
 - All images optimized with WebP format in `public/images/`
+- **Notion images automatically downloaded** to `public/images/notion/` during build
+- **Smart relation title detection** - automatically finds and extracts page titles from related databases
 - Properties generated at build time with static paths
 - Notion API calls are cached during build process
+- **Maps Link supports iframe embeds** - fetches full Google Maps embed codes from Notion

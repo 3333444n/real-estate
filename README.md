@@ -86,6 +86,7 @@ The project uses four interconnected Notion databases:
 
 ### Properties Database (Main)
 - **Property Name** (Title)
+- **ID** (Rich Text) - Custom property identifier (e.g., "PROP-1")
 - **Slug** (Rich Text) - URL-friendly identifier
 - **Status** (Select) - for_sale, sold, off_market
 - **Property Type** (Select) - departamento, casa, etc.
@@ -97,7 +98,7 @@ The project uses four interconnected Notion databases:
 - **Neighborhood** (Rich Text)
 - **City** (Rich Text)
 - **Country** (Rich Text)
-- **Maps Link** (URL)
+- **Maps Link** (Rich Text) - Google Maps iframe embed code
 - **Min Price** (Number)
 - **Max Price** (Number)
 - **Currency** (Select)
@@ -109,8 +110,9 @@ The project uses four interconnected Notion databases:
 - **Parking Spaces** (Number)
 - **Is Furnished** (Checkbox)
 - **Delivery Type** (Select)
-- **Year Built** (Number)
-- **Media** (Files) - Property images
+- **Year** (Number) - Year built/delivered
+- **gallery** (Files) - Property images (automatically downloaded during build)
+- **360** (Files) - 360° tour images
 - **Virtual Tour URL** (URL)
 - **Video URL** (URL)
 - **Agent Name** (Rich Text)
@@ -120,9 +122,18 @@ The project uses four interconnected Notion databases:
 - **Description** (Rich Text)
 
 ### Related Databases
-- **Amenities**: Connected via Property relation
-- **Nearby Locations**: Connected via Property relation  
-- **Virtual Tour Scenes**: Connected via Property relation with hotspot JSON data
+- **Amenities**: Connected via Property relation (page titles auto-fetched)
+- **Nearby Locations**: Connected via Property relation (page titles auto-fetched)
+- **Virtual Tour Scenes**: Connected via Property relation with hotspot JSON data (page titles auto-fetched)
+
+### 📸 **Automatic Image Management**
+The integration automatically downloads all images from Notion during build time:
+- **Gallery images** → `public/images/notion/{slug}-gallery-{index}.webp`
+- **Amenity images** → `public/images/notion/{slug}-amenity-{index}.webp`
+- **Nearby location images** → `public/images/notion/{slug}-nearby-{index}.webp`
+- **Virtual tour images** → `public/images/notion/{slug}-tour-{index}.webp`
+
+This ensures all images are locally hosted and won't break due to Notion URL expiration.
 
 ## 🧞 Commands
 
@@ -150,6 +161,7 @@ To verify your Notion integration and export property data:
 
 This will:
 - Fetch all properties from your Notion databases
+- Download all images locally to `public/images/notion/`
 - Create individual JSON files for each property in `notion-exports/`
 - Generate a summary with data quality analysis
 - Show which properties have missing required fields
