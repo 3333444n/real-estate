@@ -1,0 +1,32 @@
+{
+  "exportDate": "2025-07-22T00:01:37.218Z",
+  "totalProperties": 2,
+  "properties": [
+    {
+      "id": "22cb3205-99cb-801d-af41-ef205e12118a",
+      "slug": "vitea-gardens",
+      "name": "Vitea Gardens",
+      "status": "for_sale",
+      "hasRequiredFields": {
+        "name": true,
+        "slug": true,
+        "description": true,
+        "images": true,
+        "pricing": true
+      }
+    },
+    {
+      "id": "22cb3205-99cb-8182-a58d-d7c5fab5959e",
+      "slug": "ote-150-alvaro-obregon",
+      "name": "OTE 150, 163",
+      "status": "for_sale",
+      "hasRequiredFields": {
+        "name": true,
+        "slug": true,
+        "description": true,
+        "images": true,
+        "pricing": true
+      }
+    }
+  ]
+}

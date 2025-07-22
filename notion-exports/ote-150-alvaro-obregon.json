@@ -1,0 +1,140 @@
+{
+  "id": "22cb3205-99cb-8182-a58d-d7c5fab5959e",
+  "slug": "ote-150-alvaro-obregon",
+  "propertyName": "OTE 150, 163",
+  "status": "for_sale",
+  "propertyType": "departamento",
+  "developer": {
+    "name": "Grupo Constructor JS&M",
+    "logoUrl": "/images/img-placeholder.webp",
+    "imageUrl": "/images/img-placeholder.webp",
+    "description": "Grupo Constructor JS&M es una empresa líder en el sector inmobiliario mexicano con más de 20 años de experiencia desarrollando proyectos residenciales de alta calidad en las zonas más exclusivas de la Ciudad de México."
+  },
+  "location": {
+    "address": "Calle OTE 150",
+    "neighborhood": "Álvaro Obregón",
+    "city": "Ciudad de México",
+    "country": "México",
+    "mapsLink": "https://maps.app.goo.gl/NuW..."
+  },
+  "pricing": {
+    "minPrice": 3300000,
+    "maxPrice": 3800000,
+    "currency": "MXN",
+    "commissionPercentage": 3
+  },
+  "dimensions": {
+    "minAreaM2": 73,
+    "maxAreaM2": 73
+  },
+  "features": {
+    "bedrooms": 2,
+    "bathrooms": 1,
+    "parkingSpaces": 1,
+    "isFurnished": false
+  },
+  "delivery": {
+    "type": "entrega inmediata",
+    "yearBuilt": 2024
+  },
+  "amenities": [
+    {
+      "title": "",
+      "description": "Zona dedicada para el tendido de ropa con instalaciones modernas y espacios bien iluminados para el cuidado de tu ropa.",
+      "imageUrl": "/images/img-placeholder.webp"
+    },
+    {
+      "title": "",
+      "description": "Política pet-friendly que permite vivir con tus mascotas en un ambiente cómodo y seguro para toda la familia.",
+      "imageUrl": "/images/img-placeholder.webp"
+    },
+    {
+      "title": "",
+      "description": "Patio de servicio privado para actividades domésticas, con conexiones para lavadora y secadora.",
+      "imageUrl": "/images/img-placeholder.webp"
+    },
+    {
+      "title": "",
+      "description": "Estacionamiento privado y techado para proteger tu vehículo de las inclemencias del clima, con acceso directo al edificio.",
+      "imageUrl": "/images/img-placeholder.webp"
+    },
+    {
+      "title": "",
+      "description": "Espaciosa terraza en la azotea con vistas panorámicas de la ciudad, perfecta para eventos sociales y momentos de relajación.",
+      "imageUrl": "/images/img-placeholder.webp"
+    },
+    {
+      "title": "",
+      "description": "Bodega individual para almacenar tus pertenencias personales, con acceso seguro y conveniente desde tu departamento.",
+      "imageUrl": "/images/img-placeholder.webp"
+    }
+  ],
+  "nearbyLocations": [
+    {
+      "title": "",
+      "description": "Instituciones educativas cercanas que ofrecen educación de calidad para todos los niveles académicos.",
+      "imageUrl": "/images/img-placeholder.webp"
+    },
+    {
+      "title": "",
+      "description": "Acceso directo a las principales avenidas y calles de la ciudad, facilitando la movilidad y conectividad urbana.",
+      "imageUrl": "/images/img-placeholder.webp"
+    },
+    {
+      "title": "",
+      "description": "Mercado local a pocos pasos con productos frescos, artesanías y todo lo necesario para el día a día.",
+      "imageUrl": "/images/img-placeholder.webp"
+    }
+  ],
+  "media": {
+    "images": [
+      "/images/img-placeholder.webp"
+    ],
+    "virtualTourUrl": "",
+    "videoUrl": ""
+  },
+  "virtualTour": {
+    "enabled": true,
+    "scenes": [
+      {
+        "id": "",
+        "title": "",
+        "panoramaUrl": "/images/img-placeholder.webp",
+        "thumbnailUrl": "/images/img-placeholder.webp",
+        "description": "Cocina equipada con electrodomésticos modernos",
+        "hotSpots": []
+      },
+      {
+        "id": "",
+        "title": "",
+        "panoramaUrl": "/images/img-placeholder.webp",
+        "thumbnailUrl": "/images/img-placeholder.webp",
+        "description": "Vista exterior del edificio",
+        "hotSpots": []
+      },
+      {
+        "id": "",
+        "title": "",
+        "panoramaUrl": "/images/img-placeholder.webp",
+        "thumbnailUrl": "/images/img-placeholder.webp",
+        "description": "Espaciosa sala comedor con acabados de lujo",
+        "hotSpots": []
+      },
+      {
+        "id": "",
+        "title": "",
+        "panoramaUrl": "/images/img-placeholder.webp",
+        "thumbnailUrl": "/images/img-placeholder.webp",
+        "description": "Baño completo con acabados premium",
+        "hotSpots": []
+      }
+    ]
+  },
+  "contact": {
+    "agentName": "Juan Pérez",
+    "phone": "+52 55 1234 5678",
+    "email": "ventas@grupoja.com",
+    "website": ""
+  },
+  "description": "Descubre tu nuevo hogar en el corazón de Álvaro Obregón. OTE 150, un exclusivo desarrollo de Grupo JA, ofrece departamentos modernos y funcionales con acabados de lujo. Disfruta de la comodidad de sus amenidades como rooftop, estacionamiento techado y bodegas privadas. Su ubicación estratégica te conecta con las principales vías de acceso, mercados, escuelas y todo lo que necesitas para vivir plenamente."
+}

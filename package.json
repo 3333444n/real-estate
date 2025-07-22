@@ -12,6 +12,10 @@
     "@notionhq/client": "^4.0.0",
     "@tailwindcss/vite": "^4.1.11",
     "astro": "^5.10.2",
+    "dotenv": "^17.2.0",
     "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.3"
   }
 }

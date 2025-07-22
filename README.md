@@ -1,47 +1,239 @@
-# Astro Starter Kit: Minimal
+# Real Estate Property Showcase
 
-```sh
-npm create astro@latest -- --template minimal
-```
+A modern real estate website built with Astro featuring dynamic property listings, 360° virtual tours, and Notion CMS integration.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+## ✨ Features
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- **Dynamic Property Listings**: Properties fetched from Notion databases with fallback support
+- **360° Virtual Tours**: Interactive panoramic tours using Pannellum.js with hotspots
+- **Responsive Design**: Mobile-first approach with TailwindCSS v4
+- **SEO Optimized**: Dynamic meta tags and structured data for each property
+- **Notion Integration**: Full CMS capabilities with multiple databases for properties, amenities, and locations
+- **Image Gallery**: Optimized WebP images with responsive layouts
+- **Interactive Maps**: Location integration with Google Maps
+- **Contact Forms**: Built-in contact system for each property
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## 🏗️ Project Structure
 
 ```text
 /
 ├── public/
+│   ├── images/           # Optimized property images (WebP)
+│   └── fonts/           # PPMori font family
 ├── src/
+│   ├── components/      # Reusable UI components
+│   │   ├── HeroSection.astro
+│   │   ├── Gallery.astro
+│   │   ├── Tour.astro
+│   │   └── ...
+│   ├── data/
+│   │   ├── types.ts     # TypeScript interfaces
+│   │   └── mockup.json  # Fallback data
+│   ├── layouts/
+│   │   └── Layout.astro # Base layout with navbar/footer
+│   ├── lib/
+│   │   ├── notion.ts    # Notion client and helpers
+│   │   └── notionData.ts # Data fetching and transformation
 │   └── pages/
-│       └── index.astro
-└── package.json
+│       ├── index.astro  # Property search/listing page
+│       ├── [slug].astro # Dynamic property pages
+│       └── api/         # API endpoints
+├── notion-exports/      # Exported JSON files from Notion
+└── export-properties.js # Property export utility
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 🚀 Getting Started
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+### Prerequisites
 
-Any static assets, like images, can be placed in the `public/` directory.
+- Node.js 18+ 
+- npm or yarn
+- Notion account with integration token
+
+### Installation
+
+1. **Clone and install dependencies:**
+   ```bash
+   git clone <repository-url>
+   cd real-estate
+   npm install
+   ```
+
+2. **Set up environment variables:**
+   
+   Create a `.env` file in the root directory:
+   ```env
+   # Notion Integration Token
+   NOTION_TOKEN=your_notion_integration_token
+   
+   # Notion Database IDs
+   NOTION_PROPERTIES_DB_ID=your_properties_database_id
+   NOTION_AMENITIES_DB_ID=your_amenities_database_id
+   NOTION_NEARBY_LOCATIONS_DB_ID=your_nearby_locations_database_id
+   NOTION_VIRTUAL_TOUR_SCENES_DB_ID=your_virtual_tour_scenes_database_id
+   ```
+
+3. **Start development server:**
+   ```bash
+   npm run dev
+   ```
+   
+   Open [http://localhost:4321](http://localhost:4321) in your browser.
+
+## 🗃️ Notion Database Setup
+
+The project uses four interconnected Notion databases:
+
+### Properties Database (Main)
+- **Property Name** (Title)
+- **Slug** (Rich Text) - URL-friendly identifier
+- **Status** (Select) - for_sale, sold, off_market
+- **Property Type** (Select) - departamento, casa, etc.
+- **Developer Name** (Rich Text)
+- **Developer Logo URL** (Files)
+- **Developer Image** (Files)
+- **Developer Description** (Rich Text)
+- **Address** (Rich Text)
+- **Neighborhood** (Rich Text)
+- **City** (Rich Text)
+- **Country** (Rich Text)
+- **Maps Link** (URL)
+- **Min Price** (Number)
+- **Max Price** (Number)
+- **Currency** (Select)
+- **Commission Percentage** (Number)
+- **Min Area M2** (Number)
+- **Max Area M2** (Number)
+- **Bedrooms** (Number)
+- **Bathrooms** (Number)
+- **Parking Spaces** (Number)
+- **Is Furnished** (Checkbox)
+- **Delivery Type** (Select)
+- **Year Built** (Number)
+- **Media** (Files) - Property images
+- **Virtual Tour URL** (URL)
+- **Video URL** (URL)
+- **Agent Name** (Rich Text)
+- **Agent Phone** (Phone)
+- **Agent Email** (Email)
+- **Agent Website** (URL)
+- **Description** (Rich Text)
+
+### Related Databases
+- **Amenities**: Connected via Property relation
+- **Nearby Locations**: Connected via Property relation  
+- **Virtual Tour Scenes**: Connected via Property relation with hotspot JSON data
 
 ## 🧞 Commands
 
-All commands are run from the root of the project, from a terminal:
+| Command | Action |
+|:--------|:-------|
+| `npm install` | Install dependencies |
+| `npm run dev` | Start local dev server at `localhost:4321` |
+| `npm run build` | Build production site to `./dist/` |
+| `npm run preview` | Preview build locally |
+| `node export-properties.js` | Export Notion data to JSON files |
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## 🔍 Testing Notion Integration
 
-## 👀 Want to learn more?
+To verify your Notion integration and export property data:
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+1. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+
+2. **Export property data:**
+   ```bash
+   node export-properties.js
+   ```
+
+This will:
+- Fetch all properties from your Notion databases
+- Create individual JSON files for each property in `notion-exports/`
+- Generate a summary with data quality analysis
+- Show which properties have missing required fields
+
+### Export Output
+
+The export creates:
+- `notion-exports/{slug}.json` - Individual property files
+- `notion-exports/summary.json` - Export summary and data quality report
+
+Example summary structure:
+```json
+{
+  "exportDate": "2025-07-22T00:01:37.218Z",
+  "totalProperties": 2,
+  "properties": [
+    {
+      "id": "...",
+      "slug": "vitea-gardens",
+      "name": "Vitea Gardens",
+      "status": "for_sale",
+      "hasRequiredFields": {
+        "name": true,
+        "slug": true,
+        "description": true,
+        "images": true,
+        "pricing": true
+      }
+    }
+  ]
+}
+```
+
+## 🎨 Technology Stack
+
+- **Framework**: [Astro](https://astro.build) - Static site generator with islands architecture
+- **Styling**: [TailwindCSS v4](https://tailwindcss.com) - Utility-first CSS framework
+- **CMS**: [Notion](https://notion.so) - Headless CMS via API
+- **Virtual Tours**: [Pannellum.js](https://pannellum.org) - 360° panorama viewer
+- **TypeScript**: Full type safety with strict mode
+- **Fonts**: PPMori font family (extralight, regular, semibold)
+
+## 🏠 Property Page Structure
+
+Each property page (`/[slug]`) includes:
+
+1. **Hero Section** - Property name, pricing, developer info, location
+2. **Features Section** - Pricing, dimensions, features, delivery info
+3. **Gallery** - Property images with lightbox
+4. **Amenities** - Property amenities (if available)
+5. **Virtual Tour** - 360° tour with scene navigation (if available)
+6. **Nearby Locations** - Points of interest (if available)
+7. **Map** - Interactive location map
+8. **Developer Info** - Developer details and contact
+9. **CTA** - Contact form and agent information
+
+## 🔧 Development Notes
+
+- Properties are generated at build time using `getStaticPaths()`
+- Fallback data ensures site works even if Notion is unavailable
+- Build cache prevents redundant API calls during development
+- All images should be optimized to WebP format
+- Virtual tour scenes support JSON hotspot configuration
+- Mobile-first responsive design with smooth scrolling
+
+## 📝 Contributing
+
+1. Follow the existing code style and component patterns
+2. Test Notion integration with `node export-properties.js`
+3. Ensure all new components are responsive
+4. Add TypeScript types for new data structures
+5. Optimize images to WebP format
+
+## 🚀 Deployment
+
+1. **Build the project:**
+   ```bash
+   npm run build
+   ```
+
+2. **Set environment variables** on your hosting platform
+
+3. **Deploy the `dist/` folder** to your hosting service
+
+## 📞 Support
+
+For questions about the codebase, check the `CLAUDE.md` file for additional development guidance and architecture details.

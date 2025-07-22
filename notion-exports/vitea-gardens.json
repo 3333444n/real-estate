@@ -1,0 +1,135 @@
+{
+  "id": "22cb3205-99cb-801d-af41-ef205e12118a",
+  "slug": "vitea-gardens",
+  "propertyName": "Vitea Gardens",
+  "status": "for_sale",
+  "propertyType": "departamento",
+  "developer": {
+    "name": "Urbania",
+    "logoUrl": "/images/img-placeholder.webp",
+    "imageUrl": "/images/img-placeholder.webp",
+    "description": "Urbania son chidos"
+  },
+  "location": {
+    "address": "Somewhere in Qro",
+    "neighborhood": "El Refugio",
+    "city": "Querétaro",
+    "country": "México",
+    "mapsLink": "https://www.google.com/maps/place/Vitea+Gardens/@20.6577777,-100.3460447,17z/data=!3m1!4b1!4m6!3m5!1s0x85d35d7bf51aaf2f:0x72667fb06301018f!8m2!3d20.6577777!4d-100.3434698!16s%2Fg%2F11rhq4gwk8?entry=ttu&g_ep=EgoyMDI1MDcxMy4wIKXMDSoASAFQAw%3D%3D"
+  },
+  "pricing": {
+    "minPrice": 3000000,
+    "maxPrice": 3500000,
+    "currency": "MXN",
+    "commissionPercentage": 3
+  },
+  "dimensions": {
+    "minAreaM2": 75,
+    "maxAreaM2": 80
+  },
+  "features": {
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "parkingSpaces": 2,
+    "isFurnished": true
+  },
+  "delivery": {
+    "type": "entrega inmediata",
+    "yearBuilt": 2023
+  },
+  "amenities": [
+    {
+      "title": "",
+      "description": "Zona dedicada para el tendido de ropa con instalaciones modernas y espacios bien iluminados para el cuidado de tu ropa.",
+      "imageUrl": "/images/img-placeholder.webp"
+    },
+    {
+      "title": "",
+      "description": "Política pet-friendly que permite vivir con tus mascotas en un ambiente cómodo y seguro para toda la familia.",
+      "imageUrl": "/images/img-placeholder.webp"
+    },
+    {
+      "title": "",
+      "description": "Patio de servicio privado para actividades domésticas, con conexiones para lavadora y secadora.",
+      "imageUrl": "/images/img-placeholder.webp"
+    },
+    {
+      "title": "",
+      "description": "Estacionamiento privado y techado para proteger tu vehículo de las inclemencias del clima, con acceso directo al edificio.",
+      "imageUrl": "/images/img-placeholder.webp"
+    },
+    {
+      "title": "",
+      "description": "Espaciosa terraza en la azotea con vistas panorámicas de la ciudad, perfecta para eventos sociales y momentos de relajación.",
+      "imageUrl": "/images/img-placeholder.webp"
+    },
+    {
+      "title": "",
+      "description": "Bodega individual para almacenar tus pertenencias personales, con acceso seguro y conveniente desde tu departamento.",
+      "imageUrl": "/images/img-placeholder.webp"
+    }
+  ],
+  "nearbyLocations": [
+    {
+      "title": "",
+      "description": "Instituciones educativas cercanas que ofrecen educación de calidad para todos los niveles académicos.",
+      "imageUrl": "/images/img-placeholder.webp"
+    },
+    {
+      "title": "",
+      "description": "Mercado local a pocos pasos con productos frescos, artesanías y todo lo necesario para el día a día.",
+      "imageUrl": "/images/img-placeholder.webp"
+    }
+  ],
+  "media": {
+    "images": [
+      "/images/img-placeholder.webp"
+    ],
+    "virtualTourUrl": "",
+    "videoUrl": ""
+  },
+  "virtualTour": {
+    "enabled": true,
+    "scenes": [
+      {
+        "id": "",
+        "title": "",
+        "panoramaUrl": "/images/img-placeholder.webp",
+        "thumbnailUrl": "/images/img-placeholder.webp",
+        "description": "Cocina equipada con electrodomésticos modernos",
+        "hotSpots": []
+      },
+      {
+        "id": "",
+        "title": "",
+        "panoramaUrl": "/images/img-placeholder.webp",
+        "thumbnailUrl": "/images/img-placeholder.webp",
+        "description": "Vista exterior del edificio",
+        "hotSpots": []
+      },
+      {
+        "id": "",
+        "title": "",
+        "panoramaUrl": "/images/img-placeholder.webp",
+        "thumbnailUrl": "/images/img-placeholder.webp",
+        "description": "Espaciosa sala comedor con acabados de lujo",
+        "hotSpots": []
+      },
+      {
+        "id": "",
+        "title": "",
+        "panoramaUrl": "/images/img-placeholder.webp",
+        "thumbnailUrl": "/images/img-placeholder.webp",
+        "description": "Baño completo con acabados premium",
+        "hotSpots": []
+      }
+    ]
+  },
+  "contact": {
+    "agentName": "Rafael Torres",
+    "phone": "1111111111",
+    "email": "rafatorres@gmail.com",
+    "website": "rafatorres.com"
+  },
+  "description": "Una pequeña descripción de Vitea Gardens"
+}
