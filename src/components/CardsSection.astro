@@ -35,12 +35,12 @@ const imagePlaceholder = "/images/img-placeholder.jpg";
       </h2>
     </div>
 
-    <!-- Desktop & Tablet Masonry Grid (hidden on mobile) -->
+    <!-- Desktop & Tablet Staggered Grid (hidden on mobile) -->
     <div class="hidden md:block">
-      <div id="masonry-container" class="masonry-grid">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {
           items.map((amenity, index) => (
-            <div class="masonry-item mb-6">
+            <div class={`${index % 4 === 0 ? 'md:mt-0' : index % 4 === 1 ? 'md:mt-16' : index % 4 === 2 ? 'md:mt-8' : 'md:mt-20'}`}>
               <ImageCard
                 image={amenity.imageUrl || imagePlaceholder}
                 title={amenity.title}
@@ -93,30 +93,6 @@ const imagePlaceholder = "/images/img-placeholder.jpg";
 </section>
 
 <style>
-  /* Masonry Grid Styles */
-  .masonry-grid {
-    column-gap: 1.5rem;
-  }
-
-  /* Tablet: 3 columns */
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .masonry-grid {
-      column-count: 3;
-    }
-  }
-
-  /* Desktop: 4 columns */
-  @media (min-width: 1024px) {
-    .masonry-grid {
-      column-count: 4;
-    }
-  }
-
-  .masonry-item {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
   /* Hide scrollbar */
   .scrollbar-hide {
     -ms-overflow-style: none;
