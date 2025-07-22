@@ -4,9 +4,11 @@ interface Props {
   title: string;
   description: string;
   className?: string;
+  category?: string;
+  distance?: string;
 }
 
-const { image, title, description, className = "" } = Astro.props;
+const { image, title, description, className = "", category, distance } = Astro.props;
 
 // Check if this is a placeholder image
 const isPlaceholder = !image || image.includes('img-placeholder');
@@ -15,12 +17,24 @@ const shouldShowGradient = isPlaceholder;
 
 <div class={`overflow-hidden rounded-lg ${className}`}>
   <div class={`relative aspect-[4/3] rounded-lg ${shouldShowGradient ? 'bg-black' : 'bg-cover bg-center'}`} style={shouldShowGradient ? '' : `background-image: url('${image}')`}>
-    <div class="relative z-10 p-6 h-full flex flex-col justify-end">
-      <h3 class="text-white font-semibold text-xl mb-2">{title}</h3>
+    <div class="relative z-10 p-6 h-full flex flex-col justify-between">
+      {category && (
+        <div class="flex justify-end">
+          <span class="bg-black text-white text-xs font-medium px-3 py-1 rounded-full">
+            {category}
+          </span>
+        </div>
+      )}
+      <div>
+        <h3 class="text-white font-semibold text-xl mb-2">{title}</h3>
+      </div>
     </div>
   </div>
   
   <div class="p-4">
+    {distance && (
+      <p class="text-black text-sm font-bold mb-2">{distance}</p>
+    )}
     <p class="text-gray-600 text-sm leading-relaxed">{description}</p>
   </div>
 </div>

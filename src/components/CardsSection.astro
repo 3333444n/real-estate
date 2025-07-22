@@ -1,14 +1,16 @@
 ---
 import ImageCard from "./ImageCard.astro";
 
-interface Amenity {
+interface Item {
   title: string;
   description: string;
   imageUrl: string;
+  category?: string;
+  distance?: string;
 }
 
 interface Props {
-  items: Amenity[];
+  items: Item[];
   title: string;
 }
 
@@ -39,12 +41,14 @@ const imagePlaceholder = "/images/img-placeholder.webp";
     <div class="hidden md:block">
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {
-          items.map((amenity, index) => (
+          items.map((item, index) => (
             <div class={`${index % 4 === 0 ? 'md:mt-0' : index % 4 === 1 ? 'md:mt-16' : index % 4 === 2 ? 'md:mt-8' : 'md:mt-20'}`}>
               <ImageCard
-                image={amenity.imageUrl || imagePlaceholder}
-                title={amenity.title}
-                description={amenity.description}
+                image={item.imageUrl || imagePlaceholder}
+                title={item.title}
+                description={item.description}
+                category={item.category}
+                distance={item.distance}
                 className="h-fit"
               />
             </div>
@@ -62,12 +66,14 @@ const imagePlaceholder = "/images/img-placeholder.webp";
           style="scroll-padding-left: 1rem; scroll-padding-right: 1rem;"
         >
           {
-            items.map((amenity, index) => (
+            items.map((item, index) => (
               <div class="flex-none w-80 snap-start">
                 <ImageCard
-                  image={amenity.imageUrl || imagePlaceholder}
-                  title={amenity.title}
-                  description={amenity.description}
+                  image={item.imageUrl || imagePlaceholder}
+                  title={item.title}
+                  description={item.description}
+                  category={item.category}
+                  distance={item.distance}
                   className="h-full"
                 />
               </div>
